@@ -1,6 +1,6 @@
 # Angular Nest Simple Starter
 
-Simple starter for quickly getting started with Angular - Nest projects. Api and frontend are not depended on each other for easier scalability and flexibility. For frontend state maqnagment NGXS is used. Also uses lerna for scafolding and versioning. Aims to be as simple as possible so you can configure most stuff the way you want to.
+Simple starter for quickly getting started with Angular - Nest projects. Api and app are not depended on each other for easier scalability and flexibility. For app state management NGXS is used. Also uses lerna for scafolding and versioning. Aims to be as simple as possible so you can configure most stuff the way you want to.
 
 ## Getting Started
 
