@@ -3,24 +3,36 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { NgxsModule } from "@ngxs/store";
 import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AdminModule } from "./admin/admin.module";
-import { CoreModule } from "./core/core.module";
 import { NotFoundComponent } from "./shared/components/not-found/not-found.component";
-import { PostsState } from "./core/stores/posts.state";
+import { LoginModule } from "./login/login.module";
+import { LobbyModule } from "./lobby/lobby.module";
+import { AngularFireModule } from "angularfire2";
+import { environment } from "../environments/environment";
+import { AngularFireAuthModule } from "angularfire2/auth";
+import { LoginState } from "./login/store/login.state";
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
+
+    LoginModule,
+    LobbyModule,
     AdminModule,
-    CoreModule,
+
     AppRoutingModule,
-    NgxsModule.forRoot([PostsState]),
-    NgxsLoggerPluginModule.forRoot()
+
+    NgxsModule.forRoot([LoginState]),
+    NgxsLoggerPluginModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

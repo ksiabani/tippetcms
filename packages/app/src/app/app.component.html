@@ -1,12 +1,12 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    Welcome to {{ title }}!
+    Welcome {{(user | async)?.displayName}} to {{ title }}!
   </h1>
 
-  <a routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/">Home</a>
+  <a routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/">Login</a>
   <br>
-  <a routerLinkActive="active" routerLink="/posts">Posts</a>
+  <a routerLinkActive="active" routerLink="/lobby">Lobby</a>
   <br>
   <a routerLinkActive="active" routerLink="/admin">Admin</a>
 </div>
