@@ -1,9 +1,8 @@
 import { Routes, RouterModule } from "@angular/router";
-import { AdminComponent } from "./pages/admin/admin.component";
-import { AdminGuard } from "./guards/admin/admin.guard";
+import { OverviewComponent } from "./pages/overview/overview.component";
 
 const adminRoutes: Routes = [
-  { path: "admin", component: AdminComponent, canActivate: [AdminGuard] }
+  { path: "admin", component: OverviewComponent  }
 ];
 
 export const AdminRouting = RouterModule.forChild(adminRoutes);
