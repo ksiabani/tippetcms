@@ -6,6 +6,7 @@ import { ElementsComponent } from "./pages/elements/elements.component";
 import { MediaComponent } from "./pages/media/media.component";
 import { PagesComponent } from "./pages/pages/pages.component";
 import { SettingsComponent } from "./pages/settings/settings.component";
+import { AdminComponent } from './pages/admin/admin.component';
 
 @NgModule({
   imports: [CommonModule, AdminRouting],
@@ -14,7 +15,8 @@ import { SettingsComponent } from "./pages/settings/settings.component";
     ElementsComponent,
     MediaComponent,
     PagesComponent,
-    SettingsComponent
+    SettingsComponent,
+    AdminComponent
   ]
 })
 export class AdminModule {}
