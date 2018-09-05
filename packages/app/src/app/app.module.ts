@@ -31,6 +31,7 @@ import { LoginState } from "./login/store/login.state";
 
     NgxsModule.forRoot([LoginState]),
     NgxsLoggerPluginModule.forRoot(),
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
