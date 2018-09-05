@@ -1,0 +1,67 @@
+.lobby{
+  height: 100%;
+  &__header {
+    background: transparent;
+    position: fixed;
+    color: rgba(0,0,0,0.54);
+    font-size: 28px;
+    font-weight: 500;
+    &__icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+    }
+  }
+  &__hero {
+    padding: 200px 0;
+    background-image: url(/assets/img/projects.png);
+    background-repeat: no-repeat;
+    background-position: 100% 0;
+    @media only screen and (max-width: 1199px) {
+      background-position: right -200px top;
+    }
+    &__title {
+      font-size: 30px;
+      font-weight: 500;
+    }
+    &__text {
+      font-size: 16px;
+      max-width: 450px;
+      color: rgba(0,0,0,0.54);
+    }
+  }
+  &__projects {
+    padding: 0 0;
+    background-color: #eceff1;
+    &__container {
+      margin-top: -64px;
+    }
+    &__project {
+      width: 300px;
+      margin: 0 12px;
+      height: 200px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    &__add {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #039be5;
+      font-weight: 600;
+      height: 100%;
+      &__icon {
+        font-size: 48px;
+        height: 48px;
+        width: 48px;
+      }
+    }
+    &__user {
+      h4 {
+        color: black;
+      }
+      color: rgba(0,0,0,0.54);
+    }
+  }
+}

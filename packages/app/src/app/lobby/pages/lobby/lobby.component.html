@@ -1,5 +1,36 @@
-<p>
-  lobby works!
-</p>
+<!--<a routerLink="/admin/someRandomId">admin</a>-->
 
-<a routerLink="/admin/someRandomId">admin</a>
+<div class="lobby d-flex flex-column">
+  <mat-toolbar color="primary" class="lobby__header">
+    <mat-icon class="lobby__header__icon">bubble_chart</mat-icon>
+    <span>TippetCMS</span>
+  </mat-toolbar>
+  <div class="lobby__hero">
+    <div class="container">
+      <div class="lobby__hero__title">Welcome to TippetCMS!</div>
+      <div class="lobby__hero__text">Create and host your websites with GitHub Pages. Start now creating a new site or
+        manage your existing sites below
+      </div>
+    </div>
+  </div>
+  <div class="lobby__projects flex-fill">
+    <div class="lobby__projects__container container d-flex">
+      <mat-card class="lobby__projects__project">
+        <mat-card-content class="lobby__projects__add">
+          <mat-icon class="lobby__projects__add__icon">add</mat-icon>
+          <span>Add site</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="lobby__projects__project">
+        <mat-card-content class="lobby__projects__user">
+          <h4>My personal site</h4>
+          Last updated: yesterday
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+
+
+
