@@ -4,6 +4,14 @@
   <mat-toolbar color="primary" class="lobby__header">
     <mat-icon class="lobby__header__icon">bubble_chart</mat-icon>
     <span>TippetCMS</span>
+    <span class="spacer"></span>
+    <img matListAvatar src="{{(user | async)?.photoURL}}" alt="" [matMenuTriggerFor]="menu">
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
   </mat-toolbar>
   <div class="lobby__hero">
     <div class="container">
@@ -23,7 +31,7 @@
       </mat-card>
       <mat-card class="lobby__projects__project">
         <mat-card-content class="lobby__projects__user">
-          <h4>My personal site</h4>
+          <h2>My personal site</h2>
           Last updated: yesterday
         </mat-card-content>
       </mat-card>

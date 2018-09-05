@@ -6,7 +6,8 @@ import {
   MatCardModule,
   MatIconModule,
   MatButtonModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatMenuModule
 } from "@angular/material";
 
 @NgModule({
@@ -16,7 +17,8 @@ import {
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatMenuModule
   ],
   declarations: [LobbyComponent]
 })
