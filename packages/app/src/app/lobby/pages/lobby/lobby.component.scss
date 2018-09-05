@@ -11,6 +11,11 @@
       height: 48px;
       width: 48px;
     }
+    img {
+      height: 40px;
+      width: auto;
+      border-radius: 50%;
+    }
   }
   &__hero {
     padding: 200px 0;
@@ -58,8 +63,9 @@
       }
     }
     &__user {
-      h4 {
+      h2 {
         color: black;
+        font-weight: 400;
       }
       color: rgba(0,0,0,0.54);
     }
