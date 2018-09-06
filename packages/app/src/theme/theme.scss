@@ -2,7 +2,6 @@
  * Global application theme.
  * Framework overrides and customization goes here.
  */
-
 // Angular Material theming
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
@@ -16,10 +15,10 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
 $my-app-primary: mat-palette($mat-blue-grey);
-$my-app-accent:  mat-palette($mat-pink);
+$my-app-accent: mat-palette($mat-pink);
 
 // The warn palette is optional (defaults to red).
-$my-app-warn:    mat-palette($mat-red);
+$my-app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
@@ -46,4 +45,14 @@ body *:not(mat-icon) {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.add-project-dialog {
+  .mat-dialog-container {
+    height: 100%;
+    width: 500px;
+    border-radius: 10px;
+    padding-top: 18px;
+    padding-bottom: 32px;
+  }
 }

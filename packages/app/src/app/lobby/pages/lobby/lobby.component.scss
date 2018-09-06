@@ -1,9 +1,9 @@
-.lobby{
+.lobby {
   height: 100%;
   &__header {
     background: transparent;
     position: fixed;
-    color: rgba(0,0,0,0.54);
+    color: rgba(0, 0, 0, 0.54);
     font-size: 28px;
     font-weight: 500;
     &__icon {
@@ -32,7 +32,7 @@
     &__text {
       font-size: 16px;
       max-width: 450px;
-      color: rgba(0,0,0,0.54);
+      color: rgba(0, 0, 0, 0.54);
     }
   }
   &__projects {
@@ -67,7 +67,7 @@
         color: black;
         font-weight: 400;
       }
-      color: rgba(0,0,0,0.54);
+      color: rgba(0, 0, 0, 0.54);
     }
   }
 }
