@@ -8,11 +8,11 @@
   </div>
   <div mat-dialog-content class="add-project-dialog__content d-flex flex-column flex-fill">
     <mat-form-field class="add-project-dialog__input">
-      <input (ngModel)="data.siteName" name="siteName" matInput cdkFocusInitial placeholder="Site name">
+      <input [(ngModel)]="data.siteName" name="siteName" matInput cdkFocusInitial placeholder="Site name">
     </mat-form-field>
     <mat-form-field class="add-project-dialog__input">
-      <mat-select (ngModel)="data.siteTemplate" placeholder="Select a template">
-        <mat-option value="1">Startup</mat-option>
+      <mat-select [(ngModel)]="data.siteTemplate" placeholder="Select a template">
+        <mat-option value="startup">Startup</mat-option>
       </mat-select>
     </mat-form-field>
   </div>

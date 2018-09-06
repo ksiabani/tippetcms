@@ -33,8 +33,8 @@ export class LobbyComponent implements OnInit {
       data: {siteName: this.siteName, siteTemplate: this.siteTemplate}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe(data => {
+      console.log(data);
     });
   }
 }
