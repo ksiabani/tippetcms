@@ -1,12 +1,18 @@
+@import '../../../../theme/theme-variables';
+
 .sidenav-container {
   height: 100%;
 }
 
 .content {
   &__header {
-    position: sticky;
+    position: fixed;
     background: transparent;
     height: 48px;
+    width: calc(100% - 276px);
+    @media only screen and (max-width: 1199px) {
+      width: 100%;
+    }
     img {
       height: 32px;
       width: auto;
@@ -14,13 +20,13 @@
     }
   }
   &__inner {
-    padding: 48px 24px 24px 24px;
+    //padding: 48px 24px 24px 24px;
     height: calc(100% - 48px);
   }
 }
 
 .sidenav {
-  width: 290px;
+  width: 260px;
   background-color: #18212A;
   overflow-x: hidden;
   &__header {
@@ -39,8 +45,11 @@
     padding: 16px 0;
     a {
       color: #757575;
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 1.2rem;
+      font-weight: 500;
+      span {
+        font-family: $secondary-font !important;
+      }
       &:hover {
         background: rgba(255, 255, 255, 0.1);
       }
