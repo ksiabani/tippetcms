@@ -6,15 +6,34 @@ import { ElementsComponent } from "./pages/elements/elements.component";
 import { MediaComponent } from "./pages/media/media.component";
 import { PagesComponent } from "./pages/pages/pages.component";
 import { SettingsComponent } from "./pages/settings/settings.component";
+import { AdminComponent } from "./pages/admin/admin.component";
+import {
+  MatDividerModule,
+  MatIconModule,
+  MatListModule,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatButtonModule
+} from "@angular/material";
 
 @NgModule({
-  imports: [CommonModule, AdminRouting],
+  imports: [
+    CommonModule,
+    AdminRouting,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatDividerModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule
+  ],
   declarations: [
     OverviewComponent,
     ElementsComponent,
     MediaComponent,
     PagesComponent,
-    SettingsComponent
+    SettingsComponent,
+    AdminComponent
   ]
 })
 export class AdminModule {}

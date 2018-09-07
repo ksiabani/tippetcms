@@ -1,0 +1,23 @@
+<div class="add-project-dialog d-flex flex-column">
+  <div class="d-flex align-items-center">
+    <h2 class="add-project-dialog__title">Add a site</h2>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content class="add-project-dialog__content d-flex flex-column flex-fill">
+    <mat-form-field class="add-project-dialog__input">
+      <input [(ngModel)]="data.siteName" name="siteName" matInput cdkFocusInitial placeholder="Site name">
+    </mat-form-field>
+    <mat-form-field class="add-project-dialog__input">
+      <mat-select [(ngModel)]="data.siteTemplate" placeholder="Select a template">
+        <mat-option value="startup">Startup</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="align-self-end">
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-button color="primary" [mat-dialog-close]="data">Create site</button>
+  </div>
+</div>
