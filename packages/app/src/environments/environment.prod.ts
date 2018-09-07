@@ -1,3 +1,5 @@
+const api = "http://localhost:3000";
+
 export const environment = {
   production: true,
   firebase: {
@@ -7,5 +9,8 @@ export const environment = {
     projectId: "tippetcms-1",
     storageBucket: "",
     messagingSenderId: "537498593301"
+  },
+  api: {
+    lobby: `${api}/lobby`
   }
 };

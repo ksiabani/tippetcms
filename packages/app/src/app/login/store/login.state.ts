@@ -25,15 +25,17 @@ export class LoginState implements NgxsOnInit {
 
   ngxsOnInit() {
     this.afAuth.user.subscribe(async (user: firebase.User) => {
-      const githubUser: GithubUser = await this.githubService.getUserInfo(user.providerData[0].uid);
-      this.store.dispatch(new actions.SetUser({ ...user, githubUser }));
       if (user) {
+        const { uid } = user.providerData[0];
+        const githubUser: GithubUser = await this.githubService.getUserInfo(uid);
+        this.store.dispatch(new actions.SetUser({ ...user, githubUser }));
         if (this.activatedRoute.firstChild.routeConfig.path === "") {
           this.router.navigateByUrl("lobby");
           return;
         }
         return;
       }
+      this.store.dispatch(new actions.SetUser(null));
       this.router.navigateByUrl("");
     });
   }
