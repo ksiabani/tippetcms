@@ -15,7 +15,7 @@ export class LobbyController {
     const gutsbiesDirToCheck = join(__dirname, '../..', 'gutsbies', username);
 
     if (existsSync(publicDirToCheck) && existsSync(gutsbiesDirToCheck)) {
-      const sites = readdirSync(join(__dirname, '../..', 'gutsbies')).filter(
+      const sites = readdirSync(gutsbiesDirToCheck).filter(
         dir => dir !== '.keep',
       );
       return { existed: true, created: false, sites };
