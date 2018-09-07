@@ -3,9 +3,11 @@ import { GithubService } from "../services/github.service";
 import * as actions from "./login.actions";
 import { AngularFireAuth } from "angularfire2/auth";
 import { Router, ActivatedRoute } from "@angular/router";
+import { GithubUser } from "../../shared/model/github-user.interface";
+import { User } from "../../shared/model/user.interface";
 
 export interface LoginStateModel {
-  user: firebase.User;
+  user: User;
 }
 
 @State<LoginStateModel>({
@@ -22,15 +24,18 @@ export class LoginState implements NgxsOnInit {
   ) {}
 
   ngxsOnInit() {
-    this.afAuth.user.subscribe((user: firebase.User) => {
-      this.store.dispatch(new actions.SetUser(user));
+    this.afAuth.user.subscribe(async (user: firebase.User) => {
       if (user) {
+        const { uid } = user.providerData[0];
+        const githubUser: GithubUser = await this.githubService.getUserInfo(uid);
+        this.store.dispatch(new actions.SetUser({ ...user, githubUser }));
         if (this.activatedRoute.firstChild.routeConfig.path === "") {
           this.router.navigateByUrl("lobby");
           return;
         }
         return;
       }
+      this.store.dispatch(new actions.SetUser(null));
       this.router.navigateByUrl("");
     });
   }
