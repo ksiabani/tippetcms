@@ -6,5 +6,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start --parallel"
+  },
+  "dependencies": {
+    "bootstrap": "4.1.3"
   }
 }

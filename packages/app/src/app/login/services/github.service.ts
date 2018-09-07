@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { auth } from "firebase";
+import * as firebase from "firebase/app";
 import { AngularFireAuth } from "angularfire2/auth";
 import { HttpClient } from "@angular/common/http";
 import { GithubUser } from "../../shared/model/github-user.interface";
@@ -11,7 +11,7 @@ export class GithubService {
   constructor(public afAuth: AngularFireAuth, private http: HttpClient) {}
 
   login() {
-    this.afAuth.auth.signInWithPopup(new auth.GithubAuthProvider());
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GithubAuthProvider());
   }
 
   logout() {

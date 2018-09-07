@@ -22,13 +22,10 @@ import { LoginState } from "./login/store/login.state";
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
     LoginModule,
     LobbyModule,
     AdminModule,
-
     AppRoutingModule,
-
     NgxsModule.forRoot([LoginState]),
     NgxsLoggerPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
