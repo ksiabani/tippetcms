@@ -14,7 +14,7 @@ import {
   MatInputModule,
   MatSelectModule
 } from "@angular/material";
-import { AddProjectDialogComponent } from "./pages/add-project-dialog/add-project-dialog.component";
+import { AddProjectDialogComponent } from "./components/add-project-dialog/add-project-dialog.component";
 
 @NgModule({
   imports: [
