@@ -8,32 +8,32 @@
   &__header {
     position: fixed;
     background: transparent;
-    height: 48px;
-    width: calc(100% - 276px);
-    @media only screen and (max-width: 1199px) {
-      width: 100%;
+    padding-right: $sidenav-width;
+    z-index: 1;
+    @media only screen and (max-width: 599px) {
+      padding-right: 0;
     }
     img {
       height: 32px;
       width: auto;
       border-radius: 50%;
+      margin: 0 16px;
     }
   }
   &__inner {
-    //padding: 48px 24px 24px 24px;
-    height: calc(100% - 48px);
+    height: 100%;
+    padding-top: $toolbar-height;
   }
 }
 
 .sidenav {
-  width: 260px;
+  width: $sidenav-width;
   background-color: #18212A;
   overflow-x: hidden;
   &__header {
     border-bottom: 1px solid rgba(117, 117, 117, 0.2);
     background: #252F3C;
     color: #fafafa;
-    height: 48px;
     &__icon {
       font-size: 36px;
       height: 36px;

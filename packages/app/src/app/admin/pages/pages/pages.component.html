@@ -1,3 +1,44 @@
-<p>
-  pages works!
-</p>
+<div class="container-fluid pages">
+  <div class="pages__content container">
+    <div class="pages__header">
+      <mat-toolbar>
+        <span>Pages</span>
+        <span class="spacer"></span>
+        <button type="button" mat-button>Add page</button>
+      </mat-toolbar>
+      <table mat-table [dataSource]="emptyDataSource" class="pages__header__table">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+        </ng-container>
+        <ng-container matColumnDef="updated">
+          <th mat-header-cell *matHeaderCellDef>Last updated</th>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div class="pages__table">
+      <table mat-table [dataSource]="dataSource" class="pages__table__table">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <div class="pages__table__cell">
+              <mat-icon class="pages__table__icon">{{element.icon}}</mat-icon>
+              <span>{{element.name}}</span>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="updated">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <div class="pages__table__cell">
+              {{element.updated | date}}
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</div>
