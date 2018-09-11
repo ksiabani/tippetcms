@@ -32,7 +32,7 @@ export class LobbyController {
     username: string;
     siteName: string;
     siteTemplate: string;
-  }) {
+  }): Promise<{ success: boolean; reason?: any }> {
     const basePath = [__dirname, '../..'];
     const variablePath = [body.username, body.siteName];
     //should change acording to startup chosen by user
@@ -41,16 +41,36 @@ export class LobbyController {
     const publicDirForSite = join(...basePath, 'public', ...variablePath);
     const gutsbiesDirForSite = join(...basePath, 'gutsbies', ...variablePath);
 
-    // some error controll will be needed here
-    await execa.shell(`git clone ${templateUrl} ${gutsbiesDirForSite}`);
-    console.log('gitclone done');
-    await execa('npm', ['install'], { cwd: gutsbiesDirForSite });
-    console.log('npm i done');
-    await execa('gatsby', ['build'], { cwd: gutsbiesDirForSite });
-    console.log('npm  build done');
-    copy(`${gutsbiesDirForSite}/public`, publicDirForSite);
-    console.log('copy done');
+    try {
+      await execa.shell(`git clone ${templateUrl} ${gutsbiesDirForSite}`);
+      console.log('gitclone done');
+      await execa('npm', ['install'], { cwd: gutsbiesDirForSite });
+      console.log('npm i done');
+      await execa('gatsby', ['build'], { cwd: gutsbiesDirForSite });
+      console.log('npm  build done');
+      copy(`${gutsbiesDirForSite}/public`, publicDirForSite);
+      console.log('copy done');
 
-    return { success: true };
+      return { success: true };
+    } catch (e) {
+      return { success: false, reason: e };
+    }
+  }
+
+  @Post()
+  async buildSite(@Body() body: { username: string; siteName: string }) {
+    const basePath = [__dirname, '../..'];
+    const variablePath = [body.username, body.siteName];
+    const publicDirForSite = join(...basePath, 'public', ...variablePath);
+    const gutsbiesDirForSite = join(...basePath, 'gutsbies', ...variablePath);
+
+    try {
+      await execa('gatsby', ['build'], { cwd: gutsbiesDirForSite });
+      copy(`${gutsbiesDirForSite}/public`, publicDirForSite);
+
+      return { success: true };
+    } catch (e) {
+      return { success: false, reason: e };
+    }
   }
 }
