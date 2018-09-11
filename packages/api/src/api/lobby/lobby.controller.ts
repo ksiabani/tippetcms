@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, Param, Post, Body } from '@nestjs/common';
-import { readdirSync, existsSync } from 'fs';
+import { readdirSync, existsSync, unlinkSync } from 'fs';
 import { join } from 'path';
 import { mkdirpSync, copy } from 'fs-extra';
 import * as execa from 'execa';
@@ -53,6 +53,9 @@ export class LobbyController {
 
       return { success: true };
     } catch (e) {
+      await execa.shell(`rm -rf ${gutsbiesDirForSite}`);
+      await execa.shell(`rm -rf ${publicDirForSite}`);
+
       return { success: false, reason: e };
     }
   }
