@@ -6,11 +6,12 @@ import { filter } from "rxjs/operators";
 
 export interface LobbyStateModel {
   sites: string[];
+  loading: boolean;
 }
 
 @State<LobbyStateModel>({
   name: "lobby",
-  defaults: { sites: [] }
+  defaults: { sites: [], loading: false }
 })
 export class LobbyState {
   constructor(private lobbyService: LobbyService) {}
@@ -20,11 +21,25 @@ export class LobbyState {
     return state.sites;
   }
 
+  @Selector()
+  static loading(state: LobbyStateModel): boolean {
+    return state.loading;
+  }
+
   @Action(actions.GetSites)
   setUser(ctx: StateContext<LobbyStateModel>, { username }: actions.GetSites): void {
     this.lobbyService
       .getSites(username)
       .pipe(filter(({ sites }: GetSitesResponse) => !!sites))
       .subscribe(({ sites }: GetSitesResponse) => ctx.patchState({ sites }));
+  }
+
+  @Action(actions.AddSite)
+  addSite(ctx: StateContext<LobbyStateModel>, { newProjectData }: actions.AddSite): void {
+    ctx.patchState({ loading: true });
+    this.lobbyService.addSite(newProjectData).subscribe(res => {
+      console.log(res);
+      ctx.patchState({ loading: false });
+    });
   }
 }
