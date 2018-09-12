@@ -1,0 +1,32 @@
+<form [formGroup]="addPageForm">
+  <div class="add-page-dialog d-flex flex-column">
+    <div class="d-flex align-items-center">
+      <h2 class="add-page-dialog__title">Add a page</h2>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content class="add-page-dialog__content d-flex flex-column flex-fill">
+      <mat-form-field class="add-page-dialog__input">
+        <input formControlName="name" name="name" matInput cdkFocusInitial placeholder="Page name">
+      </mat-form-field>
+      <mat-form-field class="add-page-dialog__input">
+        <input formControlName="path" name="path" matInput placeholder="Path">
+      </mat-form-field>
+      <mat-form-field class="add-page-dialog__input">
+        <input formControlName="slug" name="slug" matInput cdkFocusInitial placeholder="Slug (friendly URL)">
+      </mat-form-field>
+      <mat-form-field class="add-page-dialog__input">
+        <mat-select formControlName="template" placeholder="Select a page template">
+          <mat-option *ngFor="let template of templates" value="template.value">{{template.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="align-self-end">
+      <button mat-button (click)="close()">Cancel</button>
+      <button mat-button color="primary" [mat-dialog-close]="data" [disabled]="!addPageForm.valid" (click)="createPage()">Create page</button>
+    </div>
+    <!--{{sites}}-->
+  </div>
+</form>

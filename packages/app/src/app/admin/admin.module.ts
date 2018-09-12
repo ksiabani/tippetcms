@@ -7,6 +7,8 @@ import { MediaComponent } from "./pages/media/media.component";
 import { PagesComponent } from "./pages/pages/pages.component";
 import { SettingsComponent } from "./pages/settings/settings.component";
 import { AdminComponent } from "./pages/admin/admin.component";
+import { AddPageDialogComponent } from "./components/add-page-dialog/add-page-dialog.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatDividerModule,
   MatIconModule,
@@ -15,7 +17,12 @@ import {
   MatToolbarModule,
   MatButtonModule,
   MatCardModule,
-  MatTableModule
+  MatTableModule,
+  MatFormFieldModule,
+  MatOptionModule,
+  MatSelectModule,
+  MatDialogModule,
+  MatInputModule,
 } from "@angular/material";
 
 @NgModule({
@@ -29,7 +36,14 @@ import {
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     OverviewComponent,
@@ -37,7 +51,9 @@ import {
     MediaComponent,
     PagesComponent,
     SettingsComponent,
-    AdminComponent
-  ]
+    AdminComponent,
+    AddPageDialogComponent
+  ],
+  entryComponents: [AddPageDialogComponent]
 })
 export class AdminModule {}
