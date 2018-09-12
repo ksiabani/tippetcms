@@ -47,7 +47,8 @@ body *:not(mat-icon) {
   flex: 1 1 auto;
 }
 
-.add-project-dialog {
+.add-project-dialog,
+.add-page-dialog {
   .mat-dialog-container {
     height: 100%;
     width: 500px;
