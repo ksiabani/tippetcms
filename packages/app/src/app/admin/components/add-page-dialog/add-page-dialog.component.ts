@@ -9,7 +9,7 @@ export interface NewPageData {
   template: string;
 }
 
-export interface option {
+export interface Option {
   value: string;
   name: string;
 }
@@ -21,16 +21,11 @@ export interface option {
 })
 export class AddPageDialogComponent implements OnInit {
   addPageForm: FormGroup;
-  templates: option[] = [
+  templates: Option[] = [
     {value: "home", name: "Homepage"},
     {value: "blogIndex", name: "Blog index"},
     {value: "blogPage", name: "Blog page"},
     {value: "generic", name: "Generic page"}
-  ];
-  paths: option[] = [
-    {value: "/", name: "/"},
-    {value: "/blog", name: "/blog"},
-    {value: "/products", name: "/products"}
   ];
 
   constructor(

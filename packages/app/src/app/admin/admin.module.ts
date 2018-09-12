@@ -23,7 +23,6 @@ import {
   MatSelectModule,
   MatDialogModule,
   MatInputModule,
-  MatAutocompleteModule
 } from "@angular/material";
 
 @NgModule({
@@ -43,7 +42,6 @@ import {
     MatSelectModule,
     MatDialogModule,
     MatInputModule,
-    MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule
   ],
