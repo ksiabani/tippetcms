@@ -1,0 +1,37 @@
+<div class="details container">
+  <h2 class="details__title">Home</h2>
+  <mat-card class="details__meta">
+    <mat-card-header class="details__meta__header">
+      <mat-card-title class="details__meta__title d-flex align-items-center">
+        <span>Metadata</span>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="pageMetaForm" class="d-flex flex-column">
+        <mat-form-field class="details__meta__input">
+          <input type="text" formControlName="name" name="name" matInput cdkFocusInitial placeholder="Name">
+        </mat-form-field>
+        <mat-form-field class="details__meta__input">
+          <input type="text" formControlName="path" name="path" matInput placeholder="Path" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let path of paths" [value]="path.name">
+              {{path.value}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="details__meta__input">
+          <input type="text" formControlName="slug" name="slug" matInput placeholder="Slug">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="d-flex justify-content-end">
+      <button mat-button>Save</button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="details__sections">
+    <div class="details__sections__section"></div>
+    <div class="details__sections__section"></div>
+    <div class="details__sections__add-btn"></div>
+  </div>
+</div>
+<router-outlet></router-outlet>

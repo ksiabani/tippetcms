@@ -1,0 +1,11 @@
+@import '../../../../theme/theme-variables';
+
+.details {
+  max-width: $container-max-width;
+  &__meta {
+    border-radius: $card-border-radius;
+    &__input {
+      width: 50%;
+    }
+  }
+}
