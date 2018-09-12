@@ -1,4 +1,4 @@
-import { Selector, State, Action, StateContext } from "@ngxs/store";
+import { Selector, State, Action, StateContext, Store } from "@ngxs/store";
 import * as actions from "./lobby.actions";
 import { LobbyService } from "../services/lobby.service";
 import { GetSitesResponse } from "../../shared/model/get-sites.interface";
@@ -14,7 +14,7 @@ export interface LobbyStateModel {
   defaults: { sites: [], loading: false }
 })
 export class LobbyState {
-  constructor(private lobbyService: LobbyService) {}
+  constructor(private lobbyService: LobbyService, private store: Store) {}
 
   @Selector()
   static sites(state: LobbyStateModel): string[] {
@@ -39,6 +39,7 @@ export class LobbyState {
     ctx.patchState({ loading: true });
     this.lobbyService.addSite(newProjectData).subscribe(res => {
       console.log(res);
+      this.store.dispatch(new actions.GetSites(newProjectData.username));
       ctx.patchState({ loading: false });
     });
   }
