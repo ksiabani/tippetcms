@@ -13,7 +13,9 @@ import {
   MatListModule,
   MatSidenavModule,
   MatToolbarModule,
-  MatButtonModule
+  MatButtonModule,
+  MatCardModule,
+  MatTableModule
 } from "@angular/material";
 
 @NgModule({
@@ -25,7 +27,9 @@ import {
     MatDividerModule,
     MatListModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    MatTableModule
   ],
   declarations: [
     OverviewComponent,
