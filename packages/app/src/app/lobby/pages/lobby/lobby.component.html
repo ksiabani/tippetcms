@@ -30,12 +30,14 @@
           <span>Add site</span>
         </mat-card-content>
       </mat-card>
-      <mat-card *ngFor="let site of (sites | async)" class="lobby__projects__project">
-        <mat-card-content class="lobby__projects__user">
-          <h2>{{site}}</h2>
-          Last updated: yesterday
-        </mat-card-content>
-      </mat-card>
+      <span *ngFor="let site of (sites | async)">
+        <mat-card routerLink="../admin/{{site}}" class="lobby__projects__project">
+          <mat-card-content class="lobby__projects__user">
+            <h2>{{site}}</h2>
+            Last updated: yesterday
+          </mat-card-content>
+        </mat-card>
+      </span>
     </div>
   </div>
 </div>
