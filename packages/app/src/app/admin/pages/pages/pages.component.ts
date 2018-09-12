@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from "@angular/material";
+import { MatDialog, MatTableDataSource } from "@angular/material";
+import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
 
 export interface PeriodicElement {
   name: string;
@@ -25,9 +26,17 @@ export class PagesComponent implements OnInit {
   dataSource = ELEMENT_DATA;
   emptyDataSource = new MatTableDataSource<Element>(null);
 
-  constructor() { }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddPageDialogComponent, {
+      disableClose: true,
+      panelClass: "add-page-dialog",
+      data: {}
+    });
   }
 
 }

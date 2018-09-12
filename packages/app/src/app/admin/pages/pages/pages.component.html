@@ -4,7 +4,7 @@
       <mat-toolbar>
         <span>Pages</span>
         <span class="spacer"></span>
-        <button type="button" mat-button>Add page</button>
+        <button type="button" mat-button (click)="openDialog()">Add page</button>
       </mat-toolbar>
       <table mat-table [dataSource]="emptyDataSource" class="pages__header__table">
         <ng-container matColumnDef="name">
