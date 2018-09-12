@@ -56,3 +56,7 @@ body *:not(mat-icon) {
     padding-bottom: 32px;
   }
 }
+
+mat-toolbar {
+  height: $toolbar-height !important;
+}

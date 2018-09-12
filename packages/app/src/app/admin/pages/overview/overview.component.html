@@ -1,3 +1,57 @@
-<p>
-  overview works!
-</p>
+<div class="container-fluid overview">
+  <div class="overview__hero container">
+    <div class="overview__hero__title">Make something beatiful!</div>
+    <div class="overview__hero__text">Manage your web pages like a pro, without really knowing any code. And when you 're ready post your website with GitHub Pages for free.</div>
+  </div>
+  <div class="overview__content container">
+    <h3 class="overview__content__title">Actions</h3>
+    <div class="overview__actions">
+      <mat-card class="card">
+        <mat-card-header class="card__header">
+          <mat-card-title class="card__title d-flex align-items-center">
+            <mat-icon class="card__icon">pageview</mat-icon>
+            <span>Preview</span>
+          </mat-card-title>
+          <mat-card-subtitle>View live site</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button mat-button class="card__action" routerLink="/schedule">
+            <mat-icon class="card__icon">arrow_forward</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+    <h3 class="overview__content__title">Manage your site</h3>
+    <div class="overview__manage">
+      <mat-card class="card card--orange">
+        <img mat-card-image src="../../../../../assets/images/home-schedule.png">
+        <mat-card-header class="card__header">
+          <mat-card-title class="card__title">Pages</mat-card-title>
+          <mat-card-subtitle class="card__subtitle">Manage your pages.</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+      <mat-card class="card card--blue">
+        <img mat-card-image src="../../../../../assets/images/home-timesheets.png">
+        <mat-card-header class="card__header">
+          <mat-card-title class="card__title">Media</mat-card-title>
+          <mat-card-subtitle class="card__subtitle">Manage your images to use with your pages.</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+      <mat-card class="card card--green">
+        <img mat-card-image src="../../../../../assets/images/home-reports.png">
+        <mat-card-header class="card__header">
+          <mat-card-title class="card__title">Elements</mat-card-title>
+          <mat-card-subtitle class="card__subtitle">Change footer and header.</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+      <mat-card class="card card--purple">
+        <img mat-card-image src="../../../../../assets/images/settings.png">
+        <mat-card-header class="card__header">
+          <mat-card-title class="card__title">Settings</mat-card-title>
+          <mat-card-subtitle class="card__subtitle">Edit general settings.</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </div>
+</div>
