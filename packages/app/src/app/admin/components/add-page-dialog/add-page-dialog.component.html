@@ -12,13 +12,7 @@
         <input formControlName="name" name="name" matInput cdkFocusInitial placeholder="Page name">
       </mat-form-field>
       <mat-form-field class="add-page-dialog__input">
-        <!--<input formControlName="path" name="path" matInput cdkFocusInitial placeholder="Path">-->
-        <input type="text" placeholder="Choose or enter a new path" formControlName="path" name="path" matInput [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let path of paths" [value]="path.value">
-            {{path.name}}
-          </mat-option>
-        </mat-autocomplete>
+        <input formControlName="path" name="path" matInput placeholder="Path">
       </mat-form-field>
       <mat-form-field class="add-page-dialog__input">
         <input formControlName="slug" name="slug" matInput cdkFocusInitial placeholder="Slug (friendly URL)">
