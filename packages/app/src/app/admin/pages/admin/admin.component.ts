@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { Select } from "@ngxs/store";
 import { Store } from "@ngxs/store";
 import { LoginState } from "../../../login/store/login.state";
+import { Logout } from "../../../login/store/login.actions";
 
 @Component({
   selector: "app-admin",
@@ -18,7 +19,14 @@ export class AdminComponent implements OnInit {
     .observe(Breakpoints.Handset)
     .pipe(map(result => result.matches));
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private store: Store
+  ) {}
 
   ngOnInit() {}
+
+  logout() {
+    this.store.dispatch(Logout);
+  }
 }
