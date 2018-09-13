@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -25,7 +25,7 @@ export interface Section {
   templateUrl: "./details.component.html",
   styleUrls: ["./details.component.scss"]
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   pageMetaForm: FormGroup;
   paths: Option[] = [
     { name: "/", value: "/" },
@@ -77,6 +77,11 @@ export class DetailsComponent implements OnInit {
         return handle.classList.contains("ng-handle");
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.sections$.unsubscribe();
+    this.dragulaService.destroy("sections");
   }
 
   createForm() {
