@@ -34,7 +34,6 @@ export class PagesComponent implements OnInit {
 
   displayedColumns: string[] = ["name", "slug", "preview"];
   dataSource: Page[];
-  emptyDataSource = new MatTableDataSource<Page[]>(null);
 
   constructor(
     private store: Store,

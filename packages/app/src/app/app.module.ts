@@ -17,6 +17,7 @@ import { AngularFireAuthModule } from "angularfire2/auth";
 import { LoginState } from "./login/store/login.state";
 import { LobbyState } from "./lobby/store/lobby.state";
 import { AdminState } from "./admin/store/admin.state";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -30,6 +31,7 @@ import { AdminState } from "./admin/store/admin.state";
     AppRoutingModule,
     NgxsModule.forRoot([LoginState, LobbyState, AdminState]),
     NgxsLoggerPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],

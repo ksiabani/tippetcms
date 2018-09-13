@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^6.1.6",
     "@angular/platform-browser-dynamic": "^6.1.6",
     "@angular/router": "^6.1.6",
+    "@ngxs/devtools-plugin": "3.2.0",
     "@ngxs/logger-plugin": "^3.2.0",
     "@ngxs/store": "^3.2.0",
     "@octokit/rest": "^15.11.0",
