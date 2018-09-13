@@ -2,7 +2,7 @@ import { Selector, State, Action, StateContext, Store } from "@ngxs/store";
 import * as actions from "./lobby.actions";
 import { LobbyService } from "../services/lobby.service";
 import { GetSitesResponse } from "../../shared/model/get-sites.interface";
-import { filter } from "rxjs/operators";
+import { filter, tap } from "rxjs/operators";
 
 export interface LobbyStateModel {
   sites: string[];
@@ -27,20 +27,21 @@ export class LobbyState {
   }
 
   @Action(actions.GetSites)
-  setUser(ctx: StateContext<LobbyStateModel>, { username }: actions.GetSites): void {
-    this.lobbyService
-      .getSites(username)
-      .pipe(filter(({ sites }: GetSitesResponse) => !!sites))
-      .subscribe(({ sites }: GetSitesResponse) => ctx.patchState({ sites }));
+  setUser(ctx: StateContext<LobbyStateModel>, { username }: actions.GetSites) {
+    return this.lobbyService.getSites(username).pipe(
+      filter(({ sites }: GetSitesResponse) => !!sites),
+      tap(({ sites }: GetSitesResponse) => ctx.patchState({ sites }))
+    );
   }
 
   @Action(actions.AddSite)
-  addSite(ctx: StateContext<LobbyStateModel>, { newProjectData }: actions.AddSite): void {
+  addSite(ctx: StateContext<LobbyStateModel>, { newProjectData }: actions.AddSite) {
     ctx.patchState({ loading: true });
-    this.lobbyService.addSite(newProjectData).subscribe(res => {
-      console.log(res);
-      this.store.dispatch(new actions.GetSites(newProjectData.username));
-      ctx.patchState({ loading: false });
-    });
+    return this.lobbyService.addSite(newProjectData).pipe(
+      tap(res => {
+        this.store.dispatch(new actions.GetSites(newProjectData.username));
+        ctx.patchState({ loading: false });
+      })
+    );
   }
 }
