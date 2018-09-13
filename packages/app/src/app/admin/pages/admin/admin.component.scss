@@ -37,10 +37,11 @@
     border-bottom: 1px solid rgba(117, 117, 117, 0.2);
     background: #252F3C;
     color: #fafafa;
+    cursor: pointer;
     &__icon {
       font-size: 36px;
       height: 36px;
-      width: 36px;
+      width: auto;
     }
   }
   &__list {
