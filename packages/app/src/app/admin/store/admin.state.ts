@@ -2,7 +2,7 @@ import { Selector, State, Action, StateContext } from "@ngxs/store";
 import * as actions from "./admin.actions";
 import { Page } from "../../shared/model/get-pages.interface";
 import { AdminService } from "../services/admin.service";
-import { take } from "rxjs/operators";
+import { take, tap } from "rxjs/operators";
 
 export interface AdminStateModel {
   pages: Page[];
@@ -38,11 +38,10 @@ export class AdminState {
   }
 
   @Action(actions.GetPages)
-  setUser(ctx: StateContext<AdminStateModel>, { username, site, path }: actions.GetPages): void {
+  setUser(ctx: StateContext<AdminStateModel>, { username, site, path }: actions.GetPages) {
     ctx.patchState({ loading: true });
-    this.adminService
+    return this.adminService
       .getPages(username, site, path)
-      .pipe(take(1))
-      .subscribe((pages: Page[]) => ctx.patchState({ pages, loading: false }));
+      .pipe(tap((pages: Page[]) => ctx.patchState({ pages, loading: false })));
   }
 }
