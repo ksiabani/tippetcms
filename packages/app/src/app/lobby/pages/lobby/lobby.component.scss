@@ -1,3 +1,5 @@
+@import '../../../../theme/theme-variables';
+
 .lobby {
   height: 100%;
   &__header {
@@ -46,7 +48,7 @@
       width: 300px;
       margin: 0 12px;
       height: 200px;
-      border-radius: 8px;
+      border-radius: $card-border-radius;
       cursor: pointer;
     }
     &__add {
