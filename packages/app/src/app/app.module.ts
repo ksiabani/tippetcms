@@ -16,6 +16,7 @@ import { environment } from "../environments/environment";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { LoginState } from "./login/store/login.state";
 import { LobbyState } from "./lobby/store/lobby.state";
+import { AdminState } from "./admin/store/admin.state";
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -27,7 +28,7 @@ import { LobbyState } from "./lobby/store/lobby.state";
     LobbyModule,
     AdminModule,
     AppRoutingModule,
-    NgxsModule.forRoot([LoginState, LobbyState]),
+    NgxsModule.forRoot([LoginState, LobbyState, AdminState]),
     NgxsLoggerPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule

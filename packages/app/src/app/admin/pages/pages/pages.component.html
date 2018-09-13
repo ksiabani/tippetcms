@@ -21,18 +21,25 @@
       <table mat-table [dataSource]="dataSource" class="pages__table__table">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
-            <div class="pages__table__cell">
-              <mat-icon class="pages__table__icon">{{element.icon}}</mat-icon>
-              <span>{{element.name}}</span>
+          <td mat-cell *matCellDef="let page">
+
+            <div class="pages__table__cell" *ngIf="page?.folder" (click)="changeFolder(page.path)">
+              <mat-icon class="pages__table__icon">folder</mat-icon>
+              <span>{{page?.name}}</span>
+            </div>
+
+            <div class="pages__table__cell" *ngIf="!page?.folder">
+              <mat-icon class="pages__table__icon">insert_drive_file</mat-icon>
+              <span>{{page?.name}}</span>
             </div>
           </td>
+
         </ng-container>
         <ng-container matColumnDef="updated">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let page">
             <div class="pages__table__cell">
-              {{element.updated | date}}
+              {{page?.lastUpdated | date}}
             </div>
           </td>
         </ng-container>

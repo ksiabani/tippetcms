@@ -29,3 +29,7 @@ tmp
 coverage/
 .nyc_output/
 .eslintcache
+
+
+packages/api/src/public/**
+packages/api/src/gutsbies/**
