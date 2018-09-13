@@ -4,16 +4,17 @@ import { AddPageDialogComponent } from "../../components/add-page-dialog/add-pag
 
 export interface PeriodicElement {
   name: string;
-  updated: Date;
-  icon?: string
+  slug: string;
+  preview?: string;
+  icon?: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {name: 'blog', updated: new Date(), icon: 'folder'},
-  {name: 'products', updated: new Date(), icon: 'folder'},
-  {name: 'index.html', updated: new Date(), icon: 'insert_drive_file'},
-  {name: 'about.html', updated: new Date(), icon: 'insert_drive_file'},
-  {name: 'contact.html', updated: new Date(), icon: 'insert_drive_file'}
+  {name: 'Blog', slug: '/blog/', icon: 'folder', preview: 'https://picsum.photos/60/80/?image=221'},
+  {name: 'Products', slug: '/products/', icon: 'folder', preview: 'https://picsum.photos/60/80/?image=201'},
+  {name: 'Home', slug: '/', icon: 'insert_drive_file', preview: 'https://picsum.photos/60/80/?image=302'},
+  {name: 'About', slug: 'about', icon: 'insert_drive_file', preview: 'https://picsum.photos/60/80/?image=926'},
+  {name: 'Contact', slug: '/contact', icon: 'insert_drive_file', preview: 'https://picsum.photos/60/80/?image=98'}
 ];
 
 @Component({
@@ -22,7 +23,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'updated'];
+  displayedColumns: string[] = ['name', 'slug', 'preview'];
   dataSource = ELEMENT_DATA;
   emptyDataSource = new MatTableDataSource<Element>(null);
 

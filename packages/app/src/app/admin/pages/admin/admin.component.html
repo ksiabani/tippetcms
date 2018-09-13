@@ -36,6 +36,12 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class="spacer"></span>
+      <button mat-icon-button>
+        <mat-icon class="content__header__icon">build</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="content__header__icon">photo_camera</mat-icon>
+      </button>
       <img matListAvatar src="{{(user | async)?.photoURL}}" alt="">
     </mat-toolbar>
     <div class="content__inner">

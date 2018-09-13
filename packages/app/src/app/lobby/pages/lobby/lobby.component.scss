@@ -9,6 +9,7 @@
     font-size: 28px;
     font-weight: 500;
     height: 48px;
+    color: #fafafa;
     &__icon {
       font-size: 48px;
       height: 48px;
@@ -22,20 +23,19 @@
   }
   &__hero {
     padding: 200px 0;
-    background-image: url(/assets/images/projects.png);
+    background-image: url(/assets/images/lobby-bg.jpg);
     background-repeat: no-repeat;
-    background-position: 100% 0;
-    @media only screen and (max-width: 1199px) {
-      background-position: right -200px top;
-    }
+    background-size: cover;
+    color: #fafafa;
     &__title {
       font-size: 30px;
       font-weight: 500;
+      font-family: $secondary-font !important;
     }
     &__text {
       font-size: 16px;
       max-width: 450px;
-      color: rgba(0, 0, 0, 0.54);
+      font-family: $secondary-font !important;
     }
   }
   &__projects {
