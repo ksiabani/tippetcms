@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource, MatDialog } from "@angular/material";
 import { Select, Store } from "@ngxs/store";
 import { AdminState } from "../../store/admin.state";
 import { Observable, combineLatest } from "rxjs";
@@ -9,10 +9,13 @@ import { LoginState } from "../../../login/store/login.state";
 import { User } from "../../../shared/model/user.interface";
 import { ActivatedRoute } from "@angular/router";
 import { filter } from "rxjs/operators";
+import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
 
-export interface PeriodicElement {
+export interface Page {
   name: string;
   updated: Date;
+  slug: string;
+  preview?: string;
   icon?: string;
 }
 
@@ -29,12 +32,15 @@ export class PagesComponent implements OnInit {
   @Select(LoginState.user)
   user: Observable<User>;
 
-  displayedColumns: string[] = ["name", "updated"];
+  displayedColumns: string[] = ["name", "slug", "preview"];
   dataSource: Page[];
   emptyDataSource = new MatTableDataSource<Page[]>(null);
-  inFolder: boolean = false;
 
-  constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private store: Store,
+    private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.pages.subscribe((pages: Page[]) => (this.dataSource = pages));
@@ -49,8 +55,14 @@ export class PagesComponent implements OnInit {
   }
 
   changeFolder(path: string): void {
-    console.log(path);
-
     this.store.dispatch(new ChangePath(path.substring(1).split("/")));
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddPageDialogComponent, {
+      disableClose: true,
+      panelClass: "add-page-dialog",
+      data: {}
+    });
   }
 }

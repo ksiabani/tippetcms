@@ -1,5 +1,7 @@
 export interface Page {
-  folder: boolean;
   name: string;
-  lastUpdated: Date;
+  updated: Date;
+  slug: string;
+  preview?: string;
+  icon?: string;
 }

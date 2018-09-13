@@ -11,15 +11,14 @@
     position: absolute;
     top: -48px;
     left: 0;
-    background: #0099E0;
+    background-image: url(/assets/images/overview-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
     z-index: -1;
   }
   &__hero {
-    height: 400px;
-    background-image: url(/assets/images/overview.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    max-width: 960px;
+    height: 328px;
+    max-width: $container-max-width;
     &__title {
       color: #fafafa;
       font-size: 2.5rem;
@@ -43,7 +42,7 @@
     flex-direction: column;
     justify-content: flex-start;
     height: calc(100% - 152px);
-    max-width: 960px;
+    max-width: $container-max-width;
     &__title {
       margin: 24px 0 12px 0;
       color: #757575;
@@ -83,7 +82,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    max-width: 960px;
+    max-width: $container-max-width;
     .card {
       display: flex;
       flex-direction: column;
@@ -112,7 +111,7 @@
     }
   }
   .card {
-    border-radius: 10px;
+    border-radius: $card-border-radius;
     margin: 8px 12px 24px 0;
     cursor: pointer;
     &--orange {

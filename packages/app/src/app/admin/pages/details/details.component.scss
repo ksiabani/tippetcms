@@ -1,0 +1,72 @@
+@import '../../../../theme/theme-variables';
+
+.details {
+  max-width: $container-max-width;
+  &__title {
+    padding-bottom: 12px;
+  }
+  &__meta {
+    border-radius: $card-border-radius;
+    margin-bottom: 24px;
+    &__title {
+      margin-left: -8px;
+    }
+    &__input {
+      width: 100%;
+      &--half {
+        flex: 0 1 50%;
+        &:nth-of-type(odd) {
+          padding-left: 30px;
+        }
+        &:nth-of-type(even) {
+          padding-right: 30px;
+        }
+      }
+    }
+    &__actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  &__sections {
+    &__title {
+      padding-bottom: 8px;
+      color: #757575;
+    }
+    &__add-btn {
+      text-align: right;
+    }
+  }
+  &__section {
+    display: flex;
+    margin-bottom: 16px;
+    &__drag {
+      cursor: grab;
+    }
+    &__card {
+      display: flex;
+      align-items: center;
+      border-radius: $card-border-radius;
+      padding: 12px;
+      flex: 1 1 auto;
+      cursor: pointer;
+      &__preview {
+        flex: 1 1 auto;
+        text-align: right;
+        color: #009BE1;
+      }
+    }
+    &__header {
+      padding-top: 8px;
+    }
+    &__icon {
+      height: 36px;
+      width: auto;
+      font-size: 36px;
+      color: #009BE1;
+    }
+    &__title {
+      margin-bottom: 8px;
+    }
+  }
+}
