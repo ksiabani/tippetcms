@@ -23,7 +23,11 @@ import {
   MatSelectModule,
   MatDialogModule,
   MatInputModule,
+  MatAutocompleteModule
 } from "@angular/material";
+import { DetailsComponent } from './pages/details/details.component';
+import { SectionComponent } from './pages/section/section.component';
+import { TileComponent } from './pages/tile/tile.component';
 
 @NgModule({
   imports: [
@@ -42,6 +46,7 @@ import {
     MatSelectModule,
     MatDialogModule,
     MatInputModule,
+    MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule
   ],
@@ -52,7 +57,10 @@ import {
     PagesComponent,
     SettingsComponent,
     AdminComponent,
-    AddPageDialogComponent
+    AddPageDialogComponent,
+    DetailsComponent,
+    SectionComponent,
+    TileComponent
   ],
   entryComponents: [AddPageDialogComponent]
 })

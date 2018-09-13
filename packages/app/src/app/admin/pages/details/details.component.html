@@ -1,0 +1,111 @@
+<div class="details container">
+  <h2 class="details__title">Home</h2>
+  <mat-card class="details__meta">
+    <mat-card-header class="details__meta__header">
+      <mat-card-title class="details__meta__title">
+        <h3>Page details</h3>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="pageMetaForm" class="d-flex flex-wrap">
+        <mat-form-field class="details__meta__input">
+          <input type="text" formControlName="name" name="name" matInput cdkFocusInitial placeholder="Name">
+        </mat-form-field>
+        <mat-form-field class="details__meta__input details__meta__input--half">
+          <input type="text" formControlName="path" name="path" matInput placeholder="Path" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let path of paths" [value]="path.name">
+              {{path.value}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="details__meta__input details__meta__input--half">
+          <input type="text" formControlName="slug" name="slug" matInput placeholder="Slug">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="details__meta__actions">
+      <button mat-raised-button>Save</button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="details__sections">
+    <h4 class="details__sections__title">Sections</h4>
+
+    <div class="details__section">
+      <mat-icon mat-card-avatar class="details__section__drag">drag_handle</mat-icon>
+      <mat-card class="details__section__card">
+        <mat-card-header class="details__section__header">
+          <mat-icon mat-card-avatar class="details__section__icon">view_carousel</mat-icon>
+          <mat-card-title class="details__section__title">
+            <h3>Carousel</h3>
+          </mat-card-title>
+          <mat-card-subtitle class="details__section__card__subtitle">
+            <h4>Lorem ipsum dolor sit amet consectetur adipiscing elit</h4>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <span class="details__section__card__preview">
+          <img src="https://picsum.photos/150/50/?image=400">
+        </span>
+      </mat-card>
+    </div>
+
+    <div class="details__section">
+      <mat-icon mat-card-avatar class="details__section__drag">drag_handle</mat-icon>
+      <mat-card class="details__section__card">
+        <mat-card-header class="details__section__header">
+          <mat-icon mat-card-avatar class="details__section__icon">art_track</mat-icon>
+          <mat-card-title class="details__section__title">
+            <h3>Media card</h3>
+          </mat-card-title>
+          <mat-card-subtitle class="details__section__card__subtitle">
+            <h4>Lorem ipsum dolor sit amet consectetur adipiscing elit</h4>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <span class="details__section__card__preview">
+          <img src="https://picsum.photos/150/50/?image=301">
+        </span>
+      </mat-card>
+    </div>
+
+    <div class="details__section">
+      <mat-icon mat-card-avatar class="details__section__drag">drag_handle</mat-icon>
+      <mat-card class="details__section__card">
+        <mat-card-header class="details__section__header">
+          <mat-icon mat-card-avatar class="details__section__icon">view_comfy</mat-icon>
+          <mat-card-title class="details__section__title">
+            <h3>Grid</h3>
+          </mat-card-title>
+          <mat-card-subtitle class="details__section__card__subtitle">
+            <h4>Lorem ipsum dolor sit amet consectetur adipiscing elit</h4>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <span class="details__section__card__preview">
+          <img src="https://picsum.photos/150/50/?image=200">
+        </span>
+      </mat-card>
+    </div>
+
+    <div class="details__section">
+      <mat-icon mat-card-avatar class="details__section__drag">drag_handle</mat-icon>
+      <mat-card class="details__section__card">
+        <mat-card-header class="details__section__header">
+          <mat-icon mat-card-avatar class="details__section__icon">list</mat-icon>
+          <mat-card-title class="details__section__title">
+            <h3>List</h3>
+          </mat-card-title>
+          <mat-card-subtitle class="details__section__card__subtitle">
+            <h4>Lorem ipsum dolor sit amet consectetur adipiscing elit</h4>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <span class="details__section__card__preview">
+          <img src="https://picsum.photos/150/50/?image=100">
+        </span>
+      </mat-card>
+    </div>
+
+    <div class="details__sections__add-btn">
+      <button mat-raised-button>Add section</button>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
