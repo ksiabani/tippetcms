@@ -2,51 +2,44 @@
 
 .pages {
   height: 100%;
-  padding: 24px;
-  position: relative;
-  &__content {
-    height: 100%;
-    max-width: 960px;
-  }
+  max-width: $container-max-width;
   &__header {
-    position: fixed;
-    margin-top: 12px;
-    padding-left: 0;
-    color: #757575;
-    font-weight: 600;
-    font-family: $secondary-font !important;
-    font-size: 1.2rem;
-    width: calc(100% - 350px);
-    max-width: 930px;
-    z-index: 0;
-    @media (max-width: 599px) {
-      width: calc(100% - 90px);
-    }
-    &:before {
-      content: "";
-      position: absolute;
-      top: -84px;
-      left: -39px;
-      height: 130px;
-      width: 100vw;
-      background: #fafafa;
-      z-index: -1;
-    }
+    display: flex;
+    padding-bottom: 12px;
     &__table {
       width: 100%;
-      background: #fafafa !important;
       .mat-header-cell {
         width: 50% !important;
       }
     }
   }
   &__table {
-    padding-top: 60px;
+    padding: 0;
+    max-height: calc(100% - 100px);
+    border-radius: $card-border-radius;
+    overflow-y: auto;
     &__table {
       width: 100%;
-      background: #fafafa !important;
+      .mat-header-row {
+        border-radius: $card-border-radius;
+      }
       .mat-cell {
-        width: 50% !important;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        &:first-of-type {
+          max-width: 300px;
+        }
+        &:last-of-type {
+          max-width: 100px;
+        }
+      }
+      .mat-header-cell {
+        &:first-of-type {
+          max-width: 300px;
+        }
+        &:last-of-type {
+          max-width: 100px;
+        }
       }
       .mat-row {
         transition: background 0.2s ease-in-out;
@@ -70,5 +63,3 @@
     }
   }
 }
-
-
