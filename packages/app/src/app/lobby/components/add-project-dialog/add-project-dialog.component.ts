@@ -52,7 +52,7 @@ export class AddProjectDialogComponent implements OnInit {
   }
 
   createSite(user) {
-    this.store.dispatch(new AddSite(this.data));
+    this.store.dispatch(new AddSite(this.newSiteForm.value));
   }
 
   close(): void {
