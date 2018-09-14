@@ -7,9 +7,12 @@
 .content {
   &__header {
     position: fixed;
-    background: transparent;
+    background: #0099E0;
     padding-right: $sidenav-width;
     z-index: 1;
+    &--transparent {
+      background: transparent;
+    }
     @media only screen and (max-width: 599px) {
       padding-right: 0;
     }

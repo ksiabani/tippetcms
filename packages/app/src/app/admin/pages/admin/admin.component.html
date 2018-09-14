@@ -31,7 +31,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content class="content">
-    <mat-toolbar class="content__header">
+    <mat-toolbar class="content__header" [ngClass]="{'content__header--transparent': isHome}">
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
@@ -51,7 +51,7 @@
       </mat-menu>
     </mat-toolbar>
     <div class="content__inner">
-      <router-outlet></router-outlet>
+      <router-outlet (activate)="getRoute()"></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

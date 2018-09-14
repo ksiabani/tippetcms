@@ -1,7 +1,14 @@
 <div class="pages container">
   <div class="pages__header">
-    <h2 class="pages__header__title">Pages</h2>
-
+    <div class="pages__header__title">
+      <span *ngIf="!(path | async).length" (click)="changeFolder('/', true)">Pages</span>
+      <span *ngIf="(path | async).length" (click)="changeFolder('/')" class="pages__header__title--isLink">Pages</span>
+      <span *ngFor="let part of path | async; let last = last">
+        <mat-icon class="pages__header__title__icon">keyboard_arrow_right</mat-icon>
+        <span (click)="changeFolder('/' + part, last)"
+              [ngClass]="{'pages__header__title--isLink': !last}">{{part}}</span>
+      </span>
+    </div>
     <span class="spacer"></span>
     <button type="button" mat-raised-button (click)="openDialog()">Add page</button>
   </div>
@@ -10,11 +17,11 @@
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <div class="pages__table__cell" *ngIf="element.folder" (click)="changeFolder(element.path)">
+          <div class="pages__table__cell" *ngIf="element.folder">
             <mat-icon class="pages__table__icon">folder</mat-icon>
             <span>{{element.name}}</span>
           </div>
-          <div class="pages__table__cell" *ngIf="!element.folder" routerLink="../page/{{element.id}}">
+          <div class="pages__table__cell" *ngIf="!element.folder">
             <mat-icon class="pages__table__icon">insert_drive_file</mat-icon>
             <span>{{element.name}}</span>
           </div>
@@ -37,7 +44,7 @@
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="handleRowClick(row)"></mat-row>
     </mat-table>
   </mat-card>
 </div>
