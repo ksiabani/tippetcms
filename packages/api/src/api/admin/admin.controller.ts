@@ -3,6 +3,7 @@ import { readdirSync, existsSync, unlinkSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 interface File {
+  id?: number;
   folder: boolean;
   name: string;
   path: string;
@@ -24,8 +25,8 @@ export class AdminController {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
       const normalizedPath = path !== '0' ? `${'/'}${path.split('-').join('/')}` : '/';
       const requestedPathDepth = this.getDepth(normalizedPath);
-      let files = [];
-      let folders = [];
+      let files: File[] = [];
+      let folders: File[] = [];
 
       pages.forEach(page => {
         if (
@@ -35,7 +36,7 @@ export class AdminController {
         ) {
           // If page path matches normalized path it is a page
           if (page.path === normalizedPath) {
-            files.push({ folder: false, name: page.title, path: page.path });
+            files.push({ id: page.id, folder: false, name: page.title, path: page.path });
             return;
           }
           // Otherwise its a folders. Only push the folder if its is not already pushed
