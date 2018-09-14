@@ -1,0 +1,137 @@
+[
+  {
+    "id": "12345678",
+    "title": "Homepage",
+    "path": "/",
+    "slug": "index",
+    "template": "homePage",
+    "components": [
+      {
+        "name": "hero",
+        "position": 1,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!",
+          "btnTxt": "Click me you fool!"
+        }
+      },
+      {
+        "name": "grid",
+        "position": 2,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!",
+          "dependencies": [
+            {
+              "name": "tile",
+              "data": [
+                {
+                  "title": "Unlimited Colors",
+                  "subtitle": "Lorem ipsum dolor sit amet",
+                  "icon": "img/site/icon1.png"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "21212121",
+    "title": "Blog Summary",
+    "path": "/blog",
+    "slug": "index",
+    "template": "blogSummary",
+    "components": [
+      {
+        "name": "hero",
+        "position": 1,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!"
+        }
+      },
+      {
+        "name": "blogSummary",
+        "position": 2,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!"
+        }
+      }
+    ]
+  },
+  {
+    "id": "32323232",
+    "title": "Health effects of friendship",
+    "path": "/blog",
+    "slug": "health-effects-of-friendship",
+    "components": [
+      {
+        "name": "hero",
+        "position": 1,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!"
+        }
+      },
+      {
+        "name": "textEditor",
+        "position": 2,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!"
+        }
+      }
+    ]
+  },
+  {
+    "id": "43434343",
+    "title": "Health effects of marriage",
+    "path": "/blog/marriage",
+    "slug": "health-effects-of-marriage",
+    "components": [
+      {
+        "name": "hero",
+        "position": 1,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!"
+        }
+      },
+      {
+        "name": "textEditor",
+        "position": 2,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!"
+        }
+      }
+    ]
+  },
+  {
+    "id": "54545454",
+    "title": "Health effects of software engineering",
+    "path": "/software",
+    "slug": "health-effects-of-software-engineering",
+    "components": [
+      {
+        "name": "hero",
+        "position": 1,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!"
+        }
+      },
+      {
+        "name": "textEditor",
+        "position": 2,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!"
+        }
+      }
+    ]
+  }
+]

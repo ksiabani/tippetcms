@@ -5,11 +5,24 @@
   max-width: $container-max-width;
   &__header {
     display: flex;
+    padding-top: 24px;
     padding-bottom: 12px;
-    &__table {
-      width: 100%;
-      .mat-header-cell {
-        width: 50% !important;
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      &--isLink {
+        cursor: pointer;
+        color: #637282;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      &__icon {
+        position: relative;
+        font-size: 23px;
+        top: 6px;
+        cursor: default;
+        color: #637282;
       }
     }
   }
@@ -43,6 +56,7 @@
       }
       .mat-row {
         transition: background 0.2s ease-in-out;
+        cursor: pointer;
         &:hover {
           background: rgba(0, 0, 0, 0.1);
         }
@@ -50,7 +64,6 @@
     }
     &__cell {
       min-height: 71px;
-      cursor: pointer;
       display: flex;
       align-items: center;
     }

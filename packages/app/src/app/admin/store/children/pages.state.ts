@@ -38,7 +38,7 @@ export class PagesState {
   }
 
   @Action(actions.GetPages)
-  setUser(ctx: StateContext<PagesStateModel>, { username, site, path }: actions.GetPages) {
+  getPages(ctx: StateContext<PagesStateModel>, { username, site, path }: actions.GetPages) {
     ctx.patchState({ loading: true });
     return this.adminService
       .getPages(username, site, path)
