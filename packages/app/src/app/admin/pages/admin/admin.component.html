@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
-    <mat-toolbar class="sidenav__header">
+    <mat-toolbar class="sidenav__header" routerLink="/admin">
       <mat-icon class="sidenav__header__icon">bubble_chart</mat-icon>
       <span>TippetCMS</span>
     </mat-toolbar>
@@ -36,7 +36,19 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class="spacer"></span>
-      <img matListAvatar src="{{(user | async)?.photoURL}}" alt="">
+      <button mat-icon-button>
+        <mat-icon class="content__header__icon">build</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="content__header__icon">photo_camera</mat-icon>
+      </button>
+      <img matListAvatar src="{{(user | async)?.photoURL}}" alt="" [matMenuTriggerFor]="menu">
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
     </mat-toolbar>
     <div class="content__inner">
       <router-outlet></router-outlet>

@@ -11,14 +11,13 @@
     position: absolute;
     top: -48px;
     left: 0;
-    background: #0099E0;
+    background-image: url(/assets/images/overview-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
     z-index: -1;
   }
   &__hero {
-    height: 400px;
-    background-image: url(/assets/images/overview.png);
-    background-size: contain;
-    background-repeat: no-repeat;
+    height: 328px;
     max-width: $container-max-width;
     &__title {
       color: #fafafa;
