@@ -14,7 +14,7 @@
             <mat-icon class="pages__table__icon">folder</mat-icon>
             <span>{{element.name}}</span>
           </div>
-          <div class="pages__table__cell" *ngIf="!element.folder" routerLink="../page/slug">
+          <div class="pages__table__cell" *ngIf="!element.folder" routerLink="../page/{{element.id}}">
             <mat-icon class="pages__table__icon">insert_drive_file</mat-icon>
             <span>{{element.name}}</span>
           </div>

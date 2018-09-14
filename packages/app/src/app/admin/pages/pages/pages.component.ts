@@ -10,6 +10,7 @@ import { User } from "../../../shared/model/user.interface";
 import { ActivatedRoute } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
+import { PagesState } from "../../store/children/pages.state";
 
 export interface Page {
   name: string;
@@ -25,9 +26,9 @@ export interface Page {
   styleUrls: ["./pages.component.scss"]
 })
 export class PagesComponent implements OnInit {
-  @Select(AdminState.pages)
+  @Select(PagesState.pages)
   pages: Observable<Page[]>;
-  @Select(AdminState.path)
+  @Select(PagesState.path)
   path: Observable<string[]>;
   @Select(LoginState.user)
   user: Observable<User>;
