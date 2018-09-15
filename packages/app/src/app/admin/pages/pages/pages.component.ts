@@ -44,7 +44,9 @@ export class PagesComponent implements OnInit {
 
   ngOnInit() {
     this.pages.subscribe((pages: Page[]) => (this.dataSource = pages));
-    const siteId: string = this.activatedRoute.root.snapshot.children[0].params["id"];
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
+      "id"
+    ];
     combineLatest(this.user, this.path)
       .pipe(filter(([user, path]) => !!user && !!siteId && !!path))
       .subscribe(([user, path]) =>
@@ -61,16 +63,17 @@ export class PagesComponent implements OnInit {
   changeFolder(path?: string, abort?: boolean): void {
     if (abort) return;
     this.store.dispatch(
-        new ChangePath(path && path !== "/" ? path.substring(1).split("/") : [])
+      new ChangePath(path && path !== "/" ? path.substring(1).split("/") : [])
     );
   }
 
   handleRowClick(row) {
     if (row.folder) {
       this.changeFolder(row.path);
-    }
-    else {
-      this.router.navigate(['../page', row.id], { relativeTo: this.activatedRoute })
+    } else {
+      this.router.navigate(["../page", row.id], {
+        relativeTo: this.activatedRoute
+      });
     }
   }
 

@@ -17,8 +17,8 @@ export class AdminComponent implements OnInit {
   @Select(LoginState.user)
   user: Observable<firebase.User>;
   isHome: boolean;
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
+  isMobile: Observable<boolean> = this.breakpointObserver
+    .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
     .pipe(map(result => result.matches));
 
   constructor(
@@ -30,8 +30,8 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
   }
 
-  getRoute(){
-    this.isHome = this.router.url.split('/').length === 3;
+  getRoute() {
+    this.isHome = this.router.url.split("/").length === 3;
   }
 
   logout() {
