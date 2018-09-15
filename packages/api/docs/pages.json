@@ -1,10 +1,11 @@
 [
   {
     "id": "12345678",
-    "title": "Homepage",
+    "name": "Homepage",
     "path": "/",
-    "slug": "index",
+    "slug": "",
     "template": "homePage",
+    "preview": "https://picsum.photos/50/60/?image=400",
     "components": [
       {
         "name": "hero",
@@ -39,10 +40,11 @@
   },
   {
     "id": "21212121",
-    "title": "Blog Summary",
+    "name": "Blog Summary",
     "path": "/blog",
-    "slug": "index",
+    "slug": "",
     "template": "blogSummary",
+    "preview": "https://picsum.photos/50/60/?image=210",
     "components": [
       {
         "name": "hero",
@@ -64,9 +66,10 @@
   },
   {
     "id": "32323232",
-    "title": "Health effects of friendship",
+    "name": "Health effects of friendship",
     "path": "/blog",
     "slug": "health-effects-of-friendship",
+    "preview": "https://picsum.photos/50/60/?image=620",
     "components": [
       {
         "name": "hero",
@@ -88,9 +91,10 @@
   },
   {
     "id": "43434343",
-    "title": "Health effects of marriage",
+    "name": "Health effects of marriage",
     "path": "/blog/marriage",
     "slug": "health-effects-of-marriage",
+    "preview": "https://picsum.photos/50/60/?image=760",
     "components": [
       {
         "name": "hero",
@@ -112,9 +116,10 @@
   },
   {
     "id": "54545454",
-    "title": "Health effects of software engineering",
+    "name": "Health effects of software engineering",
     "path": "/software",
     "slug": "health-effects-of-software-engineering",
+    "preview": "https://picsum.photos/50/60/?image=840",
     "components": [
       {
         "name": "hero",

@@ -19,11 +19,11 @@
         <mat-cell *matCellDef="let element">
           <div class="pages__table__cell" *ngIf="element.folder">
             <mat-icon class="pages__table__icon">folder</mat-icon>
-            <span>{{element.name}}</span>
+            <span>{{element.name | titlecase}}</span>
           </div>
           <div class="pages__table__cell" *ngIf="!element.folder">
             <mat-icon class="pages__table__icon">insert_drive_file</mat-icon>
-            <span>{{element.name}}</span>
+            <span>{{element.name | titlecase}}</span>
           </div>
         </mat-cell>
       </ng-container>
@@ -31,7 +31,7 @@
         <mat-header-cell *matHeaderCellDef>Slug</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <div class="pages__table__cell">
-            {{element.slug}}
+            {{element.slug || '--'}}
           </div>
         </mat-cell>
       </ng-container>
@@ -39,7 +39,7 @@
         <mat-header-cell *matHeaderCellDef>Preview</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <div class="pages__table__cell">
-            <img [src]="element.preview">
+            <img *ngIf="element.preview" [src]="element.preview">
           </div>
         </mat-cell>
       </ng-container>
