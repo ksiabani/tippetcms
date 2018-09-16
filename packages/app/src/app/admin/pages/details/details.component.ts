@@ -84,7 +84,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.dragulaService.destroy("sections");
   }
 
-  createForm() {
+  createForm(): void {
     this.pageMetaForm = this.fb.group({
       name: [],
       path: [],
