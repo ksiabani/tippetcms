@@ -28,7 +28,7 @@ export class SectionComponent implements OnInit {
       ]
     },
     {
-      name: "some other sub",
+      name: "square",
       data: [
         {
           title: "Free Coffee",
@@ -44,13 +44,12 @@ export class SectionComponent implements OnInit {
   subForms: FormGroup[] = [];
   subFormProps: any[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit() {
     this.createForm();
     this.createSubForms();
-    console.log(this.subForms);
-    console.log(this.subFormProps);
   }
 
   createForm(): void {
@@ -63,13 +62,14 @@ export class SectionComponent implements OnInit {
   }
 
   createSubForms(): void {
-    for (let tile of this.tiles) {
+    for (let j = 0; j < this.tiles.length; j++) {
+      let tile = this.tiles[j];
       for (let i = 0; i < tile.data.length; i++) {
         const formDataObj = {};
         this.subFormProps.push([]);
         for (const prop of Object.keys(tile.data[i])) {
           formDataObj[prop] = new FormControl(tile.data[i][prop]);
-          this.subFormProps[i].push(prop);
+          this.subFormProps[j].push(prop);
         }
         this.subForms.push(this.fb.group(formDataObj));
       }
