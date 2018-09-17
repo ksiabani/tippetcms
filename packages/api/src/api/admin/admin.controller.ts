@@ -25,30 +25,28 @@ export class AdminController {
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      const normalizedPath = path !== '0' ? `${'/'}${path.split('-').join('/')}` : '/';
-      const requestedPathDepth = this.getDepth(normalizedPath);
-      let files: File[] = [];
-      let folders: File[] = [];
+      const normalizedPath: string = path !== '0' ? `${'/'}${path.split('-').join('/')}` : '/';
+      const requestedPathDepth: number = this.getDepth(normalizedPath);
 
-      pages.forEach(page => {
-        if (
-          this.getDepth(page.path) >= requestedPathDepth &&
-          this.getDepth(page.path) <= requestedPathDepth + 1 &&
-          this.matchPathName(page.path, normalizedPath)
-        ) {
-          // If page path matches normalized path it is a page
-          if (page.path === normalizedPath) {
-            files.push({ id: page.id, folder: false, name: page.name, path: page.path, slug: page.slug, preview: page.preview });
-            return;
-          }
-          // Otherwise its a folders. Only push the folder if its is not already pushed
-          if (!folders.find(folder => folder.path === page.path)) {
-            folders.push({ folder: true, name: page.path.split('/').pop(), path: page.path });
-          }
-        }
-      });
+      return this.getFilesAndFolders(pages, normalizedPath, requestedPathDepth);
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
+  }
 
-      return [...folders, ...files];
+  @Get('page/:username/:site/:id')
+  getSinglePage(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('id') id: string,
+  ): any {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    try {
+      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+
+      return pages.find(page => page.id === id);
     } catch (e) {
       console.log(e);
       return [];
@@ -68,6 +66,39 @@ export class AdminController {
     );
   }
 
-  @Post()
-  async addSite(@Body() body) {}
+  private getFilesAndFolders(
+    pages: any[],
+    normalizedPath: string,
+    requestedPathDepth: number,
+  ): File[] {
+    let files: File[] = [];
+    let folders: File[] = [];
+
+    pages.forEach(page => {
+      if (
+        this.getDepth(page.path) >= requestedPathDepth &&
+        this.getDepth(page.path) <= requestedPathDepth + 1 &&
+        this.matchPathName(page.path, normalizedPath)
+      ) {
+        // If page path matches normalized path it is a page
+        if (page.path === normalizedPath) {
+          files.push({
+            id: page.id,
+            folder: false,
+            name: page.name,
+            path: page.path,
+            slug: page.slug,
+            preview: page.preview,
+          });
+          return;
+        }
+        // Otherwise its a folders. Only push the folder if its is not already pushed
+        if (!folders.find(folder => folder.path === page.path)) {
+          folders.push({ folder: true, name: page.path.split('/').pop(), path: page.path });
+        }
+      }
+    });
+
+    return [...folders, ...files];
+  }
 }
