@@ -13,4 +13,8 @@ export class AdminService {
   getPages(username: string, site: string, path: string): Observable<Page[]> {
     return this.http.get<Page[]>(`${environment.api.admin}/pages/${username}/${site}/${path}`);
   }
+
+  getSinglePage(username: string, site: string, id: string): Observable<any> {
+    return this.http.get<any>(`${environment.api.admin}/page/${username}/${site}/${id}`);
+  }
 }
