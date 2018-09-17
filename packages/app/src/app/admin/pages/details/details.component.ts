@@ -39,6 +39,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Select(SinglePageState.page)
   page: Observable<any>;
   sections$ = new Subscription();
+  sections: Section[];
 
   constructor(
     private fb: FormBuilder,
@@ -49,17 +50,20 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getPage();
-    this.page.pipe(filter(page => !!page)).subscribe(page => this.createForm(page));
+    this.page.pipe(filter(page => !!page)).subscribe(page => {
+      this.createForm(page);
+      this.sections = page.components;
+    });
     this.sections$.add(
-      this.dragulaService.dropModel("sections").subscribe(({ targetModel }) => {
+      this.dragulaService.dropModel("sections").subscribe(({ sourceModel, targetModel }) => {
         console.log(targetModel);
       })
     );
-    this.dragulaService.createGroup("sections", {
-      moves: (el, container, handle) => {
-        return handle.classList.contains("ng-handle");
-      }
-    });
+    // this.dragulaService.createGroup("sections", {
+    //   moves: (el, container, handle) => {
+    //     return handle.classList.contains("ng-handle");
+    //   }
+    // });
   }
 
   ngOnDestroy() {

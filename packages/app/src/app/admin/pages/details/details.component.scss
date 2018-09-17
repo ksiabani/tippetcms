@@ -39,10 +39,15 @@
     }
   }
   &__section {
-    display: flex;
+    position: relative;
     margin-bottom: 16px;
     &__drag {
       cursor: grab;
+      position: absolute;
+      left: 50%;
+      color: #757575;
+      opacity: 0.4;
+      z-index: 9;
     }
     &__card {
       display: flex;
