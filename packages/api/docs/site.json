@@ -1,0 +1,73 @@
+{
+  "name": "My awesome site",
+  "templates": [
+    {
+      "id": "homePage",
+      "name": "Home page",
+      "preview": "img/site/templates/home.jpg",
+      "components": [
+        {
+          "name": "hero",
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!",
+            "btnTxt": "Click me you fool!"
+          }
+        },
+        {
+          "name": "grid",
+          "data": {
+            "title": "Our Offered Services",
+            "subtitle": "Lorem ipsum dolor sit amet"
+          },
+          "dependencies": [
+            {
+              "name": "tile",
+              "data": [
+                {
+                  "title": "Unlimited Colors",
+                  "subtitle": "Lorem ipsum dolor sit amet",
+                  "icon": "img/site/icon1.png"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blogPost",
+      "name": "Blog post",
+      "preview": "img/site/templates/blog-summary.jpg",
+      "components": [
+        {
+          "name": "hero",
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!",
+          }
+        },
+        {
+          "name": "textEditor",
+          "placeholder": "Start writing here..."
+        }
+      ]
+    },
+    {
+      "id": "blogSummary",
+      "name": "Blog summary",
+      "components": [
+        {
+          "name": "hero",
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        },
+        {
+          "name": "blogIndex"
+        }
+      ]
+    }
+  ]
+}

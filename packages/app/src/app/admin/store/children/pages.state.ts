@@ -11,7 +11,7 @@ export interface PagesStateModel {
 }
 
 @State<PagesStateModel>({
-  name: "pages",
+  name: "allPages",
   defaults: { pages: [], path: [], loading: false }
 })
 export class PagesState {
