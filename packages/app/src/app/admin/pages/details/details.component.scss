@@ -3,6 +3,7 @@
 .details {
   max-width: $container-max-width;
   &__title {
+    padding-top: 24px;
     padding-bottom: 12px;
   }
   &__meta {

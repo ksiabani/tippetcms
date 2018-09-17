@@ -6,6 +6,7 @@ import { Select } from "@ngxs/store";
 import { Store } from "@ngxs/store";
 import { LoginState } from "../../../login/store/login.state";
 import { Logout } from "../../../login/store/login.actions";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-admin",
@@ -15,16 +16,23 @@ import { Logout } from "../../../login/store/login.actions";
 export class AdminComponent implements OnInit {
   @Select(LoginState.user)
   user: Observable<firebase.User>;
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
+  isHome: boolean;
+  isMobile: Observable<boolean> = this.breakpointObserver
+    .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
     .pipe(map(result => result.matches));
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  getRoute() {
+    this.isHome = this.router.url.split("/").length === 3;
+  }
 
   logout() {
     this.store.dispatch(Logout);

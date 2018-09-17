@@ -1,15 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource, MatDialog } from "@angular/material";
 import { Select, Store } from "@ngxs/store";
-import { AdminState } from "../../store/admin.state";
 import { Observable, combineLatest } from "rxjs";
 import { Page } from "../../../shared/model/get-pages.interface";
 import { GetPages, ChangePath } from "../../store/admin.actions";
 import { LoginState } from "../../../login/store/login.state";
 import { User } from "../../../shared/model/user.interface";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
+import { PagesState } from "../../store/children/pages.state";
 
 export interface Page {
   name: string;
@@ -25,9 +25,9 @@ export interface Page {
   styleUrls: ["./pages.component.scss"]
 })
 export class PagesComponent implements OnInit {
-  @Select(AdminState.pages)
+  @Select(PagesState.pages)
   pages: Observable<Page[]>;
-  @Select(AdminState.path)
+  @Select(PagesState.path)
   path: Observable<string[]>;
   @Select(LoginState.user)
   user: Observable<User>;
@@ -38,23 +38,43 @@ export class PagesComponent implements OnInit {
   constructor(
     private store: Store,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     public dialog: MatDialog
   ) {}
 
   ngOnInit() {
     this.pages.subscribe((pages: Page[]) => (this.dataSource = pages));
-    const siteId: string = this.activatedRoute.root.snapshot.children[0].params["id"];
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
+      "id"
+    ];
     combineLatest(this.user, this.path)
       .pipe(filter(([user, path]) => !!user && !!siteId && !!path))
       .subscribe(([user, path]) =>
         this.store.dispatch(
-          new GetPages(user.githubUser.login, siteId, path.length ? path.join("-") : "0")
+          new GetPages(
+            user.githubUser.login,
+            siteId,
+            path.length ? path.join("-") : "0"
+          )
         )
       );
   }
 
-  changeFolder(path: string): void {
-    this.store.dispatch(new ChangePath(path.substring(1).split("/")));
+  changeFolder(path?: string, abort?: boolean): void {
+    if (abort) return;
+    this.store.dispatch(
+      new ChangePath(path && path !== "/" ? path.substring(1).split("/") : [])
+    );
+  }
+
+  handleRowClick(row) {
+    if (row.folder) {
+      this.changeFolder(row.path);
+    } else {
+      this.router.navigate(["../page", row.id], {
+        relativeTo: this.activatedRoute
+      });
+    }
   }
 
   openDialog(): void {

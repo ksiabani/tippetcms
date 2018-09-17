@@ -1,0 +1,53 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Tippetcms",
+		"_postman_id": "35967d24-a93c-4ab2-079b-f1461153480a",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getSites",
+			"request": {
+				"url": "localhost:3000/lobby/testusername",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "addSite",
+			"request": {
+				"url": "localhost:3000/lobby",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"momegas\",\n    \"siteName\": \"site1\",\n    \"template\": \"Startup\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/admingetPages/pages/momegas/zuper-site/0",
+			"request": {
+				"url": "localhost:3000/admin/pages/momegas/zuper-site/0",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
