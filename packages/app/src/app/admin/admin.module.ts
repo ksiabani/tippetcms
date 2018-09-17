@@ -25,7 +25,7 @@ import {
   MatInputModule,
   MatMenuModule,
   MatAutocompleteModule,
-  MatTabsModule
+  MatExpansionModule
 } from "@angular/material";
 import { DragulaModule } from "ng2-dragula";
 import { DetailsComponent } from "./pages/details/details.component";
@@ -51,7 +51,7 @@ import { TileComponent } from "./pages/tile/tile.component";
     MatInputModule,
     MatMenuModule,
     MatAutocompleteModule,
-    MatTabsModule,
+    MatExpansionModule,
     FormsModule,
     ReactiveFormsModule,
     DragulaModule.forRoot()
