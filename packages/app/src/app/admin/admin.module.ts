@@ -24,12 +24,13 @@ import {
   MatDialogModule,
   MatInputModule,
   MatMenuModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatExpansionModule
 } from "@angular/material";
-import { DragulaModule } from 'ng2-dragula';
-import { DetailsComponent } from './pages/details/details.component';
-import { SectionComponent } from './pages/section/section.component';
-import { TileComponent } from './pages/tile/tile.component';
+import { DragulaModule } from "ng2-dragula";
+import { DetailsComponent } from "./pages/details/details.component";
+import { SectionComponent } from "./pages/section/section.component";
+import { TileComponent } from "./pages/tile/tile.component";
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { TileComponent } from './pages/tile/tile.component';
     MatInputModule,
     MatMenuModule,
     MatAutocompleteModule,
+    MatExpansionModule,
     FormsModule,
     ReactiveFormsModule,
     DragulaModule.forRoot()

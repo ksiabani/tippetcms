@@ -3,10 +3,10 @@
   <mat-card class="details__meta">
     <mat-card-header class="details__meta__header">
       <mat-card-title class="details__meta__title">
-        <h3>Page details</h3>
+        <h3>Page properties</h3>
       </mat-card-title>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content *ngIf="page | async">
       <form [formGroup]="pageMetaForm" class="d-flex flex-wrap">
         <mat-form-field class="details__meta__input">
           <input type="text" formControlName="name" name="name" matInput cdkFocusInitial placeholder="Name">
@@ -24,16 +24,16 @@
         </mat-form-field>
       </form>
     </mat-card-content>
-    <mat-card-actions class="details__meta__actions">
-      <button mat-raised-button>Save</button>
-    </mat-card-actions>
+    <!--<mat-card-actions class="details__meta__actions">-->
+    <!--<button mat-raised-button>Save</button>-->
+    <!--</mat-card-actions>-->
   </mat-card>
   <div class="details__sections">
     <h4 class="details__sections__title">Sections</h4>
-    <div dragula="sections" [(dragulaModel)]="sections">
-      <div *ngFor="let section of sections" class="details__section">
+    <div dragula="sections" [(dragulaModel)]="page">
+      <div *ngFor="let section of (page | async)?.components" class="details__section">
         <mat-icon mat-card-avatar class="details__section__drag ng-handle">drag_handle</mat-icon>
-        <mat-card class="details__section__card">
+        <mat-card class="details__section__card" routerLink="section/id">
           <mat-card-header class="details__section__header">
             <mat-icon mat-card-avatar class="details__section__icon">{{section.icon}}</mat-icon>
             <mat-card-title class="details__section__title">
@@ -44,8 +44,8 @@
             </mat-card-subtitle>
           </mat-card-header>
           <span class="details__section__card__preview">
-          <img [src]="section.preview">
-        </span>
+            <img [src]="section.preview">
+          </span>
         </mat-card>
       </div>
     </div>
