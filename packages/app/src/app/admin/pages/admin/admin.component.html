@@ -37,10 +37,13 @@
       </button>
       <span class="spacer"></span>
       <button mat-icon-button>
+        <mat-icon class="content__header__icon">save</mat-icon>
+      </button>
+      <button mat-icon-button>
         <mat-icon class="content__header__icon">build</mat-icon>
       </button>
       <button mat-icon-button>
-        <mat-icon class="content__header__icon">photo_camera</mat-icon>
+        <mat-icon class="content__header__icon">launch</mat-icon>
       </button>
       <img matListAvatar src="{{(user | async)?.photoURL}}" alt="" [matMenuTriggerFor]="menu">
       <mat-menu #menu="matMenu">
