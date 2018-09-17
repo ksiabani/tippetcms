@@ -7,10 +7,13 @@
 .content {
   &__header {
     position: fixed;
-    background: transparent;
+    background: #0099E0;
     padding-right: $sidenav-width;
     z-index: 1;
-    @media only screen and (max-width: 599px) {
+    &--transparent {
+      background: transparent;
+    }
+    &--isMobile {
       padding-right: 0;
     }
     img {
