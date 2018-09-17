@@ -15,7 +15,7 @@
       </mat-card>
     </mat-tab>
     <div *ngFor="let form of subForms; let index = index">
-      <mat-tab label="Some">
+      <mat-tab label="{{tiles[index].name + 's' | titlecase}}">
         <mat-card class="details__meta">
           <mat-card-content>
             <form [formGroup]="form" class="d-flex flex-wrap">
