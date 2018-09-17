@@ -17,8 +17,8 @@
     </mat-card-content>
   </mat-card>
   <div class="section__items">
-    <mat-accordion *ngFor="let form of subForms; let index = index">
-      <mat-expansion-panel class="section__items__panel">
+    <mat-accordion *ngFor="let form of subForms; let index = index; let first = first">
+      <mat-expansion-panel class="section__items__panel" [expanded]="first">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3>{{tiles[index].name + 's' | titlecase}}</h3>
