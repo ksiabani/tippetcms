@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import * as firebase from "firebase/app";
 import { AngularFireAuth } from "angularfire2/auth";
 import { HttpClient } from "@angular/common/http";
-import { GithubUser } from "../../shared/model/github-user.interface";
+import { GithubUser } from "shared";
 
 @Injectable({
   providedIn: "root"
