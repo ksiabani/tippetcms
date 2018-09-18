@@ -26,6 +26,7 @@
     "fastify-formbody": "^2.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.0.0",
+    "shared": "file:../shared",
     "typescript": "^2.6.2"
   },
   "devDependencies": {

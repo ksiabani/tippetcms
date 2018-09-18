@@ -1,7 +1,7 @@
 import { Selector, State, Action, StateContext, Store } from "@ngxs/store";
 import * as actions from "./lobby.actions";
 import { LobbyService } from "../services/lobby.service";
-import { GetSitesResponse } from "../../shared/model/get-sites.interface";
+import { GetSitesResponse } from "shared";
 import { filter, tap } from "rxjs/operators";
 
 export interface LobbyStateModel {
