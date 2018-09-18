@@ -30,7 +30,7 @@
     <div dragula="sections" [(dragulaModel)]="sections">
       <div *ngFor="let section of (page | async)?.components" class="details__section">
         <mat-icon mat-card-avatar class="details__section__drag ng-handle">drag_handle</mat-icon>
-        <mat-card class="details__section__card" routerLink="section/id">
+        <mat-card class="details__section__card" routerLink="section/{{section.id}}">
           <mat-card-header class="details__section__header">
             <mat-icon mat-card-avatar class="details__section__icon">{{section.icon}}</mat-icon>
             <mat-card-title class="details__section__title">
