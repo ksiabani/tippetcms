@@ -3,22 +3,19 @@ import { readdirSync, existsSync, unlinkSync } from 'fs';
 import { join } from 'path';
 import { mkdirpSync, copy } from 'fs-extra';
 import * as execa from 'execa';
+import { GetSitesResponse } from 'shared';
 
 @Controller('lobby')
 export class LobbyController {
   constructor() {}
 
   @Get(':username')
-  getSites(
-    @Param('username') username,
-  ): { existed: boolean; created: boolean; sites?: string[] } {
+  getSites(@Param('username') username): GetSitesResponse {
     const publicDirToCheck = join(__dirname, '../..', 'public', username);
     const gutsbiesDirToCheck = join(__dirname, '../..', 'gutsbies', username);
 
     if (existsSync(publicDirToCheck) && existsSync(gutsbiesDirToCheck)) {
-      const sites = readdirSync(gutsbiesDirToCheck).filter(
-        dir => dir !== '.keep',
-      );
+      const sites = readdirSync(gutsbiesDirToCheck).filter(dir => dir !== '.keep');
       return { existed: true, created: false, sites };
     }
     mkdirpSync(publicDirToCheck);
@@ -36,8 +33,7 @@ export class LobbyController {
     const basePath = [__dirname, '../..'];
     const variablePath = [body.username, body.siteName];
     //should change acording to startup chosen by user
-    const templateUrl =
-      'https://github.com/thesquaredev/startup-gatsbyjs-template.git';
+    const templateUrl = 'https://github.com/thesquaredev/startup-gatsbyjs-template.git';
     const publicDirForSite = join(...basePath, 'public', ...variablePath);
     const gutsbiesDirForSite = join(...basePath, 'gutsbies', ...variablePath);
 
@@ -61,7 +57,10 @@ export class LobbyController {
   }
 
   @Post()
-  async buildSite(@Body() body: { username: string; siteName: string }) {
+  async buildSite(@Body() body: { username: string; siteName: string }): Promise<{
+    success: boolean;
+    reason?: any;
+  }> {
     const basePath = [__dirname, '../..'];
     const variablePath = [body.username, body.siteName];
     const publicDirForSite = join(...basePath, 'public', ...variablePath);

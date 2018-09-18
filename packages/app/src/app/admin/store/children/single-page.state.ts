@@ -1,6 +1,5 @@
 import { Selector, State, Action, StateContext } from "@ngxs/store";
 import * as actions from ".././admin.actions";
-import { Page } from "../../../shared/model/get-pages.interface";
 import { AdminService } from "../../services/admin.service";
 import { tap } from "rxjs/operators";
 

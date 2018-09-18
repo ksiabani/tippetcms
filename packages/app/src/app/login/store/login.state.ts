@@ -3,7 +3,7 @@ import { GithubService } from "../services/github.service";
 import * as actions from "./login.actions";
 import { AngularFireAuth } from "angularfire2/auth";
 import { Router, ActivatedRoute } from "@angular/router";
-import { GithubUser } from "../../shared/model/github-user.interface";
+import { GithubUser } from "shared";
 import { User } from "../../shared/model/user.interface";
 
 export interface LoginStateModel {
