@@ -16,32 +16,32 @@
       </form>
     </mat-card-content>
   </mat-card>
-  <div class="section__items">
-    <mat-accordion *ngFor="let form of subForms; let index = index; let first = first">
-      <mat-expansion-panel class="section__items__panel" [expanded]="first">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <h3>{{tiles[index].name + 's' | titlecase}}</h3>
-          </mat-panel-title>
-          <mat-panel-description>
-            Manage your {{tiles[index].name}}s here
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <mat-card class="section__items__card">
-          <mat-card-content>
-            <form [formGroup]="form" class="d-flex flex-wrap">
-              <mat-form-field class="section__items__input" *ngFor="let prop of subFormProps[index]">
-                <input type="text" [formControlName]="prop" matInput placeholder="{{prop}}">
-              </mat-form-field>
-            </form>
-          </mat-card-content>
-        </mat-card>
-        <div class="section__items__add-btn">
-          <button mat-raised-button>Add {{tiles[index].name}}</button>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+  <!--<div class="section__items">-->
+    <!--<mat-accordion *ngFor="let form of subForms; let index = index; let first = first">-->
+      <!--<mat-expansion-panel class="section__items__panel" [expanded]="first">-->
+        <!--<mat-expansion-panel-header>-->
+          <!--<mat-panel-title>-->
+            <!--<h3>{{tiles[index].name + 's' | titlecase}}</h3>-->
+          <!--</mat-panel-title>-->
+          <!--<mat-panel-description>-->
+            <!--Manage your {{tiles[index].name}}s here-->
+          <!--</mat-panel-description>-->
+        <!--</mat-expansion-panel-header>-->
+        <!--<mat-card class="section__items__card">-->
+          <!--<mat-card-content>-->
+            <!--<form [formGroup]="form" class="d-flex flex-wrap">-->
+              <!--<mat-form-field class="section__items__input" *ngFor="let prop of subFormProps[index]">-->
+                <!--<input type="text" [formControlName]="prop" matInput placeholder="{{prop}}">-->
+              <!--</mat-form-field>-->
+            <!--</form>-->
+          <!--</mat-card-content>-->
+        <!--</mat-card>-->
+        <!--<div class="section__items__add-btn">-->
+          <!--<button mat-raised-button>Add {{tiles[index].name}}</button>-->
+        <!--</div>-->
+      <!--</mat-expansion-panel>-->
+    <!--</mat-accordion>-->
+  <!--</div>-->
 </div>
 <router-outlet></router-outlet>
 
