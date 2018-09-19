@@ -5,13 +5,9 @@ import { Select, Store } from "@ngxs/store";
 import { SinglePageState } from "../../store/children/single-page.state";
 import { Observable } from "rxjs";
 import { filter } from "rxjs/operators";
-import { User } from "src/app/shared/model/user.interface"
+import { User } from "src/app/shared/model/user.interface";
 import { GetSinglePage } from "../../store/admin.actions";
 import { LoginState } from "../../../login/store/login.state";
-
-// export interface SectionData {
-//   [key: string]: string;
-// }
 
 @Component({
   selector: "app-section",
@@ -19,40 +15,14 @@ import { LoginState } from "../../../login/store/login.state";
   styleUrls: ["./section.component.scss"]
 })
 export class SectionComponent implements OnInit {
-  // data: SectionData = {
-  //   title: "Our Offered Services",
-  //   subtitle: "We offer some hell of a services",
-  //   description: "lorem ipsum"
-  // };
-  // tiles: any[] = [
-  //   {
-  //     name: "tile",
-  //     data: [
-  //       {
-  //         title: "Unlimited Colors",
-  //         subtitle: "Lorem ipsum dolor sit amet",
-  //         icon: "img/site/icon1.png"
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     name: "square",
-  //     data: [
-  //       {
-  //         title: "Free Coffee",
-  //         subtitle: "Lorem ipsum dolor sit amet",
-  //         icon: "img/site/icon1.png",
-  //         descr: "hello there"
-  //       }
-  //     ]
-  //   }
-  // ];
   sectionDataForm: FormGroup;
   sectionDataProps: string[] = [];
   subForms: FormGroup[] = [];
   subFormProps: any[] = [];
-  sectionData: any;
-  tiles: any[];
+  section: any; //TODO: Type this
+  tiles: any[]; // TODO: Type this
+  pageId: string;
+  sectionId: string;
 
   // Selectors
   @Select(LoginState.user)
@@ -64,36 +34,41 @@ export class SectionComponent implements OnInit {
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private store: Store
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
+    this.pageId = this.activatedRoute.snapshot.params["pageId"];
+    this.sectionId = this.activatedRoute.snapshot.params["sectionId"];
     this.getPage();
-    // this.createForm();
-    // this.createSubForms();
     this.page.pipe(filter(page => !!page)).subscribe(page => {
-      const sectionId = this.activatedRoute.snapshot.params["sectionId"];
-      this.sectionData  = page.components.find(section => section.id === sectionId).data;
-      console.log(this.sectionData);
-      // this.tiles = this.sectionData.dependencies;
-      this.createForm(this.sectionData);
-      // console.log(this.section, this.tiles);
+      this.section = page.components.find(
+        section => section.id === this.sectionId
+      );
+      this.tiles = this.section && this.section.dependencies;
+      if (this.section && this.section.data) {
+        this.createForm(this.section.data);
+      }
+      if (this.tiles) {
+        this.createSubForms(this.tiles);
+      }
     });
   }
 
   createForm(section): void {
+    this.sectionDataProps = []; // TODO: @Megas please have a look
     const formDataObj = {};
     for (const prop of Object.keys(section)) {
       formDataObj[prop] = new FormControl(section[prop]);
       this.sectionDataProps.push(prop);
     }
-    console.log(formDataObj)
     this.sectionDataForm = this.fb.group(formDataObj);
   }
 
-  createSubForms(): void {
-    for (let j = 0; j < this.tiles.length; j++) {
-      let tile = this.tiles[j];
+  createSubForms(tiles): void {
+    this.subForms = []; // TODO: @Megas please have a look
+    this.subFormProps = []; // TODO: @Megas please have a look
+    for (let j = 0; j < tiles.length; j++) {
+      let tile = tiles[j];
       for (let i = 0; i < tile.data.length; i++) {
         const formDataObj = {};
         this.subFormProps.push([]);
@@ -110,7 +85,7 @@ export class SectionComponent implements OnInit {
     const pageId = this.activatedRoute.snapshot.params["pageId"];
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
-      ];
+    ];
     this.user
       .pipe(filter(user => !!user && !!siteId && !!pageId))
       .subscribe(user =>
