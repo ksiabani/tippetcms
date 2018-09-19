@@ -5,6 +5,22 @@
   &__title {
     padding-top: 24px;
     padding-bottom: 12px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    &--isLink {
+      cursor: pointer;
+      color: #637282;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    &__icon {
+      position: relative;
+      font-size: 23px;
+      top: 6px;
+      cursor: default;
+      color: #637282;
+    }
   }
   &__details {
     border-radius: $card-border-radius;

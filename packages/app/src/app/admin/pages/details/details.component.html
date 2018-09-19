@@ -1,10 +1,10 @@
 <div class="details container">
-  <h2 class="details__title">Home</h2>
+  <h2 class="details__title">{{(page | async)?.name}}</h2>
   <mat-card class="details__meta">
     <mat-card-header class="details__meta__header">
-      <mat-card-title class="details__meta__title">
-        <h3>Page properties</h3>
-      </mat-card-title>
+      <!--<mat-card-title class="details__meta__title">-->
+        <!--<h3>Page properties</h3>-->
+      <!--</mat-card-title>-->
     </mat-card-header>
     <mat-card-content *ngIf="page | async">
       <form [formGroup]="pageMetaForm" class="d-flex flex-wrap">
@@ -30,7 +30,7 @@
     <div dragula="sections" [(dragulaModel)]="sections">
       <div *ngFor="let section of (page | async)?.components" class="details__section">
         <mat-icon mat-card-avatar class="details__section__drag ng-handle">drag_handle</mat-icon>
-        <mat-card class="details__section__card" routerLink="section/id">
+        <mat-card class="details__section__card" routerLink="section/{{section.id}}">
           <mat-card-header class="details__section__header">
             <mat-icon mat-card-avatar class="details__section__icon">{{section.icon}}</mat-icon>
             <mat-card-title class="details__section__title">
@@ -51,4 +51,4 @@
     </div>
   </div>
 </div>
-<router-outlet></router-outlet>
+<!--<router-outlet></router-outlet>-->
