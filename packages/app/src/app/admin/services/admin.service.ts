@@ -17,4 +17,8 @@ export class AdminService {
   getSinglePage(username: string, site: string, id: string): Observable<any> {
     return this.http.get<any>(`${environment.api.admin}/page/${username}/${site}/${id}`);
   }
+
+  buildSite(username: string, site: string): Observable<any> {
+    return this.http.put<any>(`${environment.api.admin}/sites/${username}/${site}`, null);
+  }
 }
