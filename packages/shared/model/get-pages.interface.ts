@@ -1,7 +1,8 @@
-export interface Page {
-  name: string;
-  updated: Date;
-  slug: string;
-  preview?: string;
-  icon?: string;
-}
+// TODO: Delete this
+// export interface Page {
+//   name: string;
+//   updated: Date;
+//   slug: string;
+//   preview?: string;
+//   icon?: string;
+// }
