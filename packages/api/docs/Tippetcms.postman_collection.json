@@ -1,53 +1,143 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "262ebad4-ca17-4958-89b8-c2c24d2e7498",
 		"name": "Tippetcms",
-		"_postman_id": "35967d24-a93c-4ab2-079b-f1461153480a",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "getSites",
-			"request": {
-				"url": "localhost:3000/lobby/testusername",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "addSite",
-			"request": {
-				"url": "localhost:3000/lobby",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"username\": \"momegas\",\n    \"siteName\": \"site1\",\n    \"template\": \"Startup\"\n}"
+			"name": "Lobby",
+			"item": [
+				{
+					"name": "Get sites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/lobby/ksiabani",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"lobby",
+								"ksiabani"
+							]
+						}
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"name": "Add site",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"momegas\",\n    \"siteName\": \"site1\",\n    \"template\": \"Startup\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/lobby",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"lobby"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "localhost:3000/admingetPages/pages/momegas/zuper-site/0",
-			"request": {
-				"url": "localhost:3000/admin/pages/momegas/zuper-site/0",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Get pages (momegas)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/admin/pages/momegas/zuper-site/0",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"pages",
+								"momegas",
+								"zuper-site",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get pages (ksiabani)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/admin/pages/ksiabani/foo/0",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"pages",
+								"ksiabani",
+								"foo",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Build a site",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:3000/admin/sites/ksiabani/foo",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"sites",
+								"ksiabani",
+								"foo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
