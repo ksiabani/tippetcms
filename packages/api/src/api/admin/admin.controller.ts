@@ -1,6 +1,8 @@
-import { Controller, Get, HttpCode, Param, Post, Body } from '@nestjs/common';
-import { readdirSync, existsSync, unlinkSync, readFileSync } from 'fs';
+import { Controller, Get, Param, Put } from '@nestjs/common';
+import { readFileSync } from 'fs';
 import { join } from 'path';
+import * as execa from 'execa';
+import { copySync } from 'fs-extra';
 
 interface File {
   id?: number;
@@ -15,6 +17,7 @@ interface File {
 export class AdminController {
   constructor() {}
 
+  // Get pages
   @Get('pages/:username/:site/:path')
   getPages(
     @Param('username') username: string,
@@ -35,6 +38,7 @@ export class AdminController {
     }
   }
 
+  // Get a page
   @Get('page/:username/:site/:id')
   getSinglePage(
     @Param('username') username: string,
@@ -50,6 +54,29 @@ export class AdminController {
     } catch (e) {
       console.log(e);
       return [];
+    }
+  }
+
+  // Build a site
+  @Put('sites/:username/:site')
+  async buildSite(
+    @Param('username') username: string,
+    @Param('site') site: string,
+  ): Promise<{ success: boolean; reason?: any }> {
+    const basePath = [__dirname, '../..'];
+    const publicDirForSite = join(...basePath, 'public', username, site);
+    const gutsbiesDirForSite = join(...basePath, 'gutsbies', username, site);
+    try {
+      console.log(`Start gatsby build for user ${username} and site ${site}`);
+      await execa('gatsby', ['build', '--prefix-paths'], { cwd: gutsbiesDirForSite });
+      console.log('Gatsby build done, start copy');
+      copySync(`${gutsbiesDirForSite}/public`, publicDirForSite);
+      console.log('Copy done');
+      return { success: true };
+    } catch (e) {
+      await execa.shell(`rm -rf ${gutsbiesDirForSite}`);
+      await execa.shell(`rm -rf ${publicDirForSite}`);
+      return { success: false, reason: e };
     }
   }
 
