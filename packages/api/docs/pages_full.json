@@ -39,8 +39,23 @@
             "data": [
               {
                 "title": "Unlimited Colors",
-                "subtitle": "Lorem ipsum dolor sit amet",
-                "icon": "img/site/icon1.png"
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s1.png"
+              },
+              {
+                "title": "Smart Security",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s2.png"
+              },
+              {
+                "title": "Endless Support",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s3.png"
+              },
+              {
+                "title": "Same Day Delivery",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s4.png"
               }
             ]
           }

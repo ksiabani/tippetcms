@@ -77,9 +77,14 @@ body *:not(mat-icon) {
 }
 
 
+// Project specific
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.disabled {
+  color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .add-project-dialog,
