@@ -1,8 +1,9 @@
-import { Controller, Get, Param, Put } from '@nestjs/common';
-import { readFileSync } from 'fs';
+import { Body, Controller, Get, Param, Put, Post, Patch } from '@nestjs/common';
+import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import * as execa from 'execa';
 import { copySync } from 'fs-extra';
+import { Page } from 'shared/model/page.interface';
 
 interface File {
   id?: number;
@@ -49,8 +50,52 @@ export class AdminController {
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-
       return pages.find(page => page.id === id);
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
+  }
+
+  // Update a page
+  @Put('page/:username/:site/:id')
+  updateSection(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('id') id: string,
+    @Body()
+    body: {
+      page: Page;
+    },
+  ): any {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    try {
+      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      const newPages = [...pages.filter(page => page.id !== id), body.page];
+      writeFileSync(pagesJsonPath, JSON.stringify(newPages), 'utf8');
+      return body.page;
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
+  }
+
+  // Get a section
+  @Get('page/:username/:site/:pageId/:id')
+  getSection(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('pageId') pageId: string,
+    @Param('id') id: string,
+  ): any {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    try {
+      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      return pages
+        .find(page => page.id === pageId)
+        .components.filter(component => component.id === id);
     } catch (e) {
       console.log(e);
       return [];
