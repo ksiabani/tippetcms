@@ -8,6 +8,7 @@
     "preview": "https://picsum.photos/50/60/?image=400",
     "components": [
       {
+        "id": "34567356",
         "name": "hero",
         "alias": "Banner",
         "icon": "view_day",
@@ -21,6 +22,7 @@
         }
       },
       {
+        "id": "93739202",
         "name": "grid",
         "alias": "Services",
         "icon": "view_module",
@@ -29,20 +31,35 @@
         "position": 2,
         "data": {
           "title": "Hello there yo!",
-          "text": "this is some description for my banner!",
-          "dependencies": [
-            {
-              "name": "tile",
-              "data": [
-                {
-                  "title": "Unlimited Colors",
-                  "subtitle": "Lorem ipsum dolor sit amet",
-                  "icon": "img/site/icon1.png"
-                }
-              ]
-            }
-          ]
-        }
+          "text": "this is some description for my banner!"
+        },
+        "dependencies": [
+          {
+            "name": "tile",
+            "data": [
+              {
+                "title": "Unlimited Colors",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s1.png"
+              },
+              {
+                "title": "Smart Security",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s2.png"
+              },
+              {
+                "title": "Endless Support",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s3.png"
+              },
+              {
+                "title": "Same Day Delivery",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s4.png"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -55,6 +72,7 @@
     "preview": "https://picsum.photos/50/60/?image=210",
     "components": [
       {
+        "id": "86283945",
         "name": "hero",
         "alias": "Banner",
         "icon": "view_day",
@@ -67,6 +85,7 @@
         }
       },
       {
+        "id": "38273911",
         "name": "blogSummary",
         "alias": "Blog Summary",
         "icon": "short_text",
@@ -88,6 +107,7 @@
     "preview": "https://picsum.photos/50/60/?image=620",
     "components": [
       {
+        "id": "32432462",
         "name": "hero",
         "alias": "Banner",
         "icon": "view_day",
@@ -100,6 +120,7 @@
         }
       },
       {
+        "id": "36899000",
         "name": "textEditor",
         "alias": "Editor",
         "icon": "subject",
@@ -121,6 +142,7 @@
     "preview": "https://picsum.photos/50/60/?image=760",
     "components": [
       {
+        "id": "31233311",
         "name": "hero",
         "alias": "Banner",
         "icon": "view_day",
@@ -133,6 +155,7 @@
         }
       },
       {
+        "id": "31267886",
         "name": "textEditor",
         "alias": "Editor",
         "icon": "subject",
@@ -154,6 +177,7 @@
     "preview": "https://picsum.photos/50/60/?image=840",
     "components": [
       {
+        "id": "34579392",
         "name": "hero",
         "alias": "Banner",
         "description": "Lorem ipsum dolor sit amet",
@@ -166,10 +190,11 @@
         }
       },
       {
+        "id": "94580303",
         "name": "textEditor",
         "alias": "Editor",
         "description": "Lorem ipsum dolor sit amet",
-        "preview": "https://picsum.photos/150/50/?image=3200",
+        "preview": "https://picsum.photos/150/50/?image=320",
         "icon": "subject",
         "position": 2,
         "data": {

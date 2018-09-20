@@ -5,6 +5,7 @@ import { PagesService, TippetFile } from './pages.service';
 export class AdminController {
   constructor(private pagesService: PagesService) {}
 
+  // Get pages
   @Get('pages/:username/:site/:path')
   getPages(
     @Param('username') username: string,
@@ -14,6 +15,7 @@ export class AdminController {
     return this.pagesService.getPages(username, site, path);
   }
 
+  // Get a page
   @Get('page/:username/:site/:id')
   getSinglePage(
     @Param('username') username: string,

@@ -12,3 +12,8 @@ export class GetSinglePage {
   static readonly type = "[Admin] Get Single Page";
   constructor(private username: string, private site: string, private id: string) {}
 }
+
+export class BuildSite {
+  static readonly type = "[Admin] Build Site";
+  constructor(private username: string, private site: string) {}
+}
