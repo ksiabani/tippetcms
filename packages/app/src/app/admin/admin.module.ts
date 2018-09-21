@@ -31,10 +31,19 @@ import { DragulaModule } from "ng2-dragula";
 import { DetailsComponent } from "./pages/details/details.component";
 import { SectionComponent } from "./pages/section/section.component";
 import { TileComponent } from "./pages/tile/tile.component";
+import { DropzoneModule, DropzoneConfigInterface, DROPZONE_CONFIG } from "ngx-dropzone-wrapper";
+import { environment } from "../../environments/environment.prod";
+import { MediaLibraryComponent } from './components/media-library/media-library.component';
+
+const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
+  maxFilesize: 1,
+  acceptedFiles: "image/*"
+};
 
 @NgModule({
   imports: [
     CommonModule,
+    DropzoneModule,
     AdminRouting,
     MatSidenavModule,
     MatToolbarModule,
@@ -66,8 +75,15 @@ import { TileComponent } from "./pages/tile/tile.component";
     AddPageDialogComponent,
     DetailsComponent,
     SectionComponent,
-    TileComponent
+    TileComponent,
+    MediaLibraryComponent
   ],
-  entryComponents: [AddPageDialogComponent]
+  entryComponents: [AddPageDialogComponent],
+  providers: [
+    {
+      provide: DROPZONE_CONFIG,
+      useValue: DEFAULT_DROPZONE_CONFIG
+    }
+  ]
 })
 export class AdminModule {}

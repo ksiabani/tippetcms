@@ -21,4 +21,12 @@ export class AdminService {
   buildSite(username: string, site: string): Observable<any> {
     return this.http.put<any>(`${environment.api.admin}/sites/${username}/${site}`, null);
   }
+
+  getMedia(username: string, site: string): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.api.admin}/media/${username}/${site}`);
+  }
+
+  removeMedia(username: string, site: string, mediaName: string): Observable<any> {
+    return this.http.delete<any>(`${environment.api.admin}/media/${username}/${site}/${mediaName}`);
+  }
 }
