@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Subscription, combineLatest, Observable, forkJoin } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { DragulaService } from "ng2-dragula";
 import { Store, Select } from "@ngxs/store";
-import { filter, tap, take } from "rxjs/operators";
-import { GetSinglePage, SavePage, InitSave } from "../../store/admin.actions";
+import { filter } from "rxjs/operators";
+import { GetSinglePage, SavePage } from "../../store/admin.actions";
 import { ActivatedRoute } from "@angular/router";
 import { LoginState } from "../../../login/store/login.state";
 import { User } from "src/app/shared/model/user.interface";
@@ -50,15 +50,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.doNecessarySubscriptions();
-  }
-
-  ngOnDestroy() {
-    this.sections$.unsubscribe();
-    this.dragulaService.destroy("sections");
-  }
-
-  private doNecessarySubscriptions() {
     this.user$.pipe(filter(user => !!user)).subscribe(user => {
       this.user = user;
       this.getPage(user);
@@ -78,11 +69,20 @@ export class DetailsComponent implements OnInit, OnDestroy {
       .subscribe(() => this.save());
   }
 
+  ngOnDestroy() {
+    this.sections$.unsubscribe();
+    this.dragulaService.destroy("sections");
+  }
+
   private getPage(user) {
     const pageId: string = this.activatedRoute.snapshot.params["pageId"];
-    const siteId: string = this.activatedRoute.root.snapshot.children[0].params["id"];
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
+      "id"
+    ];
     if (pageId && siteId) {
-      this.store.dispatch(new GetSinglePage(user.githubUser.login, siteId, pageId));
+      this.store.dispatch(
+        new GetSinglePage(user.githubUser.login, siteId, pageId)
+      );
     }
   }
 
@@ -96,11 +96,18 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   private save() {
     if (this.user && this.page) {
-      const siteId: string = this.activatedRoute.root.snapshot.children[0].params["id"];
+      const siteId: string = this.activatedRoute.root.snapshot.children[0]
+        .params["id"];
       const login = this.user.githubUser.login;
       const components = this.sections;
-      const newPageData: Page = { ...this.page, ...this.pageMetaForm.value, components };
-      this.store.dispatch(new SavePage(login, siteId, this.page.id, newPageData));
+      const newPageData: Page = {
+        ...this.page,
+        ...this.pageMetaForm.value,
+        components
+      };
+      this.store.dispatch(
+        new SavePage(login, siteId, this.page.id, newPageData)
+      );
     }
   }
 
