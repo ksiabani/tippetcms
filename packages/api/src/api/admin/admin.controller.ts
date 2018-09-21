@@ -4,7 +4,7 @@ import { join } from 'path';
 import * as execa from 'execa';
 import { copySync } from 'fs-extra';
 import { PagesService, TippetFile } from './pages.service';
-import { Page } from 'shared/model/page.interface';
+import { Page } from "shared/model/page.interface";
 
 interface File {
   id?: number;
