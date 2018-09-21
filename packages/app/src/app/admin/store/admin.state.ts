@@ -4,6 +4,7 @@ import { SinglePageState } from "./children/single-page.state";
 import { AdminService } from "../services/admin.service";
 import * as actions from "./admin.actions";
 import { tap } from "rxjs/operators";
+import { MediaState } from "./children/media.state";
 
 export interface AdminStateModel {
   building: boolean;
@@ -12,9 +13,8 @@ export interface AdminStateModel {
 @State<AdminStateModel>({
   name: "admin",
   defaults: { building: false },
-  children: [PagesState, SinglePageState]
+  children: [PagesState, SinglePageState, MediaState]
 })
-
 export class AdminState {
   constructor(private adminService: AdminService) {}
 
@@ -24,10 +24,7 @@ export class AdminState {
   }
 
   @Action(actions.BuildSite)
-  buildSite(
-    ctx: StateContext<AdminStateModel>,
-    { username, site }: actions.BuildSite
-  ) {
+  buildSite(ctx: StateContext<AdminStateModel>, { username, site }: actions.BuildSite) {
     ctx.patchState({ building: true });
     return this.adminService
       .buildSite(username, site)

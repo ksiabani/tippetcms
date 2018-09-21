@@ -136,6 +136,87 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get a page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:3000/admin/page/ksiabani/foo/12345678",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"page",
+								"ksiabani",
+								"foo",
+								"12345678"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a page",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n  \"page\": {\n    \"id\": \"12345678\",\n    \"name\": \"Homepage\",\n    \"path\": \"/\",\n    \"slug\": \"\",\n    \"template\": \"homePage\",\n    \"preview\": \"https://picsum.photos/50/60/?image=401\",\n    \"components\": [\n      {\n        \"id\": \"34567356\",\n        \"name\": \"hero\",\n        \"alias\": \"Banner\",\n        \"icon\": \"view_day\",\n        \"description\": \"Lorem ipsum dolor sit amet\",\n        \"preview\": \"https://picsum.photos/150/50/?image=400\",\n        \"position\": 1,\n        \"data\": {\n          \"title\": \"Yo bitches!\",\n          \"text\": \"this is some description for my banner!\",\n          \"btnTxt\": \"Click me you fool!\"\n        }\n      },\n      {\n        \"id\": \"93739202\",\n        \"name\": \"grid\",\n        \"alias\": \"Services\",\n        \"icon\": \"view_module\",\n        \"description\": \"Lorem ipsum dolor sit amet\",\n        \"preview\": \"https://picsum.photos/150/50/?image=302\",\n        \"position\": 2,\n        \"data\": {\n          \"title\": \"Hello there yo!\",\n          \"text\": \"this is some description for my banner!\"\n        },\n        \"dependencies\": [\n          {\n            \"name\": \"tile\",\n            \"data\": [\n              {\n                \"title\": \"Unlimited Colors\",\n                \"text\": \"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.\",\n                \"icon\": \"s1.png\"\n              },\n              {\n                \"title\": \"Smart Security\",\n                \"text\": \"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.\",\n                \"icon\": \"s2.png\"\n              },\n              {\n                \"title\": \"Endless Support\",\n                \"text\": \"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.\",\n                \"icon\": \"s3.png\"\n              },\n              {\n                \"title\": \"Same Day Delivery\",\n                \"text\": \"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.\",\n                \"icon\": \"s4.png\"\n              }\n            ]\n          }\n        ]\n      }\n    ]\n  }\n  }"
+						},
+						"url": {
+							"raw": "http://localhost:3000/admin/page/ksiabani/foo/12345678",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"page",
+								"ksiabani",
+								"foo",
+								"12345678"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a section",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:3000/admin/page/ksiabani/foo/12345678/34567356",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"admin",
+								"page",
+								"ksiabani",
+								"foo",
+								"12345678",
+								"34567356"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

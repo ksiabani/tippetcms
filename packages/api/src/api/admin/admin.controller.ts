@@ -1,8 +1,22 @@
-import { Controller, Get, Param, Put } from '@nestjs/common';
-import { readFileSync } from 'fs';
+import {
+  Controller,
+  Get,
+  Param,
+  UseInterceptors,
+  FileInterceptor,
+  UploadedFile,
+  Post,
+  Delete,
+  Put,
+  Body,
+} from '@nestjs/common';
+import { PagesService, TippetFile } from './pages.service';
+import { MediaService } from './media.service';
+import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import * as execa from 'execa';
 import { copySync } from 'fs-extra';
+import { Page } from 'shared/model/page.interface';
 
 interface File {
   id?: number;
@@ -15,7 +29,7 @@ interface File {
 
 @Controller('admin')
 export class AdminController {
-  constructor() {}
+  constructor(private pagesService: PagesService, private mediaService: MediaService) {}
 
   // Get pages
   @Get('pages/:username/:site/:path')
@@ -23,19 +37,8 @@ export class AdminController {
     @Param('username') username: string,
     @Param('site') site: string,
     @Param('path') path: string,
-  ): File[] {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
-    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
-    try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      const normalizedPath: string = path !== '0' ? `${'/'}${path.split('-').join('/')}` : '/';
-      const requestedPathDepth: number = this.getDepth(normalizedPath);
-
-      return this.getFilesAndFolders(pages, normalizedPath, requestedPathDepth);
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
+  ): TippetFile[] {
+    return this.pagesService.getPages(username, site, path);
   }
 
   // Get a page
@@ -45,12 +48,75 @@ export class AdminController {
     @Param('site') site: string,
     @Param('id') id: string,
   ): any {
+    return this.pagesService.getSinglePage(username, site, id);
+  }
+
+  // Get a sites media
+  @Get('media/:username/:site')
+  getMedia(@Param('username') username: string, @Param('site') site: string): any {
+    return this.mediaService.listMedia(username, site);
+  }
+
+  // Upload media
+  @Post('media/:username/:site')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadMedia(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @UploadedFile() file,
+  ) {
+    return this.mediaService.uploadMedia(username, site, file);
+  }
+
+  // Remove media
+  @Delete('media/:username/:site/:mediaName')
+  removeMedia(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('mediaName') mediaName: string,
+  ) {
+    return this.mediaService.removeMedia(username, site, mediaName);
+  }
+
+  // Update a page
+  @Put('page/:username/:site/:id')
+  updateSection(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('id') id: string,
+    @Body()
+    body: {
+      page: Page;
+    },
+  ): any {
     const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      const newPages = [...pages.filter(page => page.id !== id), body.page];
+      writeFileSync(pagesJsonPath, JSON.stringify(newPages), 'utf8');
+      return body.page;
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
+  }
 
-      return pages.find(page => page.id === id);
+  // Get a section
+  @Get('page/:username/:site/:pageId/:id')
+  getSection(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('pageId') pageId: string,
+    @Param('id') id: string,
+  ): any {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    try {
+      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      return pages
+        .find(page => page.id === pageId)
+        .components.filter(component => component.id === id);
     } catch (e) {
       console.log(e);
       return [];
@@ -91,41 +157,5 @@ export class AdminController {
       path.substring(0, normalizedPath.length) === normalizedPath ||
       path.substring(0, normalizedPath.length + 1) === `${normalizedPath}/`
     );
-  }
-
-  private getFilesAndFolders(
-    pages: any[],
-    normalizedPath: string,
-    requestedPathDepth: number,
-  ): File[] {
-    let files: File[] = [];
-    let folders: File[] = [];
-
-    pages.forEach(page => {
-      if (
-        this.getDepth(page.path) >= requestedPathDepth &&
-        this.getDepth(page.path) <= requestedPathDepth + 1 &&
-        this.matchPathName(page.path, normalizedPath)
-      ) {
-        // If page path matches normalized path it is a page
-        if (page.path === normalizedPath) {
-          files.push({
-            id: page.id,
-            folder: false,
-            name: page.name,
-            path: page.path,
-            slug: page.slug,
-            preview: page.preview,
-          });
-          return;
-        }
-        // Otherwise its a folders. Only push the folder if its is not already pushed
-        if (!folders.find(folder => folder.path === page.path)) {
-          folders.push({ folder: true, name: page.path.split('/').pop(), path: page.path });
-        }
-      }
-    });
-
-    return [...folders, ...files];
   }
 }
