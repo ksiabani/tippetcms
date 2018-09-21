@@ -1,15 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { Observable } from "rxjs";
+import { combineLatest, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { Select } from "@ngxs/store";
 import { Store } from "@ngxs/store";
 import { LoginState } from "../../../login/store/login.state";
 import { Logout } from "../../../login/store/login.actions";
 import { Router, ActivatedRoute } from "@angular/router";
-import { BuildSite } from "../../store/admin.actions";
+import { BuildSite, GetPages, SavePage } from "../../store/admin.actions";
 import { AdminState } from "../../store/admin.state";
 import { User } from "src/app/shared/model/user.interface";
+import { SinglePageState } from "../../store/children/single-page.state";
+import { Page } from "shared";
 
 @Component({
   selector: "app-admin",
@@ -27,6 +29,10 @@ export class AdminComponent implements OnInit {
   user: Observable<User>;
   @Select(AdminState.building)
   isBuilding: Observable<boolean>;
+  @Select(SinglePageState.page)
+  page: Observable<Page>;
+  @Select(SinglePageState.saving)
+  isSaving: Observable<boolean>;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -53,6 +59,17 @@ export class AdminComponent implements OnInit {
       .pipe(filter(user => !!user && !!siteId))
       .subscribe(user =>
         this.store.dispatch(new BuildSite(user.githubUser.login, siteId))
+      );
+  }
+
+  save() {
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
+      "id"
+      ];
+    combineLatest(this.user, this.page)
+      .pipe(filter(([user, page]) => !!user && !!siteId && !!page))
+      .subscribe(([user, page]) =>
+        this.store.dispatch(new SavePage(user.githubUser.login, siteId, page.id, page))
       );
   }
 }
