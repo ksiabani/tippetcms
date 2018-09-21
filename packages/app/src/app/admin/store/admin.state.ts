@@ -8,11 +8,12 @@ import { MediaState } from "./children/media.state";
 
 export interface AdminStateModel {
   building: boolean;
+  initSave: boolean;
 }
 
 @State<AdminStateModel>({
   name: "admin",
-  defaults: { building: false },
+  defaults: { building: false, initSave: false },
   children: [PagesState, SinglePageState, MediaState]
 })
 export class AdminState {
@@ -23,6 +24,11 @@ export class AdminState {
     return state.building;
   }
 
+  @Selector()
+  static initSave(state: AdminStateModel): boolean {
+    return state.initSave;
+  }
+
   @Action(actions.BuildSite)
   buildSite(ctx: StateContext<AdminStateModel>, { username, site }: actions.BuildSite) {
     ctx.patchState({ building: true });
@@ -30,4 +36,10 @@ export class AdminState {
       .buildSite(username, site)
       .pipe(tap(() => ctx.patchState({ building: false })));
   }
+
+  @Action(actions.InitSave)
+  initSave(ctx: StateContext<AdminStateModel>, { initSave }: actions.InitSave): void {
+    ctx.patchState({ initSave: initSave });
+  }
+
 }
