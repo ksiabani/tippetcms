@@ -15,6 +15,7 @@ export const environment = {
     messagingSenderId: "537498593301"
   },
   api: {
+    root: api,
     lobby: `${api}/lobby`,
     admin: `${api}/admin`
   }
