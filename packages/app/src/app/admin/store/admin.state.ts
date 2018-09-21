@@ -7,11 +7,12 @@ import { tap } from "rxjs/operators";
 
 export interface AdminStateModel {
   building: boolean;
+  initSave: boolean;
 }
 
 @State<AdminStateModel>({
   name: "admin",
-  defaults: { building: false },
+  defaults: { building: false, initSave: false },
   children: [PagesState, SinglePageState]
 })
 
@@ -21,6 +22,11 @@ export class AdminState {
   @Selector()
   static building(state: AdminStateModel): boolean {
     return state.building;
+  }
+
+  @Selector()
+  static initSave(state: AdminStateModel): boolean {
+    return state.initSave;
   }
 
   @Action(actions.BuildSite)
@@ -33,4 +39,10 @@ export class AdminState {
       .buildSite(username, site)
       .pipe(tap(() => ctx.patchState({ building: false })));
   }
+
+  @Action(actions.InitSave)
+  initSave(ctx: StateContext<AdminStateModel>, { initSave }: actions.InitSave): void {
+    ctx.patchState({ initSave: initSave });
+  }
+
 }

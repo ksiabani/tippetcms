@@ -1,13 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { combineLatest, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { Select } from "@ngxs/store";
 import { Store } from "@ngxs/store";
 import { LoginState } from "../../../login/store/login.state";
 import { Logout } from "../../../login/store/login.actions";
 import { Router, ActivatedRoute } from "@angular/router";
-import { BuildSite, GetPages, SavePage } from "../../store/admin.actions";
+import { BuildSite, InitSave } from "../../store/admin.actions";
 import { AdminState } from "../../store/admin.state";
 import { User } from "src/app/shared/model/user.interface";
 import { SinglePageState } from "../../store/children/single-page.state";
@@ -63,13 +63,6 @@ export class AdminComponent implements OnInit {
   }
 
   save() {
-    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
-      "id"
-      ];
-    combineLatest(this.user, this.page)
-      .pipe(filter(([user, page]) => !!user && !!siteId && !!page))
-      .subscribe(([user, page]) =>
-        this.store.dispatch(new SavePage(user.githubUser.login, siteId, page.id, page))
-      );
+    this.store.dispatch(new InitSave(true));
   }
 }
