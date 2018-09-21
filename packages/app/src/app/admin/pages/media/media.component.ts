@@ -6,6 +6,5 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./media.component.css"]
 })
 export class MediaComponent implements OnInit {
-  constructor() {}
   ngOnInit() {}
 }
