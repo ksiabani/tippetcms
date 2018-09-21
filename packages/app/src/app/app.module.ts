@@ -21,10 +21,10 @@ import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { PagesState } from "./admin/store/children/pages.state";
 import { SinglePageState } from "./admin/store/children/single-page.state";
 import { MediaState } from "./admin/store/children/media.state";
-import { MediaComponent } from './media/media.component';
+// import { MediaComponent } from './media/media.component';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundComponent, MediaComponent],
+  declarations: [AppComponent, NotFoundComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

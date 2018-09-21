@@ -11,15 +11,34 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   getPages(username: string, site: string, path: string): Observable<Page[]> {
-    return this.http.get<Page[]>(`${environment.api.admin}/pages/${username}/${site}/${path}`);
+    return this.http.get<Page[]>(
+      `${environment.api.admin}/pages/${username}/${site}/${path}`
+    );
   }
 
-  getSinglePage(username: string, site: string, id: string): Observable<any> {
-    return this.http.get<any>(`${environment.api.admin}/page/${username}/${site}/${id}`);
+  getSinglePage(username: string, site: string, id: string): Observable<Page> {
+    return this.http.get<any>(
+      `${environment.api.admin}/page/${username}/${site}/${id}`
+    );
   }
 
   buildSite(username: string, site: string): Observable<any> {
-    return this.http.put<any>(`${environment.api.admin}/sites/${username}/${site}`, null);
+    return this.http.put<any>(
+      `${environment.api.admin}/sites/${username}/${site}`,
+      null
+    );
+  }
+
+  savePage(
+    username: string,
+    site: string,
+    id: string,
+    page: Page
+  ): Observable<Page> {
+    return this.http.put<any>(
+      `${environment.api.admin}/page/${username}/${site}/${id}`,
+      { page }
+    );
   }
 
   getMedia(username: string, site: string): Observable<string[]> {

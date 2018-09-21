@@ -36,8 +36,8 @@
         <mat-icon class="content__header__icon" aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class="spacer"></span>
-      <button mat-icon-button>
-        <mat-icon class="content__header__icon">save</mat-icon>
+      <button mat-icon-button (click)="save()" [disabled]="isSaving | async">
+        <mat-icon class="content__header__icon disabled" [ngClass]="{disabled: isSaving | async}">save</mat-icon>
       </button>
       <button mat-icon-button (click)="build()" [disabled]="isBuilding | async">
         <mat-icon class="content__header__icon disabled" [ngClass]="{disabled: isBuilding | async}">build</mat-icon>
