@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Put, Post, Patch } from '@nestjs/common';
+import { Controller, Get, Param, Put, Body } from '@nestjs/common';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import * as execa from 'execa';
 import { copySync } from 'fs-extra';
+import { PagesService, TippetFile } from './pages.service';
 import { Page } from 'shared/model/page.interface';
 
 interface File {
@@ -16,7 +17,7 @@ interface File {
 
 @Controller('admin')
 export class AdminController {
-  constructor() {}
+  constructor(private pagesService: PagesService) {}
 
   // Get pages
   @Get('pages/:username/:site/:path')
@@ -24,19 +25,8 @@ export class AdminController {
     @Param('username') username: string,
     @Param('site') site: string,
     @Param('path') path: string,
-  ): File[] {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
-    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
-    try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      const normalizedPath: string = path !== '0' ? `${'/'}${path.split('-').join('/')}` : '/';
-      const requestedPathDepth: number = this.getDepth(normalizedPath);
-
-      return this.getFilesAndFolders(pages, normalizedPath, requestedPathDepth);
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
+  ): TippetFile[] {
+    return this.pagesService.getPages(username, site, path);
   }
 
   // Get a page
@@ -46,15 +36,7 @@ export class AdminController {
     @Param('site') site: string,
     @Param('id') id: string,
   ): any {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
-    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
-    try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      return pages.find(page => page.id === id);
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
+    return this.pagesService.getSinglePage(username, site, id);
   }
 
   // Update a page
@@ -136,41 +118,5 @@ export class AdminController {
       path.substring(0, normalizedPath.length) === normalizedPath ||
       path.substring(0, normalizedPath.length + 1) === `${normalizedPath}/`
     );
-  }
-
-  private getFilesAndFolders(
-    pages: any[],
-    normalizedPath: string,
-    requestedPathDepth: number,
-  ): File[] {
-    let files: File[] = [];
-    let folders: File[] = [];
-
-    pages.forEach(page => {
-      if (
-        this.getDepth(page.path) >= requestedPathDepth &&
-        this.getDepth(page.path) <= requestedPathDepth + 1 &&
-        this.matchPathName(page.path, normalizedPath)
-      ) {
-        // If page path matches normalized path it is a page
-        if (page.path === normalizedPath) {
-          files.push({
-            id: page.id,
-            folder: false,
-            name: page.name,
-            path: page.path,
-            slug: page.slug,
-            preview: page.preview,
-          });
-          return;
-        }
-        // Otherwise its a folders. Only push the folder if its is not already pushed
-        if (!folders.find(folder => folder.path === page.path)) {
-          folders.push({ folder: true, name: page.path.split('/').pop(), path: page.path });
-        }
-      }
-    });
-
-    return [...folders, ...files];
   }
 }
