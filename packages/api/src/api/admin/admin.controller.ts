@@ -16,7 +16,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import * as execa from 'execa';
 import { copySync } from 'fs-extra';
-import { Page } from "shared/model/page.interface";
+import { Page } from 'shared/model/page.interface';
 
 interface File {
   id?: number;
@@ -80,7 +80,7 @@ export class AdminController {
 
   // Update a page
   @Put('page/:username/:site/:id')
-  updateSection(
+  savePage(
     @Param('username') username: string,
     @Param('site') site: string,
     @Param('id') id: string,
@@ -88,7 +88,7 @@ export class AdminController {
     body: {
       page: Page;
     },
-  ): any {
+  ): Page {
     const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
@@ -98,7 +98,7 @@ export class AdminController {
       return body.page;
     } catch (e) {
       console.log(e);
-      return [];
+      return;
     }
   }
 

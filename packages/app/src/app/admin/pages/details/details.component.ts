@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Subscription, combineLatest, Observable, forkJoin } from "rxjs";
 import { DragulaService } from "ng2-dragula";
 import { Store, Select } from "@ngxs/store";
-import { filter } from "rxjs/operators";
+import { filter, tap, take } from "rxjs/operators";
 import { GetSinglePage, SavePage, InitSave } from "../../store/admin.actions";
 import { ActivatedRoute } from "@angular/router";
 import { LoginState } from "../../../login/store/login.state";
@@ -50,25 +50,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.page$.pipe(filter(page => !!page)).subscribe(page => {
-      this.sections = page.components;
-      this.page = page;
-      this.createForm(page);
-    });
-    this.user$.pipe(filter(user => !!user)).subscribe(user => {
-      this.user = user;
-      this.getPage(user);
-    });
-    this.sections$.add(
-      this.dragulaService.dropModel("sections").subscribe(({ targetModel }) => {
-        this.orderSections(targetModel);
-      })
-    );
-    this.initSave.subscribe(initSave => {
-      if (initSave && this.pageMetaForm.valid) {
-        this.save();
-      }
-    });
+    this.doNecessarySubscriptions();
   }
 
   ngOnDestroy() {
@@ -76,19 +58,35 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.dragulaService.destroy("sections");
   }
 
-  getPage(user) {
-    const pageId = this.activatedRoute.snapshot.params["pageId"];
-    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
-      "id"
-    ];
-    pageId &&
-      siteId &&
-      this.store.dispatch(
-        new GetSinglePage(user.githubUser.login, siteId, pageId)
-      );
+  private doNecessarySubscriptions() {
+    this.user$.pipe(filter(user => !!user)).subscribe(user => {
+      this.user = user;
+      this.getPage(user);
+    });
+    this.page$.pipe(filter(page => !!page)).subscribe(page => {
+      this.sections = page.components;
+      this.page = page;
+      this.createForm(page);
+    });
+    this.sections$.add(
+      this.dragulaService
+        .dropModel("sections")
+        .subscribe(({ targetModel }) => this.orderSections(targetModel))
+    );
+    this.initSave
+      .pipe(filter(initSave => initSave && this.pageMetaForm.valid))
+      .subscribe(() => this.save());
   }
 
-  createForm(page: any): void {
+  private getPage(user) {
+    const pageId: string = this.activatedRoute.snapshot.params["pageId"];
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params["id"];
+    if (pageId && siteId) {
+      this.store.dispatch(new GetSinglePage(user.githubUser.login, siteId, pageId));
+    }
+  }
+
+  private createForm(page: any): void {
     this.pageMetaForm = this.fb.group({
       name: [page.name, Validators.required],
       path: [page.path, Validators.required],
@@ -96,29 +94,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  save() {
-    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
-      "id"
-    ];
-    this.page.name = this.pageMetaForm.get("name").value;
-    this.page.path = this.pageMetaForm.get("path").value;
-    this.page.slug = this.pageMetaForm.get("slug").value;
-    this.page.components = this.sections;
-    this.user &&
-      this.page &&
-      this.store.dispatch(
-        new SavePage(
-          this.user.githubUser.login,
-          siteId,
-          this.page.id,
-          this.page
-        )
-      );
-    // TODO: @Megas how to dispatch the following action after the previous one has "finished"
-    this.store.dispatch(new InitSave(false));
+  private save() {
+    if (this.user && this.page) {
+      const siteId: string = this.activatedRoute.root.snapshot.children[0].params["id"];
+      const login = this.user.githubUser.login;
+      const components = this.sections;
+      const newPageData: Page = { ...this.page, ...this.pageMetaForm.value, components };
+      this.store.dispatch(new SavePage(login, siteId, this.page.id, newPageData));
+    }
   }
 
-  orderSections(sections) {
+  private orderSections(sections) {
     for (let i = 0; i < sections.length; i++) {
       sections[i].position = i + 1;
     }

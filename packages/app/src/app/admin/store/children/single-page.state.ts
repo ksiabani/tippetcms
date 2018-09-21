@@ -46,10 +46,16 @@ export class SinglePageState {
   }
 
   @Action(actions.SavePage)
-  savePage(ctx: StateContext<SinglePageStateModel>, { username, site, id, page }: actions.SavePage) {
+  savePage(
+    ctx: StateContext<SinglePageStateModel>,
+    { username, site, id, page }: actions.SavePage
+  ) {
     ctx.patchState({ saving: true });
-    return this.adminService
-      .savePage(username, site, id, page)
-      .pipe(tap(() => ctx.patchState({ saving: false })));
+    return this.adminService.savePage(username, site, id, page).pipe(
+      tap((page: Page) => {
+        ctx.patchState({ page, saving: false });
+        ctx.dispatch(new actions.InitSave(false));
+      })
+    );
   }
 }
