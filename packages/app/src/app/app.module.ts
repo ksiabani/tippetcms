@@ -20,9 +20,11 @@ import { AdminState } from "./admin/store/admin.state";
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { PagesState } from "./admin/store/children/pages.state";
 import { SinglePageState } from "./admin/store/children/single-page.state";
+import { MediaState } from "./admin/store/children/media.state";
+import { MediaComponent } from './media/media.component';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundComponent],
+  declarations: [AppComponent, NotFoundComponent, MediaComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -31,9 +33,18 @@ import { SinglePageState } from "./admin/store/children/single-page.state";
     LobbyModule,
     AdminModule,
     AppRoutingModule,
-    NgxsModule.forRoot([LoginState, LobbyState, AdminState, PagesState, SinglePageState]),
+
+    NgxsModule.forRoot([
+      LoginState,
+      LobbyState,
+      AdminState,
+      PagesState,
+      SinglePageState,
+      MediaState
+    ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],
