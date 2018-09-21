@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
 import { PagesState } from "../../store/children/pages.state";
-import { Page } from "shared";
+import { Page } from "shared/model/page.interface";
 
 @Component({
   selector: "app-pages",

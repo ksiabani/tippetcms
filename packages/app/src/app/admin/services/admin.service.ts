@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Page } from "shared";
+import { Page } from "shared/model/page.interface";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
