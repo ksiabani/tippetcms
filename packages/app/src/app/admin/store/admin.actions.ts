@@ -37,3 +37,8 @@ export class SavePage {
     private page: Page
   ) {}
 }
+
+export class InitSave {
+  static readonly type = "[Admin] Intialize Page Save";
+  constructor(private initSave: boolean) {}
+}
