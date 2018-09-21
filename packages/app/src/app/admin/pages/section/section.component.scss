@@ -40,7 +40,9 @@
   }
   &__items {
     &__title {
-
+    }
+    &__card {
+      margin-bottom: 8px;
     }
     &__panel {
       border-radius: $card-border-radius;
