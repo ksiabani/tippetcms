@@ -11,6 +11,11 @@ import { LoginState } from "../../../login/store/login.state";
 import { Section, Tile, Page } from "shared";
 import { AdminState } from "../../store/admin.state";
 
+export interface TileForm {
+  name: string;
+  subForms: FormGroup[];
+}
+
 @Component({
   selector: "app-section",
   templateUrl: "./section.component.html",
@@ -19,8 +24,7 @@ import { AdminState } from "../../store/admin.state";
 export class SectionComponent implements OnInit {
   sectionDataForm: FormGroup;
   sectionDataProps: string[] = [];
-  subForms: FormGroup[] = [];
-  subFormProps: string[][] = [];
+  forms: TileForm[] = [];
   section: Section;
   tiles: Tile[];
   user: User;
@@ -73,20 +77,30 @@ export class SectionComponent implements OnInit {
   }
 
   private createSubForms(tiles): void {
-    this.subForms = [];
-    this.subFormProps = [];
-    for (let j = 0; j < tiles.length; j++) {
-      let tile = tiles[j];
-      for (let i = 0; i < tile.data.length; i++) {
+    this.forms = [];
+    tiles.map((tile, i) => {
+      this.forms.push({
+        name: tile.name,
+        subForms: []
+      });
+      tile.data.map(piece => {
         const formDataObj = {};
-        this.subFormProps.push([]);
-        for (const prop of Object.keys(tile.data[i])) {
-          formDataObj[prop] = new FormControl(tile.data[i][prop]);
-          this.subFormProps[i].push(prop);
+        const form = this.forms.find(form => form.name === tile.name);
+        for (const prop of Object.keys(piece)) {
+          formDataObj[prop] = new FormControl(piece[prop]);
         }
-        this.subForms.push(this.fb.group(formDataObj));
-      }
-    }
+        form.subForms.push(this.fb.group(formDataObj));
+      });
+    });
+    console.log(this.forms);
+  }
+
+  getFormProps(form) {
+    let props = [];
+    Object.keys(form.controls).forEach(key => {
+      props.push(key);
+    });
+    return props;
   }
 
   private getPage(user) {
@@ -106,11 +120,21 @@ export class SectionComponent implements OnInit {
       const siteId: string = this.activatedRoute.root.snapshot.children[0]
         .params["id"];
       const login = this.user.githubUser.login;
+      const dependencies = this.forms.map(form => {
+        return {
+          name: form.name,
+          data: form.subForms.map(subform => subform.value)
+        };
+      });
       const components: Section[] = [
         ...this.page.components.filter(
           section => section.id !== this.section.id
         ),
-        { ...this.section, data: {...this.sectionDataForm.value} }
+        {
+          ...this.section,
+          data: { ...this.sectionDataForm.value },
+          dependencies: [...dependencies]
+        }
       ];
       const newPageData: Page = {
         ...this.page,
