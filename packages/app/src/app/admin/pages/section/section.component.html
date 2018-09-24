@@ -21,21 +21,21 @@
     </mat-card-content>
   </mat-card>
   <div class="section__items">
-    <mat-accordion *ngFor="let tile of tiles; let first = first">
+    <mat-accordion *ngFor="let form of forms; let first = first">
       <mat-expansion-panel class="section__items__panel" [expanded]="first">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <h3>{{tile.name + 's' | titlecase}}</h3>
+            <h3>{{form.name + 's' | titlecase}}</h3>
           </mat-panel-title>
           <mat-panel-description>
-            Manage your {{tile.name}}s here
+            Manage your {{form.name}}s here
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <div *ngFor="let form of subForms; let index = index">
+        <div *ngFor="let subform of form.subForms">
           <mat-card class="section__items__card">
             <mat-card-content>
-              <form [formGroup]="form" class="d-flex flex-wrap">
-                <mat-form-field class="section__items__input" *ngFor="let prop of subFormProps[index]">
+              <form [formGroup]="subform" class="d-flex flex-wrap">
+                <mat-form-field class="section__items__input" *ngFor="let prop of getFormProps(subform)">
                   <input type="text" [formControlName]="prop" matInput placeholder="{{prop}}">
                 </mat-form-field>
               </form>
@@ -43,7 +43,7 @@
           </mat-card>
         </div>
         <div class="section__items__add-btn">
-          <button mat-raised-button>Add {{tile.name}}</button>
+          <button mat-raised-button>Add {{form.name}}</button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
