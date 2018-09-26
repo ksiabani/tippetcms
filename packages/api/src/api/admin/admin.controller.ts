@@ -80,26 +80,13 @@ export class AdminController {
 
   // Update a page
   @Put('page/:username/:site/:id')
-  updateSection(
+  savePage(
     @Param('username') username: string,
     @Param('site') site: string,
     @Param('id') id: string,
-    @Body()
-    body: {
-      page: Page;
-    },
-  ): any {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
-    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
-    try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      const newPages = [...pages.filter(page => page.id !== id), body.page];
-      writeFileSync(pagesJsonPath, JSON.stringify(newPages), 'utf8');
-      return body.page;
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
+    @Body() body: { page: Page },
+  ): Page {
+    return this.pagesService.savePage(username, site, id, body);
   }
 
   // Get a section
@@ -110,17 +97,7 @@ export class AdminController {
     @Param('pageId') pageId: string,
     @Param('id') id: string,
   ): any {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
-    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
-    try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      return pages
-        .find(page => page.id === pageId)
-        .components.filter(component => component.id === id);
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
+    return this.pagesService.getSection(username, site, pageId, id);
   }
 
   // Build a site
@@ -144,18 +121,5 @@ export class AdminController {
       await execa.shell(`rm -rf ${publicDirForSite}`);
       return { success: false, reason: e };
     }
-  }
-
-  private getDepth(path: string): number {
-    if (path === '/') return 0;
-    return path.substring(1).split('/').length;
-  }
-
-  private matchPathName(path: string, normalizedPath: string): boolean {
-    if (normalizedPath === '0') return true;
-    return (
-      path.substring(0, normalizedPath.length) === normalizedPath ||
-      path.substring(0, normalizedPath.length + 1) === `${normalizedPath}/`
-    );
   }
 }
