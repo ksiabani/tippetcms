@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { copySync } from 'fs-extra';
+import { copySync, readFileSync } from 'fs-extra';
 import { join } from 'path';
 import * as execa from 'execa';
 
@@ -21,5 +21,20 @@ export class SitesService {
       await execa.shell(`rm -rf ${publicDirForSite}`);
       return { success: false, reason: e };
     }
+  }
+
+  getTemplates(username: string, site: string): { name: string }[] {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
+    const siteData: any = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
+    return siteData.templates.map(t => ({ name: t.name }));
+  }
+
+  getSections(username: string, site: string, templateId: string): { id: string; name: string }[] {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
+    const siteData: any = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
+    const template = siteData.templates.find(t => t.id === templateId);
+    return (template && template.components.map(t => ({ id: t.id, name: t.name }))) || [];
   }
 }
