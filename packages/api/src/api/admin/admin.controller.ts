@@ -114,6 +114,25 @@ export class AdminController {
     return this.siteService.buildSite(username, site);
   }
 
+  // Get page templates
+  @Get('sites/:username/:site')
+  getTemplates(
+    @Param('username') username: string,
+    @Param('site') site: string,
+  ): { name: string }[] {
+    return this.siteService.getTemplates(username, site);
+  }
+
+  // Build section templates
+  @Get('sites/:username/:site/:templateId')
+  getSections(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('templateId') templateId: string,
+  ): { id: string; name: string }[] {
+    return this.siteService.getSections(username, site, templateId);
+  }
+
   // Create a page
   @Post('page/:username/:site')
   addPage(
