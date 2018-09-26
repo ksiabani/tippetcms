@@ -113,4 +113,23 @@ export class AdminController {
   ): Promise<{ success: boolean; reason?: any }> {
     return this.siteService.buildSite(username, site);
   }
+
+  // Build a site
+  @Get('sites/:username/:site')
+  getTemplates(
+    @Param('username') username: string,
+    @Param('site') site: string,
+  ): { name: string }[] {
+    return this.siteService.getTemplates(username, site);
+  }
+
+  // Build a site
+  @Get('sites/:username/:site/:templateId')
+  getSections(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('templateId') templateId: string,
+  ): { id: string; name: string }[] {
+    return this.siteService.getSections(username, site, templateId);
+  }
 }
