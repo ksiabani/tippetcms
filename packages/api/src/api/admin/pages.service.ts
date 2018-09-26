@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { readdirSync, existsSync, unlinkSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
+import * as shortid from 'shortid';
 import { Page } from 'shared';
 
 export interface TippetFile {
@@ -125,6 +126,7 @@ export class PagesService {
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      page.id = shortid.generate();
       writeFileSync(pagesJsonPath, JSON.stringify([...pages, page]), 'utf8');
       return page;
     } catch (e) {
