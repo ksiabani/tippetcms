@@ -1,8 +1,8 @@
 <!--Now go edit a <a routerLink="/admin/id/page/id/section/id/tile/id">tile</a> of this section-->
 
-<div class="section container" *ngIf="page | async">
+<div class="section container" *ngIf="page$ | async as page">
   <div class="section__title">
-    <span [routerLink]="['../../../../page', pageId]" class="section__title--isLink">{{(page | async)?.name | titlecase}}</span>
+    <span [routerLink]="['../../../../page', page.id]" class="section__title--isLink">{{page.name | titlecase}}</span>
     <mat-icon class="section__title__icon">keyboard_arrow_right</mat-icon>
     <span>{{section?.alias | titlecase}}</span>
   </div>
@@ -13,7 +13,7 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form *ngIf="page | async" [formGroup]="sectionDataForm" class="d-flex flex-wrap">
+      <form [formGroup]="sectionDataForm" class="d-flex flex-wrap">
         <mat-form-field class="section__details__input" *ngFor="let prop of sectionDataProps">
           <input type="text" [formControlName]="prop" matInput placeholder="{{prop}}">
         </mat-form-field>
@@ -21,32 +21,32 @@
     </mat-card-content>
   </mat-card>
   <div class="section__items">
-    <div *ngIf="page | async">
-      <mat-accordion *ngFor="let form of subForms; let index = index; let first = first">
-        <mat-expansion-panel class="section__items__panel" [expanded]="first">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <h3>{{tiles[index].name + 's' | titlecase}}</h3>
-            </mat-panel-title>
-            <mat-panel-description>
-              Manage your {{tiles[index].name}}s here
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+    <mat-accordion *ngFor="let form of forms; let first = first">
+      <mat-expansion-panel class="section__items__panel" [expanded]="first">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3>{{form.name + 's' | titlecase}}</h3>
+          </mat-panel-title>
+          <mat-panel-description>
+            Manage your {{form.name}}s here
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngFor="let subform of form.subForms">
           <mat-card class="section__items__card">
             <mat-card-content>
-              <form [formGroup]="form" class="d-flex flex-wrap">
-                <mat-form-field class="section__items__input" *ngFor="let prop of subFormProps[index]">
+              <form [formGroup]="subform" class="d-flex flex-wrap">
+                <mat-form-field class="section__items__input" *ngFor="let prop of getFormProps(subform)">
                   <input type="text" [formControlName]="prop" matInput placeholder="{{prop}}">
                 </mat-form-field>
               </form>
             </mat-card-content>
           </mat-card>
-          <div class="section__items__add-btn">
-            <button mat-raised-button>Add {{tiles[index].name}}</button>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
+        </div>
+        <div class="section__items__add-btn">
+          <button mat-raised-button>Add {{form.name}}</button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 </div>
 <!--<router-outlet></router-outlet>-->

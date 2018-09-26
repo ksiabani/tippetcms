@@ -6,8 +6,15 @@ import { SinglePageState } from "../../store/children/single-page.state";
 import { Observable } from "rxjs";
 import { filter } from "rxjs/operators";
 import { User } from "src/app/shared/model/user.interface";
-import { GetSinglePage } from "../../store/admin.actions";
+import { GetSinglePage, SavePage } from "../../store/admin.actions";
 import { LoginState } from "../../../login/store/login.state";
+import { Section, Tile, Page } from "shared";
+import { AdminState } from "../../store/admin.state";
+
+export interface TileForm {
+  name: string;
+  subForms: FormGroup[];
+}
 
 @Component({
   selector: "app-section",
@@ -17,18 +24,19 @@ import { LoginState } from "../../../login/store/login.state";
 export class SectionComponent implements OnInit {
   sectionDataForm: FormGroup;
   sectionDataProps: string[] = [];
-  subForms: FormGroup[] = [];
-  subFormProps: any[] = [];
-  section: any; //TODO: Type this
-  tiles: any[]; // TODO: Type this
-  pageId: string;
-  sectionId: string;
+  forms: TileForm[] = [];
+  section: Section;
+  tiles: Tile[];
+  user: User;
+  page: Page;
 
   // Selectors
   @Select(LoginState.user)
-  user: Observable<User>;
+  user$: Observable<User>;
   @Select(SinglePageState.page)
-  page: Observable<any>;
+  page$: Observable<Page>;
+  @Select(AdminState.initSave)
+  initSave: Observable<any>;
 
   constructor(
     private fb: FormBuilder,
@@ -37,13 +45,14 @@ export class SectionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pageId = this.activatedRoute.snapshot.params["pageId"];
-    this.sectionId = this.activatedRoute.snapshot.params["sectionId"];
-    this.getPage();
-    this.page.pipe(filter(page => !!page)).subscribe(page => {
-      this.section = page.components.find(
-        section => section.id === this.sectionId
-      );
+    this.user$.pipe(filter(user => !!user)).subscribe(user => {
+      this.user = user;
+      this.getPage(user);
+    });
+    this.page$.pipe(filter(page => !!page)).subscribe(page => {
+      const sectionId = this.activatedRoute.snapshot.params["sectionId"];
+      this.page = page;
+      this.section = page.components.find(section => section.id === sectionId);
       this.tiles = this.section && this.section.dependencies;
       if (this.section && this.section.data) {
         this.createForm(this.section.data);
@@ -52,10 +61,13 @@ export class SectionComponent implements OnInit {
         this.createSubForms(this.tiles);
       }
     });
+    this.initSave
+      .pipe(filter(initSave => initSave && this.sectionDataForm.valid))
+      .subscribe(() => this.save());
   }
 
-  createForm(section): void {
-    this.sectionDataProps = []; // TODO: @Megas please have a look
+  private createForm(section): void {
+    this.sectionDataProps = [];
     const formDataObj = {};
     for (const prop of Object.keys(section)) {
       formDataObj[prop] = new FormControl(section[prop]);
@@ -64,34 +76,73 @@ export class SectionComponent implements OnInit {
     this.sectionDataForm = this.fb.group(formDataObj);
   }
 
-  createSubForms(tiles): void {
-    this.subForms = []; // TODO: @Megas please have a look
-    this.subFormProps = []; // TODO: @Megas please have a look
-    for (let j = 0; j < tiles.length; j++) {
-      let tile = tiles[j];
-      for (let i = 0; i < tile.data.length; i++) {
+  private createSubForms(tiles): void {
+    this.forms = [];
+    tiles.map((tile, i) => {
+      this.forms.push({
+        name: tile.name,
+        subForms: []
+      });
+      tile.data.map(piece => {
         const formDataObj = {};
-        this.subFormProps.push([]);
-        for (const prop of Object.keys(tile.data[i])) {
-          formDataObj[prop] = new FormControl(tile.data[i][prop]);
-          this.subFormProps[j].push(prop);
+        const form = this.forms.find(form => form.name === tile.name);
+        for (const prop of Object.keys(piece)) {
+          formDataObj[prop] = new FormControl(piece[prop]);
         }
-        this.subForms.push(this.fb.group(formDataObj));
-      }
-    }
+        form.subForms.push(this.fb.group(formDataObj));
+      });
+    });
+    console.log(this.forms);
   }
 
-  getPage() {
-    const pageId = this.activatedRoute.snapshot.params["pageId"];
+  getFormProps(form) {
+    let props = [];
+    Object.keys(form.controls).forEach(key => {
+      props.push(key);
+    });
+    return props;
+  }
+
+  private getPage(user) {
+    const pageId: string = this.activatedRoute.snapshot.params["pageId"];
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
     ];
-    this.user
-      .pipe(filter(user => !!user && !!siteId && !!pageId))
-      .subscribe(user =>
-        this.store.dispatch(
-          new GetSinglePage(user.githubUser.login, siteId, pageId)
-        )
+    if (pageId && siteId) {
+      this.store.dispatch(
+        new GetSinglePage(user.githubUser.login, siteId, pageId)
       );
+    }
+  }
+
+  private save() {
+    if (this.user && this.page) {
+      const siteId: string = this.activatedRoute.root.snapshot.children[0]
+        .params["id"];
+      const login = this.user.githubUser.login;
+      const dependencies = this.forms.map(form => {
+        return {
+          name: form.name,
+          data: form.subForms.map(subform => subform.value)
+        };
+      });
+      const components: Section[] = [
+        ...this.page.components.filter(
+          section => section.id !== this.section.id
+        ),
+        {
+          ...this.section,
+          data: { ...this.sectionDataForm.value },
+          dependencies: [...dependencies]
+        }
+      ];
+      const newPageData: Page = {
+        ...this.page,
+        components
+      };
+      this.store.dispatch(
+        new SavePage(login, siteId, this.page.id, newPageData)
+      );
+    }
   }
 }
