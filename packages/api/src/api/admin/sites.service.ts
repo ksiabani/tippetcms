@@ -23,14 +23,14 @@ export class SitesService {
     }
   }
 
-  getTemplates(username: string, site: string): { name: string }[] {
+  getPageTemplates(username: string, site: string): { name: string }[] {
     const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     const siteData: any = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
     return siteData.templates.map(t => ({ name: t.name }));
   }
 
-  getSections(username: string, site: string, templateId: string): { id: string; name: string }[] {
+  getSectionTemplates(username: string, site: string, templateId: string): { id: string; name: string }[] {
     const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     const siteData: any = JSON.parse(readFileSync(siteJsonPath, 'utf8'));

@@ -12,10 +12,6 @@ import {
 } from '@nestjs/common';
 import { PagesService, TippetFile } from './pages.service';
 import { MediaService } from './media.service';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import * as execa from 'execa';
-import { copySync } from 'fs-extra';
 import { Page } from 'shared/model/page.interface';
 import { SitesService } from './sites.service';
 
@@ -56,6 +52,30 @@ export class AdminController {
     return this.pagesService.getSinglePage(username, site, id);
   }
 
+  // Update a page
+  @Put('page/:username/:site/:id')
+  savePage(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('id') id: string,
+    @Body() body: { page: Page },
+  ): Page {
+    return this.pagesService.savePage(username, site, id, body);
+  }
+
+  // Create a page
+  @Post('page/:username/:site')
+  addPage(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Body()
+      body: {
+      page: Page;
+    },
+  ): Page | void {
+    return this.pagesService.addPage(username, site, body.page);
+  }
+
   // Get a sites media
   @Get('media/:username/:site')
   getMedia(@Param('username') username: string, @Param('site') site: string): any {
@@ -83,17 +103,6 @@ export class AdminController {
     return this.mediaService.removeMedia(username, site, mediaName);
   }
 
-  // Update a page
-  @Put('page/:username/:site/:id')
-  savePage(
-    @Param('username') username: string,
-    @Param('site') site: string,
-    @Param('id') id: string,
-    @Body() body: { page: Page },
-  ): Page {
-    return this.pagesService.savePage(username, site, id, body);
-  }
-
   // Get a section
   @Get('page/:username/:site/:pageId/:id')
   getSection(
@@ -116,33 +125,20 @@ export class AdminController {
 
   // Get page templates
   @Get('sites/:username/:site')
-  getTemplates(
+  getPageTemplates(
     @Param('username') username: string,
     @Param('site') site: string,
   ): { name: string }[] {
-    return this.siteService.getTemplates(username, site);
+    return this.siteService.getPageTemplates(username, site);
   }
 
-  // Build section templates
+  // Get section templates
   @Get('sites/:username/:site/:templateId')
-  getSections(
+  getSectionTemplates(
     @Param('username') username: string,
     @Param('site') site: string,
     @Param('templateId') templateId: string,
   ): { id: string; name: string }[] {
-    return this.siteService.getSections(username, site, templateId);
-  }
-
-  // Create a page
-  @Post('page/:username/:site')
-  addPage(
-    @Param('username') username: string,
-    @Param('site') site: string,
-    @Body()
-      body: {
-      page: Page;
-    },
-  ): Page | void {
-    return this.pagesService.addPage(username, site, body.page);
+    return this.siteService.getSectionTemplates(username, site, templateId);
   }
 }
