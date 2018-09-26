@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { readdirSync, existsSync, unlinkSync, readFileSync } from 'fs';
+import { readdirSync, existsSync, unlinkSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
+import { Page } from "shared";
+import { environment } from "../../../../app/src/environments/environment";
 
 export interface TippetFile {
   id?: number;
@@ -88,5 +90,19 @@ export class PagesService {
     });
 
     return [...folders, ...files];
+  }
+
+  // Create a page
+  addPage(username: string, site: string, page: Page): Page | void {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    try {
+      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      writeFileSync(pagesJsonPath, JSON.stringify([...pages, page]), 'utf8');
+      return page;
+    } catch (e) {
+      console.log(e);
+      return;
+    }
   }
 }

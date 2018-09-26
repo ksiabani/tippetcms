@@ -144,16 +144,16 @@ export class AdminController {
     }
   }
 
-  private getDepth(path: string): number {
-    if (path === '/') return 0;
-    return path.substring(1).split('/').length;
-  }
-
-  private matchPathName(path: string, normalizedPath: string): boolean {
-    if (normalizedPath === '0') return true;
-    return (
-      path.substring(0, normalizedPath.length) === normalizedPath ||
-      path.substring(0, normalizedPath.length + 1) === `${normalizedPath}/`
-    );
+  // Create a page
+  @Post('page/:username/:site')
+  addPage(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Body()
+    body: {
+      page: Page;
+    },
+  ): Page | void {
+    return this.pagesService.addPage(username, site, body.page);
   }
 }
