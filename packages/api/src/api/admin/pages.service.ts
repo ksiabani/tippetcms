@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { readdirSync, existsSync, unlinkSync, readFileSync } from 'fs';
+import { readdirSync, existsSync, unlinkSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
+import * as shortid from 'shortid';
+import { Page } from 'shared';
 
 export interface TippetFile {
   id?: number;
@@ -35,6 +37,34 @@ export class PagesService {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
 
       return pages.find(page => page.id === id);
+    } catch (e) {
+      console.log(e);
+      return [];
+    }
+  }
+
+  savePage(username: string, site: string, id: string, body: { page: Page }) {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    try {
+      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      const newPages = [...pages.filter(page => page.id !== id), body.page];
+      writeFileSync(pagesJsonPath, JSON.stringify(newPages), 'utf8');
+      return body.page;
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+  }
+
+  getSection(username: string, site: string, pageId: string, id: string) {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    try {
+      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      return pages
+        .find(page => page.id === pageId)
+        .components.filter(component => component.id === id);
     } catch (e) {
       console.log(e);
       return [];
@@ -88,5 +118,20 @@ export class PagesService {
     });
 
     return [...folders, ...files];
+  }
+
+  // Create a page
+  addPage(username: string, site: string, page: Page): Page | void {
+    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    try {
+      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      page.id = shortid.generate();
+      writeFileSync(pagesJsonPath, JSON.stringify([...pages, page]), 'utf8');
+      return page;
+    } catch (e) {
+      console.log(e);
+      return;
+    }
   }
 }

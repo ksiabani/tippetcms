@@ -12,11 +12,8 @@ import {
 } from '@nestjs/common';
 import { PagesService, TippetFile } from './pages.service';
 import { MediaService } from './media.service';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import * as execa from 'execa';
-import { copySync } from 'fs-extra';
 import { Page } from 'shared/model/page.interface';
+import { SitesService } from './sites.service';
 
 interface File {
   id?: number;
@@ -29,7 +26,11 @@ interface File {
 
 @Controller('admin')
 export class AdminController {
-  constructor(private pagesService: PagesService, private mediaService: MediaService) {}
+  constructor(
+    private pagesService: PagesService,
+    private mediaService: MediaService,
+    private siteService: SitesService,
+  ) {}
 
   // Get pages
   @Get('pages/:username/:site/:path')
@@ -49,6 +50,30 @@ export class AdminController {
     @Param('id') id: string,
   ): any {
     return this.pagesService.getSinglePage(username, site, id);
+  }
+
+  // Update a page
+  @Put('page/:username/:site/:id')
+  savePage(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('id') id: string,
+    @Body() body: { page: Page },
+  ): Page {
+    return this.pagesService.savePage(username, site, id, body);
+  }
+
+  // Create a page
+  @Post('page/:username/:site')
+  addPage(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Body()
+      body: {
+      page: Page;
+    },
+  ): Page | void {
+    return this.pagesService.addPage(username, site, body.page);
   }
 
   // Get a sites media
@@ -78,30 +103,6 @@ export class AdminController {
     return this.mediaService.removeMedia(username, site, mediaName);
   }
 
-  // Update a page
-  @Put('page/:username/:site/:id')
-  savePage(
-    @Param('username') username: string,
-    @Param('site') site: string,
-    @Param('id') id: string,
-    @Body()
-    body: {
-      page: Page;
-    },
-  ): Page {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
-    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
-    try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      const newPages = [...pages.filter(page => page.id !== id), body.page];
-      writeFileSync(pagesJsonPath, JSON.stringify(newPages), 'utf8');
-      return body.page;
-    } catch (e) {
-      console.log(e);
-      return;
-    }
-  }
-
   // Get a section
   @Get('page/:username/:site/:pageId/:id')
   getSection(
@@ -110,17 +111,7 @@ export class AdminController {
     @Param('pageId') pageId: string,
     @Param('id') id: string,
   ): any {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
-    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
-    try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      return pages
-        .find(page => page.id === pageId)
-        .components.filter(component => component.id === id);
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
+    return this.pagesService.getSection(username, site, pageId, id);
   }
 
   // Build a site
@@ -129,33 +120,25 @@ export class AdminController {
     @Param('username') username: string,
     @Param('site') site: string,
   ): Promise<{ success: boolean; reason?: any }> {
-    const basePath = [__dirname, '../..'];
-    const publicDirForSite = join(...basePath, 'public', username, site);
-    const gutsbiesDirForSite = join(...basePath, 'gutsbies', username, site);
-    try {
-      console.log(`Start gatsby build for user ${username} and site ${site}`);
-      await execa('gatsby', ['build', '--prefix-paths'], { cwd: gutsbiesDirForSite });
-      console.log('Gatsby build done, start copy');
-      copySync(`${gutsbiesDirForSite}/public`, publicDirForSite);
-      console.log('Copy done');
-      return { success: true };
-    } catch (e) {
-      await execa.shell(`rm -rf ${gutsbiesDirForSite}`);
-      await execa.shell(`rm -rf ${publicDirForSite}`);
-      return { success: false, reason: e };
-    }
+    return this.siteService.buildSite(username, site);
   }
 
-  private getDepth(path: string): number {
-    if (path === '/') return 0;
-    return path.substring(1).split('/').length;
+  // Get page templates
+  @Get('sites/:username/:site')
+  getPageTemplates(
+    @Param('username') username: string,
+    @Param('site') site: string,
+  ): { name: string }[] {
+    return this.siteService.getPageTemplates(username, site);
   }
 
-  private matchPathName(path: string, normalizedPath: string): boolean {
-    if (normalizedPath === '0') return true;
-    return (
-      path.substring(0, normalizedPath.length) === normalizedPath ||
-      path.substring(0, normalizedPath.length + 1) === `${normalizedPath}/`
-    );
+  // Get section templates
+  @Get('sites/:username/:site/:templateId')
+  getSectionTemplates(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('templateId') templateId: string,
+  ): { id: string; name: string }[] {
+    return this.siteService.getSectionTemplates(username, site, templateId);
   }
 }
