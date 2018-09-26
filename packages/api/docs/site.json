@@ -2,12 +2,217 @@
   "name": "My awesome site",
   "templates": [
     {
-      "id": "homePage",
-      "name": "Home page",
-      "preview": "img/site/templates/home.jpg",
+      "id": "21212121",
+      "name": "Blog Summary",
+      "path": "/blog",
+      "slug": "",
+      "template": "blogSummary",
+      "preview": "https://picsum.photos/50/60/?image=210",
       "components": [
         {
+          "id": "86283945",
           "name": "hero",
+          "alias": "Banner",
+          "icon": "view_day",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=200",
+          "position": 1,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        },
+        {
+          "id": "38273911",
+          "name": "blogSummary",
+          "alias": "Blog Summary",
+          "icon": "short_text",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=120",
+          "position": 2,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "32323232",
+      "name": "Health effects of friendship",
+      "path": "/blog",
+      "slug": "health-effects-of-friendship",
+      "preview": "https://picsum.photos/50/60/?image=620",
+      "components": [
+        {
+          "id": "32432462",
+          "name": "hero",
+          "alias": "Banner",
+          "icon": "view_day",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=240",
+          "position": 1,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        },
+        {
+          "id": "36899000",
+          "name": "textEditor",
+          "alias": "Editor",
+          "icon": "subject",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=870",
+          "position": 2,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "43434343",
+      "name": "Health effects of marriage",
+      "path": "/blog/marriage",
+      "slug": "health-effects-of-marriage",
+      "preview": "https://picsum.photos/50/60/?image=760",
+      "components": [
+        {
+          "id": "31233311",
+          "name": "hero",
+          "alias": "Banner",
+          "icon": "view_day",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=890",
+          "position": 1,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        },
+        {
+          "id": "31267886",
+          "name": "textEditor",
+          "alias": "Editor",
+          "icon": "subject",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=550",
+          "position": 2,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        }
+      ]
+    },
+    {
+      "id": "54545454",
+      "name": "Health effects of software engineering",
+      "path": "/software",
+      "slug": "health-effects-of-software-engineering",
+      "preview": "https://picsum.photos/50/60/?image=840",
+      "components": [
+        {
+          "id": "34579392",
+          "name": "hero",
+          "alias": "Banner",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=760",
+          "icon": "view_day",
+          "position": 1,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        },
+        {
+          "id": "94580303",
+          "name": "textEditor",
+          "alias": "Editor",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=320",
+          "icon": "subject",
+          "position": 2,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        }
+      ]
+    },
+    {
+      "0": {
+        "id": "93739202",
+        "name": "grid",
+        "alias": "Services",
+        "icon": "view_module",
+        "description": "Lorem ipsum dolor sit amet",
+        "preview": "https://picsum.photos/150/50/?image=302",
+        "position": 1,
+        "data": { "title": "Hello there yo!", "text": "this is some description for my banner!" },
+        "dependencies": [
+          {
+            "name": "tile",
+            "data": [
+              {
+                "title": "Unlimited Colors",
+                "text":
+                  "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s1.png"
+              },
+              {
+                "title": "Smart Security",
+                "text":
+                  "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s2.png"
+              },
+              {
+                "title": "Endless Support",
+                "text":
+                  "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s3.png"
+              },
+              {
+                "title": "Same Day Delivery",
+                "text":
+                  "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s4.png"
+              }
+            ]
+          }
+        ]
+      },
+      "1": {
+        "id": "34567356",
+        "name": "hero",
+        "alias": "Banner",
+        "icon": "view_day",
+        "description": "Lorem ipsum dolor sit amet",
+        "preview": "https://picsum.photos/150/50/?image=400",
+        "position": 2,
+        "data": {
+          "title": "Hello there yo!",
+          "text": "this is some description for my banner!",
+          "btnTxt": "Click me you fool!"
+        }
+      },
+      "id": "12345678",
+      "name": "111",
+      "path": "/",
+      "slug": "",
+      "template": "homePage",
+      "preview": "https://picsum.photos/50/60/?image=400",
+      "components": [
+        {
+          "id": "34567356",
+          "name": "hero",
+          "alias": "Banner",
+          "icon": "view_day",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=400",
+          "position": 1,
           "data": {
             "title": "Hello there yo!",
             "text": "this is some description for my banner!",
@@ -15,10 +220,16 @@
           }
         },
         {
+          "id": "93739202",
           "name": "grid",
+          "alias": "Services",
+          "icon": "view_module",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=302",
+          "position": 2,
           "data": {
-            "title": "Our Offered Services",
-            "subtitle": "Lorem ipsum dolor sit amet"
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
           },
           "dependencies": [
             {
@@ -26,46 +237,31 @@
               "data": [
                 {
                   "title": "Unlimited Colors",
-                  "subtitle": "Lorem ipsum dolor sit amet",
-                  "icon": "img/site/icon1.png"
+                  "text":
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                  "icon": "s1.png"
+                },
+                {
+                  "title": "Smart Security",
+                  "text":
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                  "icon": "s2.png"
+                },
+                {
+                  "title": "Endless Support",
+                  "text":
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                  "icon": "s3.png"
+                },
+                {
+                  "title": "Same Day Delivery",
+                  "text":
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                  "icon": "s4.png"
                 }
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "blogPost",
-      "name": "Blog post",
-      "preview": "img/site/templates/blog-summary.jpg",
-      "components": [
-        {
-          "name": "hero",
-          "data": {
-            "title": "Hello there yo!",
-            "text": "this is some description for my banner!"
-          }
-        },
-        {
-          "name": "textEditor",
-          "placeholder": "Start writing here..."
-        }
-      ]
-    },
-    {
-      "id": "blogSummary",
-      "name": "Blog summary",
-      "components": [
-        {
-          "name": "hero",
-          "data": {
-            "title": "Hello there yo!",
-            "text": "this is some description for my banner!"
-          }
-        },
-        {
-          "name": "blogIndex"
         }
       ]
     }
