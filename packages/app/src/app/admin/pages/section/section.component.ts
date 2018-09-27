@@ -92,7 +92,6 @@ export class SectionComponent implements OnInit {
         form.subForms.push(this.fb.group(formDataObj));
       });
     });
-    console.log(this.forms);
   }
 
   getFormProps(form) {

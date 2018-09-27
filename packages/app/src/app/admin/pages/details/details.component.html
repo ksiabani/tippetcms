@@ -1,5 +1,5 @@
 <div class="details container">
-  <h2 class="details__title">{{(page$ | async)?.name}}</h2>
+  <h2 class="details__title">{{(page$ | async)?.title}}</h2>
   <mat-card class="details__meta">
     <mat-card-header class="details__meta__header">
       <!--<mat-card-title class="details__meta__title">-->
@@ -34,7 +34,7 @@
           <mat-card-header class="details__section__header">
             <mat-icon mat-card-avatar class="details__section__icon">{{section.icon}}</mat-icon>
             <mat-card-title class="details__section__title">
-              <h3>{{section.alias | titlecase}}</h3>
+              <h3>{{section.title | titlecase}}</h3>
             </mat-card-title>
             <mat-card-subtitle class="details__section__card__subtitle">
               <h4>{{section.description}}</h4>

@@ -1,7 +1,7 @@
 export interface Section {
-  id: string;
+  id?: string;
   name: string;
-  alias: string;
+  title: string;
   icon: string;
   description: string;
   preview: string;
@@ -21,10 +21,17 @@ export interface Data {
 
 export interface Page {
   id: string;
-  name: string;
+  title: string;
   path: string;
   slug: string;
   template: string;
+  preview: string;
+  components: Section[];
+}
+
+export interface PageTemplate {
+  name: string;
+  title: string;
   preview: string;
   components: Section[];
 }
