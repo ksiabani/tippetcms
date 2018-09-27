@@ -9,7 +9,7 @@
     <mat-card-content *ngIf="page$ | async">
       <form [formGroup]="pageMetaForm" class="d-flex flex-wrap">
         <mat-form-field class="details__meta__input">
-          <input type="text" formControlName="name" name="name" matInput cdkFocusInitial placeholder="Name">
+          <input type="text" formControlName="title" name="title" matInput cdkFocusInitial placeholder="Heading">
         </mat-form-field>
         <mat-form-field class="details__meta__input details__meta__input--half">
           <input type="text" formControlName="path" name="path" matInput placeholder="Path" [matAutocomplete]="auto">

@@ -43,7 +43,6 @@ export class CreatePage {
   constructor(
     private username: string,
     private site: string,
-    private currPath: string[],
     private title: string,
     private path: string,
     private template: string

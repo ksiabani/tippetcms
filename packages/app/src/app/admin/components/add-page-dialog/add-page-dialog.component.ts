@@ -79,7 +79,6 @@ export class AddPageDialogComponent implements OnInit {
       new CreatePage(
         user.githubUser.login,
         siteId,
-        this.data.currPath,
         this.addPageForm.value.title,
         this.addPageForm.value.path,
         this.addPageForm.value.template
