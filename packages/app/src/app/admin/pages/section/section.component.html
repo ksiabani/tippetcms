@@ -2,9 +2,9 @@
 
 <div class="section container" *ngIf="page$ | async as page">
   <div class="section__title">
-    <span [routerLink]="['../../../../page', page.id]" class="section__title--isLink">{{page.name | titlecase}}</span>
+    <span [routerLink]="['../../../../page', page.id]" class="section__title--isLink">{{page.title | titlecase}}</span>
     <mat-icon class="section__title__icon">keyboard_arrow_right</mat-icon>
-    <span>{{section?.alias | titlecase}}</span>
+    <span>{{section?.title | titlecase}}</span>
   </div>
   <mat-card class="section__details">
     <mat-card-header class="section__details__header">

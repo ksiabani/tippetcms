@@ -41,6 +41,20 @@ export class AdminService {
     );
   }
 
+  createPage(
+    username: string,
+    site: string,
+    title: string,
+    path: string,
+    template: string
+  ): Observable<Page> {
+    console.log(title, path, template);
+    return this.http.post<any>(
+      `${environment.api.admin}/page/${username}/${site}`,
+      { title, path, template }
+    );
+  }
+
   getMedia(username: string, site: string): Observable<string[]> {
     return this.http.get<string[]>(`${environment.api.admin}/media/${username}/${site}`);
   }

@@ -38,6 +38,18 @@ export class SavePage {
   ) {}
 }
 
+export class CreatePage {
+  static readonly type = "[Admin] [Page] Create Page";
+  constructor(
+    private username: string,
+    private site: string,
+    private currPath: string[],
+    private title: string,
+    private path: string,
+    private template: string
+  ) {}
+}
+
 export class InitSave {
   static readonly type = "[Admin] Intialize Page Save";
   constructor(private initSave: boolean) {}

@@ -38,7 +38,10 @@ export class SinglePageState {
   }
 
   @Action(actions.GetSinglePage)
-  getPage(ctx: StateContext<SinglePageStateModel>, { username, site, id }: actions.GetSinglePage) {
+  getPage(
+    ctx: StateContext<SinglePageStateModel>,
+    { username, site, id }: actions.GetSinglePage
+  ) {
     ctx.patchState({ loading: true });
     return this.adminService
       .getSinglePage(username, site, id)
@@ -57,5 +60,21 @@ export class SinglePageState {
         ctx.dispatch(new actions.InitSave(false));
       })
     );
+  }
+
+  @Action(actions.CreatePage)
+  createPage(
+    ctx: StateContext<SinglePageStateModel>,
+    { username, site, currPath, title, path, template }: actions.CreatePage
+  ) {
+    ctx.patchState({ saving: true });
+    return this.adminService
+      .createPage(username, site, title, path, template)
+      .pipe(
+        tap((page: Page) => {
+          ctx.patchState({ page, saving: false });
+          ctx.dispatch(new actions.GetPages(username, site, currPath.length ? currPath.join("-") : "0"));
+        })
+      );
   }
 }
