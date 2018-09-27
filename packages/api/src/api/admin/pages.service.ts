@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { readdirSync, existsSync, unlinkSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import * as shortid from 'shortid';
-import { Page } from 'shared';
+import * as getSlug from 'speakingurl';
+import { Page, PageTemplate, Section } from 'shared';
 
 export interface TippetFile {
   id?: number;
   folder: boolean;
-  name: string;
+  title: string;
   path: string;
   slug?: string;
   preview?: string;
@@ -103,7 +104,7 @@ export class PagesService {
           files.push({
             id: page.id,
             folder: false,
-            name: page.name,
+            title: page.title,
             path: page.path,
             slug: page.slug,
             preview: page.preview,
@@ -112,7 +113,7 @@ export class PagesService {
         }
         // Otherwise its a folders. Only push the folder if its is not already pushed
         if (!folders.find(folder => folder.path === page.path)) {
-          folders.push({ folder: true, name: page.path.split('/').pop(), path: page.path });
+          folders.push({ folder: true, title: page.path.split('/').pop(), path: page.path });
         }
       }
     });
@@ -121,13 +122,53 @@ export class PagesService {
   }
 
   // Create a page
-  addPage(username: string, site: string, page: Page): Page | void {
+  addPage(
+    username: string,
+    site: string,
+    title: string,
+    path: string,
+    template: string,
+  ): Page | void {
+    // Get pages.json and site.json files
     const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      page.id = shortid.generate();
+      // Get existing pages
+      const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      const fullPaths: string[] = pages.map(
+        page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`),
+      );
+
+      // Get a page from template
+      const pageFromTemplate: PageTemplate = JSON.parse(
+        readFileSync(siteJsonPath, 'utf8'),
+      ).templates.find(page => page && page.name === template);
+      const { preview, components } = pageFromTemplate;
+      const sections: Section[] = components.map(com => ({ id: shortid.generate(), ...com }));
+
+      // Create a slug. For rules for slug generation, see https://trello.com/c/UuWkeTis
+      const slug: string = !fullPaths.includes(`${path}/`)
+        ? ''
+        : !fullPaths.includes(`${path}/${getSlug(title)}`)
+          ? getSlug(title)
+          : `${getSlug(title)}_${shortid.generate()}`;
+
+      // Create new page object
+      const page: Page = {
+        id: shortid.generate(),
+        template,
+        title,
+        path: path || '/',
+        slug,
+        preview,
+        components: sections,
+      };
+
+      // Write new page to pages.json
       writeFileSync(pagesJsonPath, JSON.stringify([...pages, page]), 'utf8');
+
+      // Return the newly created resource
       return page;
     } catch (e) {
       console.log(e);

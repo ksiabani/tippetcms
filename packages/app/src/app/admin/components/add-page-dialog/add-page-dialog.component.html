@@ -1,4 +1,4 @@
-<form [formGroup]="addPageForm">
+<form [formGroup]="addPageForm" *ngIf="user | async as user">
   <div class="add-page-dialog d-flex flex-column">
     <div class="d-flex align-items-center">
       <h2 class="add-page-dialog__title">Add a page</h2>
@@ -9,24 +9,28 @@
     </div>
     <div mat-dialog-content class="add-page-dialog__content d-flex flex-column flex-fill">
       <mat-form-field class="add-page-dialog__input">
-        <input formControlName="name" name="name" matInput cdkFocusInitial placeholder="Page name">
+        <input formControlName="title" name="title" matInput cdkFocusInitial placeholder="Title" required>
       </mat-form-field>
       <mat-form-field class="add-page-dialog__input">
-        <input formControlName="path" name="path" matInput placeholder="Path">
+        <input type="text" formControlName="path" name="path" matInput [matAutocomplete]="auto"
+               placeholder="Select a folder or enter a new folder name">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let folder of folders" [value]="folder.value">
+            {{folder.name}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
       <mat-form-field class="add-page-dialog__input">
-        <input formControlName="slug" name="slug" matInput cdkFocusInitial placeholder="Slug (friendly URL)">
-      </mat-form-field>
-      <mat-form-field class="add-page-dialog__input">
-        <mat-select formControlName="template" placeholder="Select a page template">
-          <mat-option *ngFor="let template of templates" value="template.value">{{template.name}}</mat-option>
+        <mat-select formControlName="template" placeholder="Select a page template" required>
+          <mat-option *ngFor="let template of templates" value="{{template.value}}">{{template.name}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div mat-dialog-actions class="align-self-end">
       <button mat-button (click)="close()">Cancel</button>
-      <button mat-button color="primary" [mat-dialog-close]="data" [disabled]="!addPageForm.valid" (click)="createPage()">Create page</button>
+      <button mat-button color="primary" [mat-dialog-close]="data" [disabled]="!addPageForm.valid"
+              (click)="createPage(user)">Create page
+      </button>
     </div>
-    <!--{{sites}}-->
   </div>
 </form>

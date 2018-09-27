@@ -2,70 +2,122 @@
   "name": "My awesome site",
   "templates": [
     {
-      "id": "homePage",
-      "name": "Home page",
-      "preview": "img/site/templates/home.jpg",
+      "name": "blog-summary",
+      "title": "Blog Summary",
+      "preview": "https://picsum.photos/50/60/?image=210",
+      "components": [
+        {
+          "name": "banner",
+          "title": "Banner",
+          "icon": "view_day",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=200",
+          "position": 1,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        },
+        {
+          "name": "blog-index",
+          "title": "Blog Summary",
+          "icon": "short_text",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=120",
+          "position": 2,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        }
+      ]
+    },
+    {
+      "name": "blogPost",
+      "title": "Blog post",
+      "preview": "https://picsum.photos/50/60/?image=620",
+      "components": [
+        {
+          "name": "banner",
+          "title": "Banner",
+          "icon": "view_day",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=200",
+          "position": 1,
+          "data": {
+            "heading": "Hello there yo!",
+            "description": "this is some description for my banner!"
+          }
+        },
+        {
+          "name": "textEditor",
+          "icon": "subject",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=870",
+          "position": 2,
+          "data": {
+            "title": "Hello there yo!",
+            "text": "this is some description for my banner!"
+          }
+        }
+      ]
+    },
+    {
+      "name": "homePage",
+      "title": "Homepage",
+      "preview": "https://picsum.photos/50/60/?image=501",
       "components": [
         {
           "name": "hero",
+          "title": "Banner",
+          "icon": "view_day",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=400",
+          "position": 1,
           "data": {
-            "title": "Hello there yo!",
-            "text": "this is some description for my banner!",
-            "btnTxt": "Click me you fool!"
+            "heading": "Some cool motto!",
+            "description": "Some vague description for my georgeous banner!",
+            "btnTxt": "Join us!"
           }
         },
         {
           "name": "grid",
+          "title": "Services",
+          "description": "Lorem ipsum dolor sit amet",
+          "preview": "https://picsum.photos/150/50/?image=302",
+          "icon": "view_module",
+          "position": 2,
           "data": {
-            "title": "Our Offered Services",
-            "subtitle": "Lorem ipsum dolor sit amet"
+            "heading": "We offer the best services1",
+            "description": "this is some description for my banner!"
           },
           "dependencies": [
             {
               "name": "tile",
               "data": [
                 {
-                  "title": "Unlimited Colors",
-                  "subtitle": "Lorem ipsum dolor sit amet",
-                  "icon": "img/site/icon1.png"
+                  "heading": "Unlimited Colorskjkjk",
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                  "icon": "s1.png"
+                },
+                {
+                  "heading": "Smart Security",
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                  "icon": "s2.png"
+                },
+                {
+                  "heading": "Endless Support1",
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                  "icon": "s3.png"
+                },
+                {
+                  "heading": "Same Day Delivery",
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                  "icon": "s4.png"
                 }
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "blogPost",
-      "name": "Blog post",
-      "preview": "img/site/templates/blog-summary.jpg",
-      "components": [
-        {
-          "name": "hero",
-          "data": {
-            "title": "Hello there yo!",
-            "text": "this is some description for my banner!"
-          }
-        },
-        {
-          "name": "textEditor",
-          "placeholder": "Start writing here..."
-        }
-      ]
-    },
-    {
-      "id": "blogSummary",
-      "name": "Blog summary",
-      "components": [
-        {
-          "name": "hero",
-          "data": {
-            "title": "Hello there yo!",
-            "text": "this is some description for my banner!"
-          }
-        },
-        {
-          "name": "blogIndex"
         }
       ]
     }

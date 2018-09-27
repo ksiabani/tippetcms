@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource, MatDialog } from "@angular/material";
+import { MatDialog } from "@angular/material";
 import { Select, Store } from "@ngxs/store";
 import { Observable, combineLatest } from "rxjs";
 import { GetPages, ChangePath } from "../../store/admin.actions";
@@ -24,7 +24,7 @@ export class PagesComponent implements OnInit {
   @Select(LoginState.user)
   user: Observable<User>;
 
-  displayedColumns: string[] = ["name", "slug", "preview"];
+  displayedColumns: string[] = ["title", "slug", "preview"];
   dataSource: Page[];
 
   constructor(
@@ -61,11 +61,11 @@ export class PagesComponent implements OnInit {
     }
   }
 
-  openDialog(): void {
+  openDialog(currPath): void {
     const dialogRef = this.dialog.open(AddPageDialogComponent, {
       disableClose: true,
       panelClass: "add-page-dialog",
-      data: {}
+      data: {currPath}
     });
   }
 }

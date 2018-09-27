@@ -69,11 +69,19 @@ export class AdminController {
     @Param('username') username: string,
     @Param('site') site: string,
     @Body()
-      body: {
-      page: Page;
+    body: {
+      title: string;
+      path: string;
+      template: string;
     },
   ): Page | void {
-    return this.pagesService.addPage(username, site, body.page);
+    return this.pagesService.addPage(
+      username,
+      site,
+      body.title,
+      body.path,
+      body.template,
+    );
   }
 
   // Get a sites media
