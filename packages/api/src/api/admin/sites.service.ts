@@ -17,8 +17,6 @@ export class SitesService {
       console.log('Copy done');
       return { success: true };
     } catch (e) {
-      await execa.shell(`rm -rf ${gutsbiesDirForSite}`);
-      await execa.shell(`rm -rf ${publicDirForSite}`);
       return { success: false, reason: e };
     }
   }

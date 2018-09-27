@@ -88,7 +88,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   private createForm(page: any): void {
     this.pageMetaForm = this.fb.group({
-      name: [page.name, Validators.required],
+      title: [page.title, Validators.required],
       path: [page.path, Validators.required],
       slug: [page.slug]
     });

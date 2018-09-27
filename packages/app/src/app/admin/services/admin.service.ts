@@ -48,7 +48,6 @@ export class AdminService {
     path: string,
     template: string
   ): Observable<Page> {
-    console.log(title, path, template);
     return this.http.post<any>(
       `${environment.api.admin}/page/${username}/${site}`,
       { title, path, template }

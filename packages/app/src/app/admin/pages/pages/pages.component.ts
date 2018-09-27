@@ -61,11 +61,11 @@ export class PagesComponent implements OnInit {
     }
   }
 
-  openDialog(currPath): void {
+  openDialog(): void {
     const dialogRef = this.dialog.open(AddPageDialogComponent, {
       disableClose: true,
       panelClass: "add-page-dialog",
-      data: {currPath}
+      data: {}
     });
   }
 }
