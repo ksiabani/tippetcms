@@ -1,0 +1,128 @@
+[
+  {
+    "id": "12345678",
+    "template": "index",
+    "title": "Home page",
+    "slug": "/",
+    "preview": "https://picsum.photos/50/60/?image=501",
+    "components": [
+      {
+        "id": "XJxJtP-Gc",
+        "name": "banner",
+        "title": "Banner",
+        "icon": "view_day",
+        "description": "Lorem ipsum dolor sit amet",
+        "preview": "https://picsum.photos/150/50/?image=400",
+        "position": 1,
+        "data": {
+          "heading": "Some cool motto!",
+          "description": "Some vague description for my gorgeous banner!",
+          "btnTxt": "Join us!"
+        }
+      },
+      {
+        "id": "1CwlAvdXpK",
+        "name": "grid",
+        "title": "Services",
+        "description": "Lorem ipsum dolor sit amet",
+        "preview": "https://picsum.photos/150/50/?image=302",
+        "icon": "view_module",
+        "position": 2,
+        "data": {
+          "heading": "We offer the best services1",
+          "description": "this is some description for my banner!"
+        },
+        "dependencies": [
+          {
+            "name": "tile",
+            "data": [
+              {
+                "heading": "Unlimited Colors",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s1.png"
+              },
+              {
+                "heading": "Smart Security",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s2.png"
+              },
+              {
+                "heading": "Endless Support1",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s3.png"
+              },
+              {
+                "heading": "Same Day Delivery",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s4.png"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "23456789",
+    "template": "index",
+    "title": "Home page",
+    "slug": "/other/",
+    "preview": "https://picsum.photos/50/60/?image=501",
+    "components": [
+      {
+        "id": "YJxJtP-Gc",
+        "name": "hero",
+        "title": "Banner",
+        "icon": "view_day",
+        "description": "Lorem ipsum dolor sit amet",
+        "preview": "https://picsum.photos/150/50/?image=400",
+        "position": 1,
+        "data": {
+          "heading": "Some cool motto!",
+          "description": "Some vague description for my gorgeous banner!",
+          "btnTxt": "Join us!"
+        }
+      },
+      {
+        "id": "1CwlAvdXpK",
+        "name": "grid",
+        "title": "Services",
+        "description": "Lorem ipsum dolor sit amet",
+        "preview": "https://picsum.photos/150/50/?image=302",
+        "icon": "view_module",
+        "position": 2,
+        "data": {
+          "heading": "We offer the best services1",
+          "description": "this is some description for my banner!"
+        },
+        "dependencies": [
+          {
+            "name": "tile",
+            "data": [
+              {
+                "heading": "Unlimited Colors",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s1.png"
+              },
+              {
+                "heading": "Smart Security",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s2.png"
+              },
+              {
+                "heading": "Endless Support1",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s3.png"
+              },
+              {
+                "heading": "Same Day Delivery",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
+                "icon": "s4.png"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

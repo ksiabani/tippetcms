@@ -68,7 +68,7 @@
       "preview": "https://picsum.photos/50/60/?image=501",
       "components": [
         {
-          "name": "hero",
+          "name": "banner",
           "title": "Banner",
           "icon": "view_day",
           "description": "Lorem ipsum dolor sit amet",
