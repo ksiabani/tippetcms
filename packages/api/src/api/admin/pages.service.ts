@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { readdirSync, existsSync, unlinkSync, readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import * as shortid from 'shortid';
 import * as getSlug from 'speakingurl';
 import { Page, PageTemplate, Section } from 'shared';
 
+// TODO: Replace this
 export interface TippetFile {
   id?: number;
   folder: boolean;
@@ -23,7 +24,6 @@ export class PagesService {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
       const normalizedPath: string = path !== '0' ? `${'/'}${path.split('-').join('/')}` : '/';
       const requestedPathDepth: number = this.getDepth(normalizedPath);
-
       return this.getFilesAndFolders(pages, normalizedPath, requestedPathDepth);
     } catch (e) {
       console.log(e);
@@ -36,7 +36,6 @@ export class PagesService {
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-
       return pages.find(page => page.id === id);
     } catch (e) {
       console.log(e);
@@ -85,6 +84,7 @@ export class PagesService {
     );
   }
 
+  // TODO: Revisit this logic
   private getFilesAndFolders(
     pages: any[],
     normalizedPath: string,
@@ -94,26 +94,27 @@ export class PagesService {
     let folders: TippetFile[] = [];
 
     pages.forEach(page => {
+      const path = this.getPathFromSlug(page.slug);
       if (
-        this.getDepth(page.path) >= requestedPathDepth &&
-        this.getDepth(page.path) <= requestedPathDepth + 1 &&
-        this.matchPathName(page.path, normalizedPath)
+        this.getDepth(path) >= requestedPathDepth &&
+        this.getDepth(path) <= requestedPathDepth + 1 &&
+        this.matchPathName(path, normalizedPath)
       ) {
         // If page path matches normalized path it is a page
-        if (page.path === normalizedPath) {
+        if (path === normalizedPath) {
           files.push({
             id: page.id,
             folder: false,
             title: page.title,
-            path: page.path,
+            path: path,
             slug: page.slug,
             preview: page.preview,
           });
           return;
         }
-        // Otherwise its a folders. Only push the folder if its is not already pushed
-        if (!folders.find(folder => folder.path === page.path)) {
-          folders.push({ folder: true, title: page.path.split('/').pop(), path: page.path });
+        // Otherwise its a folder. Only push the folder if its is not already pushed
+        if (!folders.find(folder => folder.path === path)) {
+          folders.push({ folder: true, title: path.split('/').pop(), path });
         }
       }
     });
@@ -121,6 +122,22 @@ export class PagesService {
     return [...folders, ...files];
   }
 
+  // Given -> /some/very/nice/slug/
+  // this will return -> /some/very/nice/
+  private getPathFromSlug(slug) {
+    return slug.substring(
+      0,
+      slug.length -
+        1 -
+        slug
+          .slice(0, -1)
+          .split('')
+          .reverse()
+          .findIndex(char => char === '/'),
+    );
+  }
+
+  // TODO: Slug name must be changed below
   // Create a page
   addPage(
     username: string,
