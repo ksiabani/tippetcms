@@ -42,7 +42,7 @@
       <button mat-icon-button (click)="build()" [disabled]="isBuilding | async">
         <mat-icon class="content__header__icon disabled" [ngClass]="{disabled: isBuilding | async}">build</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="preview()">
         <mat-icon class="content__header__icon">launch</mat-icon>
       </button>
       <img matListAvatar src="{{(user | async)?.photoURL}}" alt="" [matMenuTriggerFor]="menu">

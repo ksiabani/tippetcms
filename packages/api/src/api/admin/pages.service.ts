@@ -123,7 +123,7 @@ export class PagesService {
   }
 
   // Given -> /some/very/nice/slug/
-  // this will return -> /some/very/nice/
+  // will return -> /some/very/nice/
   private getPathFromSlug(slug) {
     return slug.substring(
       0,
@@ -144,6 +144,7 @@ export class PagesService {
     site: string,
     title: string,
     path: string,
+    isIndex: boolean,
     template: string,
   ): Page | void {
     // Get pages.json and site.json files
@@ -154,7 +155,8 @@ export class PagesService {
       // Get existing pages
       const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
       const fullPaths: string[] = pages.map(
-        page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`),
+        // page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`)
+        page => page.slug
       );
 
       // Get a page from template
@@ -165,18 +167,18 @@ export class PagesService {
       const sections: Section[] = components.map(com => ({ id: shortid.generate(), ...com }));
 
       // Create a slug. For rules for slug generation, see https://trello.com/c/UuWkeTis
-      const slug: string = !fullPaths.includes(`${path}/`)
-        ? ''
-        : !fullPaths.includes(`${path}/${getSlug(title)}`)
-          ? getSlug(title)
-          : `${getSlug(title)}_${shortid.generate()}`;
+      const slug: string = isIndex ? path.length > 1 && `${path}/` || '/' : getSlug(title);
+
+      // TODO: Validation
+      if (fullPaths.includes(slug)) {
+        throw new Error("Slug already exists");
+      }
 
       // Create new page object
       const page: Page = {
         id: shortid.generate(),
         template,
         title,
-        path: path || '/',
         slug,
         preview,
         components: sections,

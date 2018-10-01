@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { Select } from "@ngxs/store";
 import { Store } from "@ngxs/store";
+import { environment } from "../../../../environments/environment";
 import { LoginState } from "../../../login/store/login.state";
 import { Logout } from "../../../login/store/login.actions";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -64,5 +65,16 @@ export class AdminComponent implements OnInit {
 
   save() {
     this.store.dispatch(new InitSave(true));
+  }
+
+  preview() {
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
+      "id"
+      ];
+    this.user
+      .pipe(filter(user => !!user && !!siteId))
+      .subscribe(user =>
+        window.open(`${environment.api.root}/${user.githubUser.login}/${siteId}`, "_blank")
+      );
   }
 }

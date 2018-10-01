@@ -2,10 +2,10 @@ export interface Section {
   id?: string;
   name: string;
   title: string;
-  icon: string;
   description: string;
   preview: string;
   position: number;
+  icon: string;
   data: Data;
   dependencies?: Tile[]
 }
@@ -21,10 +21,10 @@ export interface Data {
 
 export interface Page {
   id: string;
-  title: string;
-  path: string;
-  slug: string;
   template: string;
+  title: string;
+  isIndex?: boolean;
+  slug: string;
   preview: string;
   components: Section[];
 }
@@ -32,6 +32,7 @@ export interface Page {
 export interface PageTemplate {
   name: string;
   title: string;
+  isIndex?: boolean;
   preview: string;
   components: Section[];
 }

@@ -24,11 +24,11 @@ export interface Option {
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   pageMetaForm: FormGroup;
-  paths: Option[] = [
-    { name: "/", value: "/" },
-    { name: "/blog", value: "/blog" },
-    { name: "/products", value: "/products" }
-  ];
+  // paths: Option[] = [
+  //   {name: "/", value: "/"},
+  //   {name: "/blog", value: "/blog"},
+  //   {name: "/products", value: "/products"}
+  // ];
   sections$ = new Subscription();
   sections: Section[];
   page: Page;
@@ -47,7 +47,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private dragulaService: DragulaService,
     private store: Store,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.user$.pipe(filter(user => !!user)).subscribe(user => {
@@ -62,7 +63,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.sections$.add(
       this.dragulaService
         .dropModel("sections")
-        .subscribe(({ targetModel }) => this.orderSections(targetModel))
+        .subscribe(({targetModel}) => this.orderSections(targetModel))
     );
     this.initSave
       .pipe(filter(initSave => initSave && this.pageMetaForm.valid))
@@ -78,7 +79,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const pageId: string = this.activatedRoute.snapshot.params["pageId"];
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
-    ];
+      ];
     if (pageId && siteId) {
       this.store.dispatch(
         new GetSinglePage(user.githubUser.login, siteId, pageId)
@@ -89,7 +90,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private createForm(page: any): void {
     this.pageMetaForm = this.fb.group({
       title: [page.title, Validators.required],
-      path: [page.path, Validators.required],
+      // path: [page.path, Validators.required],
       slug: [page.slug]
     });
   }

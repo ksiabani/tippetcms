@@ -13,16 +13,9 @@
       margin-left: -8px;
     }
     &__input {
-      width: 100%;
-      &--half {
-        flex: 0 1 50%;
-        &:nth-of-type(odd) {
-          padding-left: 30px;
-        }
-        &:nth-of-type(even) {
-          padding-right: 30px;
-        }
-      }
+      flex: 1 1 50%;
+      padding-left: 8px;
+      padding-right: 8px;
     }
     &__actions {
       display: flex;

@@ -1,25 +1,13 @@
-<div class="details container">
-  <h2 class="details__title">{{(page$ | async)?.title}}</h2>
+<div class="details container" *ngIf="page$ | async as page">
+  <h2 class="details__title">{{page.title}}</h2>
+  <h4 class="details__sections__title">Properties</h4>
   <mat-card class="details__meta">
-    <mat-card-header class="details__meta__header">
-      <!--<mat-card-title class="details__meta__title">-->
-        <!--<h3>Page properties</h3>-->
-      <!--</mat-card-title>-->
-    </mat-card-header>
-    <mat-card-content *ngIf="page$ | async">
+    <mat-card-content>
       <form [formGroup]="pageMetaForm" class="d-flex flex-wrap">
         <mat-form-field class="details__meta__input">
-          <input type="text" formControlName="title" name="title" matInput cdkFocusInitial placeholder="Heading">
+          <input type="text" formControlName="title" name="title" matInput cdkFocusInitial placeholder="Title">
         </mat-form-field>
-        <mat-form-field class="details__meta__input details__meta__input--half">
-          <input type="text" formControlName="path" name="path" matInput placeholder="Path" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let path of paths" [value]="path.name">
-              {{path.value}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field class="details__meta__input details__meta__input--half">
+        <mat-form-field class="details__meta__input">
           <input type="text" formControlName="slug" name="slug" matInput placeholder="Slug">
         </mat-form-field>
       </form>
@@ -28,7 +16,7 @@
   <div class="details__sections">
     <h4 class="details__sections__title">Sections</h4>
     <div dragula="sections" [(dragulaModel)]="sections">
-      <div *ngFor="let section of page?.components" class="details__section">
+      <div *ngFor="let section of page.components | sort: 'position'" class="details__section">
         <mat-icon mat-card-avatar class="details__section__drag ng-handle">drag_handle</mat-icon>
         <mat-card class="details__section__card" routerLink="section/{{section.id}}">
           <mat-card-header class="details__section__header">

@@ -9,7 +9,7 @@
     </div>
     <div mat-dialog-content class="add-page-dialog__content d-flex flex-column flex-fill">
       <mat-form-field class="add-page-dialog__input">
-        <input formControlName="title" name="title" matInput cdkFocusInitial placeholder="Title" required>
+        <input formControlName="title" name="title" matInput cdkFocusInitial placeholder='Title (or "Index" for an index page)' required>
       </mat-form-field>
       <mat-form-field class="add-page-dialog__input">
         <input type="text" formControlName="path" name="path" matInput [matAutocomplete]="auto"
