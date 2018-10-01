@@ -21,7 +21,6 @@ import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { PagesState } from "./admin/store/children/pages.state";
 import { SinglePageState } from "./admin/store/children/single-page.state";
 import { MediaState } from "./admin/store/children/media.state";
-// import { MediaComponent } from './media/media.component';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -33,7 +32,6 @@ import { MediaState } from "./admin/store/children/media.state";
     LobbyModule,
     AdminModule,
     AppRoutingModule,
-
     NgxsModule.forRoot([
       LoginState,
       LobbyState,
@@ -44,7 +42,6 @@ import { MediaState } from "./admin/store/children/media.state";
     ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule
   ],

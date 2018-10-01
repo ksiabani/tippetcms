@@ -11,7 +11,8 @@ export class SitesService {
     const gutsbiesDirForSite = join(...basePath, 'gutsbies', username, site);
     try {
       console.log(`Start gatsby build for user ${username} and site ${site}`);
-      await execa('gatsby', ['build', '--prefix-paths'], { cwd: gutsbiesDirForSite });
+      // await execa('gatsby', ['build', '--prefix-paths'], { cwd: gutsbiesDirForSite, env: {'PATH_PREFIX': `/${username}/${site}`} });
+      await execa('gatsby', ['build'], { cwd: gutsbiesDirForSite });
       console.log('Gatsby build done, start copy');
       copySync(`${gutsbiesDirForSite}/public`, publicDirForSite);
       console.log('Copy done');

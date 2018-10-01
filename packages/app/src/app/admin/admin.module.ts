@@ -32,8 +32,8 @@ import { DetailsComponent } from "./pages/details/details.component";
 import { SectionComponent } from "./pages/section/section.component";
 import { TileComponent } from "./pages/tile/tile.component";
 import { DropzoneModule, DropzoneConfigInterface, DROPZONE_CONFIG } from "ngx-dropzone-wrapper";
-import { environment } from "../../environments/environment.prod";
 import { MediaLibraryComponent } from './components/media-library/media-library.component';
+import { SortPipe } from "../shared/pipes/sort/sort.pipe";
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   maxFilesize: 1,
@@ -65,6 +65,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ReactiveFormsModule,
     DragulaModule.forRoot()
   ],
+  exports: [SortPipe],
   declarations: [
     OverviewComponent,
     ElementsComponent,
@@ -76,7 +77,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     DetailsComponent,
     SectionComponent,
     TileComponent,
-    MediaLibraryComponent
+    MediaLibraryComponent,
+    SortPipe
   ],
   entryComponents: [AddPageDialogComponent],
   providers: [
