@@ -34,6 +34,7 @@ import { TileComponent } from "./pages/tile/tile.component";
 import { DropzoneModule, DropzoneConfigInterface, DROPZONE_CONFIG } from "ngx-dropzone-wrapper";
 import { MediaLibraryComponent } from './components/media-library/media-library.component';
 import { SortPipe } from "../shared/pipes/sort/sort.pipe";
+import { QuillModule } from "ngx-quill";
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   maxFilesize: 1,
@@ -63,7 +64,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     MatExpansionModule,
     FormsModule,
     ReactiveFormsModule,
-    DragulaModule.forRoot()
+    DragulaModule.forRoot(),
+    QuillModule
   ],
   exports: [SortPipe],
   declarations: [
