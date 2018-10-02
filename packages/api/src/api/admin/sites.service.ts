@@ -11,8 +11,11 @@ export class SitesService {
     const gutsbiesDirForSite = join(...basePath, 'gutsbies', username, site);
     try {
       console.log(`Start gatsby build for user ${username} and site ${site}`);
-      // await execa('gatsby', ['build', '--prefix-paths'], { cwd: gutsbiesDirForSite, env: {'PATH_PREFIX': `/${username}/${site}`} });
-      await execa('gatsby', ['build'], { cwd: gutsbiesDirForSite });
+      await execa('gatsby', ['build', '--prefix-paths'], {
+        cwd: gutsbiesDirForSite,
+        env: { PATH_PREFIX: `/${username}/${site}` },
+      });
+      // await execa('gatsby', ['build'], { cwd: gutsbiesDirForSite });
       console.log('Gatsby build done, start copy');
       copySync(`${gutsbiesDirForSite}/public`, publicDirForSite);
       console.log('Copy done');
@@ -29,7 +32,11 @@ export class SitesService {
     return siteData.templates.map(t => ({ name: t.name }));
   }
 
-  getSectionTemplates(username: string, site: string, templateId: string): { id: string; name: string }[] {
+  getSectionTemplates(
+    username: string,
+    site: string,
+    templateId: string,
+  ): { id: string; name: string }[] {
     const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     const siteData: any = JSON.parse(readFileSync(siteJsonPath, 'utf8'));

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import * as shortid from 'shortid';
 import * as getSlug from 'speakingurl';
@@ -124,7 +124,7 @@ export class PagesService {
 
   // Given -> /some/very/nice/slug/
   // will return -> /some/very/nice/
-  private getPathFromSlug(slug) {
+  getPathFromSlug(slug) {
     return slug.substring(
       0,
       slug.length -
@@ -144,20 +144,21 @@ export class PagesService {
     site: string,
     title: string,
     path: string,
-    isIndex: boolean,
     template: string,
   ): Page | void {
+    //TODO: Implement isIndex
+    const isIndex = true;
     // Get pages.json and site.json files
     const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     try {
       // Get existing pages
-      const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      const fullPaths: string[] = pages.map(
+      const pages: Page[] = existsSync(pagesJsonPath) && JSON.parse(readFileSync(pagesJsonPath, 'utf8')) || [];
+      const fullPaths: string[] = pages && pages.map(
         // page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`)
         page => page.slug
-      );
+      ) || [];
 
       // Get a page from template
       const pageFromTemplate: PageTemplate = JSON.parse(
