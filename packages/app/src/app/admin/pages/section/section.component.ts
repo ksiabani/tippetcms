@@ -22,6 +22,7 @@ export interface TileForm {
   styleUrls: ["./section.component.scss"]
 })
 export class SectionComponent implements OnInit {
+  editorForm: FormGroup;
   sectionDataForm: FormGroup;
   sectionDataProps: string[] = [];
   forms: TileForm[] = [];
@@ -60,10 +61,19 @@ export class SectionComponent implements OnInit {
       if (this.tiles) {
         this.createSubForms(this.tiles);
       }
+      if (this.section.name === "editor") {
+        this.createEditorForm(this.section.data.html);
+      }
     });
     this.initSave
       .pipe(filter(initSave => initSave && this.sectionDataForm.valid))
       .subscribe(() => this.save());
+  }
+
+  private createEditorForm(html) {
+    this.editorForm = this.fb.group({
+      editor: [html]
+    });
   }
 
   private createForm(section): void {
