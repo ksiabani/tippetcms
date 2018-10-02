@@ -63,6 +63,7 @@ export class LobbyController {
       console.log('Copy done');
       return { success: true };
     } catch (e) {
+      console.log("Something went wrong, rolling back");
       await execa.shell(`rm -rf ${gutsbiesDirForSite}`);
       await execa.shell(`rm -rf ${publicDirForSite}`);
       return { success: false, reason: e };

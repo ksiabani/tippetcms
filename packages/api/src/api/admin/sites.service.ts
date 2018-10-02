@@ -11,10 +11,20 @@ export class SitesService {
     const gutsbiesDirForSite = join(...basePath, 'gutsbies', username, site);
     try {
       console.log(`Start gatsby build for user ${username} and site ${site}`);
+      // TODO: Confirm it works in OSX and remove the other cases
+      // Case 1
       await execa('gatsby', ['build', '--prefix-paths'], {
         cwd: gutsbiesDirForSite,
-        env: { PATH_PREFIX: `/${username}/${site}` },
+        env: { PATH_PREFIX: `/${username}/${site}` }
       });
+      // Case 2
+      // await execa('gatsby', ['build', '--prefix-paths'], {
+      //   cwd: gutsbiesDirForSite,
+      //   env: Object.assign({}, process.env, {
+      //     env: { PATH_PREFIX: `/${username}/${site}` },
+      //   })
+      // });
+      // Case 3
       // await execa('gatsby', ['build'], { cwd: gutsbiesDirForSite });
       console.log('Gatsby build done, start copy');
       copySync(`${gutsbiesDirForSite}/public`, publicDirForSite);
