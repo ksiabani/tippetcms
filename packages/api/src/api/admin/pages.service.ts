@@ -92,12 +92,21 @@ export class PagesService {
   ): TippetFile[] {
     let files: TippetFile[] = [];
     let folders: TippetFile[] = [];
-
     pages.forEach(page => {
-      const path = this.getPathFromSlug(page.slug);
+      // Given -> /some/very/nice/slug/
+      // this will return -> /some/very/nice/
+      const path =
+        (page.slug.match(/\//g) || []).length > 2
+          ? `/${page.slug
+            .split('/')
+            .filter(el => el)
+            .slice(0, -1)
+            .join('/')}/`
+          : '/';
+      console.log(page.slug, path);
       if (
         this.getDepth(path) >= requestedPathDepth &&
-        this.getDepth(path) <= requestedPathDepth + 1 &&
+        this.getDepth(path) <= requestedPathDepth + 2 &&
         this.matchPathName(path, normalizedPath)
       ) {
         // If page path matches normalized path it is a page
@@ -114,27 +123,11 @@ export class PagesService {
         }
         // Otherwise its a folder. Only push the folder if its is not already pushed
         if (!folders.find(folder => folder.path === path)) {
-          folders.push({ folder: true, title: path.split('/').pop(), path });
+          folders.push({folder: true, title: path.split('/').pop(), path});
         }
       }
     });
-
     return [...folders, ...files];
-  }
-
-  // Given -> /some/very/nice/slug/
-  // will return -> /some/very/nice/
-  getPathFromSlug(slug) {
-    return slug.substring(
-      0,
-      slug.length -
-        1 -
-        slug
-          .slice(0, -1)
-          .split('')
-          .reverse()
-          .findIndex(char => char === '/'),
-    );
   }
 
   // TODO: Slug name must be changed below
@@ -154,25 +147,29 @@ export class PagesService {
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     try {
       // Get existing pages
-      const pages: Page[] = existsSync(pagesJsonPath) && JSON.parse(readFileSync(pagesJsonPath, 'utf8')) || [];
-      const fullPaths: string[] = pages && pages.map(
-        // page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`)
-        page => page.slug
-      ) || [];
+      const pages: Page[] =
+        (existsSync(pagesJsonPath) && JSON.parse(readFileSync(pagesJsonPath, 'utf8'))) || [];
+      const fullPaths: string[] =
+        (pages &&
+          pages.map(
+            // page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`)
+            page => page.slug,
+          )) ||
+        [];
 
       // Get a page from template
       const pageFromTemplate: PageTemplate = JSON.parse(
         readFileSync(siteJsonPath, 'utf8'),
       ).templates.find(page => page && page.name === template);
-      const { preview, components } = pageFromTemplate;
-      const sections: Section[] = components.map(com => ({ id: shortid.generate(), ...com }));
+      const {preview, components} = pageFromTemplate;
+      const sections: Section[] = components.map(com => ({id: shortid.generate(), ...com}));
 
       // Create a slug. For rules for slug generation, see https://trello.com/c/UuWkeTis
-      const slug: string = isIndex ? path.length > 1 && `${path}/` || '/' : getSlug(title);
+      const slug: string = isIndex ? (path.length > 1 && `${path}/`) || '/' : getSlug(title);
 
       // TODO: Validation
       if (fullPaths.includes(slug)) {
-        throw new Error("Slug already exists");
+        throw new Error('Slug already exists');
       }
 
       // Create new page object
