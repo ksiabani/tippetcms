@@ -30,6 +30,7 @@ export class SectionComponent implements OnInit {
   tiles: Tile[];
   user: User;
   page: Page;
+  // isEditor: boolean = false;
 
   // Selectors
   @Select(LoginState.user)
@@ -61,19 +62,13 @@ export class SectionComponent implements OnInit {
       if (this.tiles) {
         this.createSubForms(this.tiles);
       }
-      if (this.section.name === "editor") {
-        this.createEditorForm(this.section.data.html);
-      }
+      // if (this.section && this.section.name === "editor") {
+      //   this.isEditor = true;
+      // }
     });
     this.initSave
       .pipe(filter(initSave => initSave && this.sectionDataForm.valid))
       .subscribe(() => this.save());
-  }
-
-  private createEditorForm(html) {
-    this.editorForm = this.fb.group({
-      editor: [html]
-    });
   }
 
   private createForm(section): void {
