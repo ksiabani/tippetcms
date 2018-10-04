@@ -84,6 +84,7 @@ export class PagesService {
     );
   }
 
+  //TODO: Revisit this logic, it should be rewritten since slug logic was changed
   private getFilesAndFolders(
     pages: any[],
     normalizedPath: string,
@@ -106,7 +107,7 @@ export class PagesService {
           .join('/'));
       if (
         this.getDepth(path) >= requestedPathDepth &&
-        this.getDepth(path) <= requestedPathDepth + 2 &&
+        this.getDepth(path) <= requestedPathDepth + 1 &&
         this.matchPathName(path, normalizedPath)
       ) {
         // If page path matches normalized path it is a page
@@ -122,7 +123,7 @@ export class PagesService {
           return;
         }
         // Otherwise its a folder. Only push the folder if its is not already pushed
-        if (!folders.find(folder => folder.path === path)) {
+        if (!folders.find(folder => folder.path === path) && page.isIndex) {
           // Given -> /some/very/nice/blog/
           // this will return -> blog
           const title =  page.slug
