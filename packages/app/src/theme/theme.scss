@@ -76,6 +76,27 @@ body *:not(mat-icon) {
   filter: alpha(opacity=20);
 }
 
+// Quill related
+.ql-toolbar.ql-snow {
+  border: none !important;
+}
+
+.ql-container.ql-snow {
+  border: none !important;
+}
+
+.ql-editor {
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+}
+
+.ql-container.ql-snow {
+  overflow: auto !important;
+}
+
+.ql-toolbar.ql-snow {
+  background: #fafafa !important;
+}
 
 // Project specific
 

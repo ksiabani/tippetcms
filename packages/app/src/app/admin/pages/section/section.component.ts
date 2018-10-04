@@ -22,7 +22,6 @@ export interface TileForm {
   styleUrls: ["./section.component.scss"]
 })
 export class SectionComponent implements OnInit {
-  editorForm: FormGroup;
   sectionDataForm: FormGroup;
   sectionDataProps: string[] = [];
   forms: TileForm[] = [];
@@ -30,7 +29,6 @@ export class SectionComponent implements OnInit {
   tiles: Tile[];
   user: User;
   page: Page;
-  // isEditor: boolean = false;
 
   // Selectors
   @Select(LoginState.user)
@@ -62,9 +60,6 @@ export class SectionComponent implements OnInit {
       if (this.tiles) {
         this.createSubForms(this.tiles);
       }
-      // if (this.section && this.section.name === "editor") {
-      //   this.isEditor = true;
-      // }
     });
     this.initSave
       .pipe(filter(initSave => initSave && this.sectionDataForm.valid))

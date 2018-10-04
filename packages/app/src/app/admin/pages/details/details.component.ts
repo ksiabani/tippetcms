@@ -1,5 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from "@angular/forms";
 import { Subscription, Observable } from "rxjs";
 import { DragulaService } from "ng2-dragula";
 import { Store, Select } from "@ngxs/store";
@@ -24,15 +29,12 @@ export interface Option {
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   pageMetaForm: FormGroup;
-  // paths: Option[] = [
-  //   {name: "/", value: "/"},
-  //   {name: "/blog", value: "/blog"},
-  //   {name: "/products", value: "/products"}
-  // ];
+  articleForm: FormGroup;
   sections$ = new Subscription();
   sections: Section[];
   page: Page;
   user: User;
+  isArticle: boolean = false;
 
   // selectors
   @Select(LoginState.user)
@@ -47,8 +49,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private dragulaService: DragulaService,
     private store: Store,
     private activatedRoute: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.user$.pipe(filter(user => !!user)).subscribe(user => {
@@ -59,11 +60,16 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.sections = page.components;
       this.page = page;
       this.createForm(page);
+      this.isArticle =
+        this.sections.length === 1 && this.sections[0].name === "editor";
+      if (this.isArticle) {
+        this.createArticleForm(this.sections[0].data);
+      }
     });
     this.sections$.add(
       this.dragulaService
         .dropModel("sections")
-        .subscribe(({targetModel}) => this.orderSections(targetModel))
+        .subscribe(({ targetModel }) => this.orderSections(targetModel))
     );
     this.initSave
       .pipe(filter(initSave => initSave && this.pageMetaForm.valid))
@@ -79,7 +85,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const pageId: string = this.activatedRoute.snapshot.params["pageId"];
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
-      ];
+    ];
     if (pageId && siteId) {
       this.store.dispatch(
         new GetSinglePage(user.githubUser.login, siteId, pageId)
@@ -90,8 +96,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private createForm(page: any): void {
     this.pageMetaForm = this.fb.group({
       title: [page.title, Validators.required],
-      // path: [page.path, Validators.required],
-      slug: [page.slug]
+      slug: [page.slug, Validators.required]
+    });
+    // if (this.isArticle) {
+    //   const html = page.components[0].data.html;
+    //   this.pageMetaForm.addControl('html',new FormControl(html));
+    // }
+  }
+
+  private createArticleForm(article: any): void {
+    this.articleForm = this.fb.group({
+      html: [article.html]
     });
   }
 
@@ -100,12 +115,20 @@ export class DetailsComponent implements OnInit, OnDestroy {
       const siteId: string = this.activatedRoute.root.snapshot.children[0]
         .params["id"];
       const login = this.user.githubUser.login;
-      const components = this.sections;
+      const components = this.isArticle
+        ? [
+            {
+              ...this.sections[0],
+              data: { ...this.sections[0].data, html: this.articleForm.value.html }
+            }
+          ]
+        : this.sections;
       const newPageData: Page = {
         ...this.page,
         ...this.pageMetaForm.value,
         components
       };
+      console.log(newPageData);
       this.store.dispatch(
         new SavePage(login, siteId, this.page.id, newPageData)
       );

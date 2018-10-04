@@ -1,7 +1,9 @@
 @import '../../../../theme/theme-variables';
 
+// TODO: Revisit naming
 .details {
   max-width: $container-max-width;
+  height: 100%;
   &__title {
     padding-top: 24px;
     padding-bottom: 12px;
@@ -9,6 +11,9 @@
   &__meta {
     border-radius: $card-border-radius;
     margin-bottom: 24px;
+    &.isFull {
+      min-height: calc(100% - 120px);
+    }
     &__title {
       margin-left: -8px;
     }
@@ -20,6 +25,10 @@
     &__actions {
       display: flex;
       justify-content: flex-end;
+    }
+    &__editor {
+      margin-top: 40px;
+      height: calc(100vh - 430px);
     }
   }
   &__sections {
@@ -68,4 +77,10 @@
       margin-bottom: 8px;
     }
   }
+}
+
+
+
+.ql-editor {
+  height: 300px;
 }
