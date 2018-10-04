@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MatDialog } from "@angular/material";
 import { Select, Store } from "@ngxs/store";
-import { Observable, combineLatest } from "rxjs";
+import { Observable, combineLatest, Subscription } from "rxjs";
 import { GetPages, ChangePath } from "../../store/admin.actions";
 import { LoginState } from "../../../login/store/login.state";
 import { User } from "../../../shared/model/user.interface";
@@ -16,7 +16,7 @@ import { Page } from "shared/model/page.interface";
   templateUrl: "./pages.component.html",
   styleUrls: ["./pages.component.scss"]
 })
-export class PagesComponent implements OnInit {
+export class PagesComponent implements OnInit, OnDestroy {
   @Select(PagesState.pages)
   pages: Observable<Page[]>;
   @Select(PagesState.path)
@@ -26,6 +26,8 @@ export class PagesComponent implements OnInit {
 
   displayedColumns: string[] = ["title", "slug", "preview"];
   dataSource: Page[];
+
+  onStateChange: Subscription; // Fired when user, path, or site id is changes
 
   constructor(
     private store: Store,
@@ -37,13 +39,17 @@ export class PagesComponent implements OnInit {
   ngOnInit() {
     this.pages.subscribe((pages: Page[]) => (this.dataSource = pages));
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params["id"];
-    combineLatest(this.user, this.path)
+    this.onStateChange = combineLatest(this.user, this.path)
       .pipe(filter(([user, path]) => !!user && !!siteId && !!path))
       .subscribe(([user, path]) =>
         this.store.dispatch(
           new GetPages(user.githubUser.login, siteId, path.length ? path.join("-") : "0")
         )
       );
+  }
+
+  ngOnDestroy() {
+    this.onStateChange.unsubscribe();
   }
 
   changeFolder(path?: string, abort?: boolean): void {
