@@ -84,7 +84,6 @@ export class PagesService {
     );
   }
 
-  // TODO: Revisit this logic
   private getFilesAndFolders(
     pages: any[],
     normalizedPath: string,
@@ -94,16 +93,17 @@ export class PagesService {
     let folders: TippetFile[] = [];
     pages.forEach(page => {
       // Given -> /some/very/nice/slug/
-      // this will return -> /some/very/nice/
-      const path =
-        (page.slug.match(/\//g) || []).length > 2
-          ? `/${page.slug
-            .split('/')
-            .filter(el => el)
-            .slice(0, -1)
-            .join('/')}/`
-          : '/';
-      console.log(page.slug, path);
+      // this will return -> /some/very/nice
+      const path = "/" +  (page.isIndex
+        ? page.slug
+          .split('/')
+          .filter(el => el)
+          .join('/')
+        : page.slug
+          .split('/')
+          .filter(el => el)
+          .slice(0, -1)
+          .join('/'));
       if (
         this.getDepth(path) >= requestedPathDepth &&
         this.getDepth(path) <= requestedPathDepth + 2 &&
@@ -123,7 +123,14 @@ export class PagesService {
         }
         // Otherwise its a folder. Only push the folder if its is not already pushed
         if (!folders.find(folder => folder.path === path)) {
-          folders.push({folder: true, title: path.split('/').pop(), path});
+          // Given -> /some/very/nice/blog/
+          // this will return -> blog
+          const title =  page.slug
+              .split('/')
+              .filter(el => el)
+              .splice(-1, 1)
+              .join('');
+          folders.push({ folder: true, title, path });
         }
       }
     });
@@ -161,8 +168,8 @@ export class PagesService {
       const pageFromTemplate: PageTemplate = JSON.parse(
         readFileSync(siteJsonPath, 'utf8'),
       ).templates.find(page => page && page.name === template);
-      const {preview, components} = pageFromTemplate;
-      const sections: Section[] = components.map(com => ({id: shortid.generate(), ...com}));
+      const { preview, components } = pageFromTemplate;
+      const sections: Section[] = components.map(com => ({ id: shortid.generate(), ...com }));
 
       // Create a slug. For rules for slug generation, see https://trello.com/c/UuWkeTis
       const slug: string = isIndex ? (path.length > 1 && `${path}/`) || '/' : getSlug(title);
