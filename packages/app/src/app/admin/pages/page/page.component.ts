@@ -23,11 +23,11 @@ export interface Option {
 }
 
 @Component({
-  selector: "app-details",
-  templateUrl: "./details.component.html",
-  styleUrls: ["./details.component.scss"]
+  selector: "app-page",
+  templateUrl: "./page.component.html",
+  styleUrls: ["./page.component.scss"]
 })
-export class DetailsComponent implements OnInit, OnDestroy {
+export class PageComponent implements OnInit, OnDestroy {
   pageMetaForm: FormGroup;
   articleForm: FormGroup;
   sections$ = new Subscription();
@@ -57,7 +57,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.getPage(user);
     });
     this.page$.pipe(filter(page => !!page)).subscribe(page => {
-      this.sections = page.components;
+      // Do not show components that have no data, e.g. Excerpts component
+      this.sections = page.components.filter(com => !!com.data);
       this.page = page;
       this.createForm(page);
       this.isArticle =
@@ -128,7 +129,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
         ...this.pageMetaForm.value,
         components
       };
-      console.log(newPageData);
       this.store.dispatch(
         new SavePage(login, siteId, this.page.id, newPageData)
       );

@@ -32,7 +32,7 @@
   <div *ngIf="!isArticle" class="details__sections">
     <h4 class="details__sections__title">Sections</h4>
     <div dragula="sections" [(dragulaModel)]="sections">
-      <div *ngFor="let section of page.components | sort: 'position'" class="details__section">
+      <div *ngFor="let section of sections | sort: 'position'" class="details__section">
         <mat-icon mat-card-avatar class="details__section__drag ng-handle">drag_handle</mat-icon>
         <mat-card class="details__section__card" routerLink="section/{{section.id}}">
           <mat-card-header class="details__section__header">
@@ -55,4 +55,3 @@
     </div>
   </div>
 </div>
-<!--<router-outlet></router-outlet>-->
