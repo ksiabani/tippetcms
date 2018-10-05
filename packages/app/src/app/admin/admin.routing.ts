@@ -5,9 +5,8 @@ import { MediaComponent } from "./pages/media/media.component";
 import { ElementsComponent } from "./pages/elements/elements.component";
 import { PagesComponent } from "./pages/pages/pages.component";
 import { SettingsComponent } from "./pages/settings/settings.component";
-import { DetailsComponent } from "./pages/details/details.component";
+import { PageComponent } from "./pages/page/page.component";
 import { SectionComponent } from "./pages/section/section.component";
-import { TileComponent } from "./pages/tile/tile.component";
 
 const adminRoutes: Routes = [
   {
@@ -34,9 +33,8 @@ const adminRoutes: Routes = [
       {
         path: "page/:pageId",
         children: [
-          { path: "", component: DetailsComponent },
+          { path: "", component: PageComponent },
           { path: "section/:sectionId", component: SectionComponent },
-          { path: "section/:sectionId/tile/:tileId", component: TileComponent }
         ]
       },
       {

@@ -28,9 +28,8 @@ import {
   MatExpansionModule
 } from "@angular/material";
 import { DragulaModule } from "ng2-dragula";
-import { DetailsComponent } from "./pages/details/details.component";
+import { PageComponent } from "./pages/page/page.component";
 import { SectionComponent } from "./pages/section/section.component";
-import { TileComponent } from "./pages/tile/tile.component";
 import { DropzoneModule, DropzoneConfigInterface, DROPZONE_CONFIG } from "ngx-dropzone-wrapper";
 import { MediaLibraryComponent } from './components/media-library/media-library.component';
 import { SortPipe } from "../shared/pipes/sort/sort.pipe";
@@ -76,9 +75,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SettingsComponent,
     AdminComponent,
     AddPageDialogComponent,
-    DetailsComponent,
+    PageComponent,
     SectionComponent,
-    TileComponent,
     MediaLibraryComponent,
     SortPipe
   ],
