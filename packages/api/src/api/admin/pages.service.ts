@@ -18,7 +18,7 @@ export interface TippetFile {
 @Injectable()
 export class PagesService {
   getPages(username: string, site: string, path: string): TippetFile[] {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
@@ -32,7 +32,7 @@ export class PagesService {
   }
 
   getSinglePage(username: string, site: string, id: string): any {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
@@ -44,7 +44,7 @@ export class PagesService {
   }
 
   savePage(username: string, site: string, id: string, body: { page: Page }) {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
@@ -58,7 +58,7 @@ export class PagesService {
   }
 
   getSection(username: string, site: string, pageId: string, id: string) {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
@@ -150,7 +150,7 @@ export class PagesService {
     //TODO: Implement isIndex
     const isIndex = true;
     // Get pages.json and site.json files
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     try {

@@ -6,8 +6,8 @@ import { writeFileSync, unlinkSync, readdirSync } from 'fs';
 export class MediaService {
   listMedia(username: string, site: string) {
     try {
-      const sitePath = join(__dirname, '../..', 'public', username, site);
-      const mediaPath = join(sitePath, 'img');
+      const publicPath = join(__dirname, '../..', 'public', username, site);
+      const mediaPath = join(publicPath, 'img');
       return readdirSync(mediaPath);
     } catch (e) {
       return { success: false, reason: e };
@@ -16,12 +16,12 @@ export class MediaService {
 
   uploadMedia(username: string, site: string, file) {
     try {
-      const sitePath = join(__dirname, '../..', 'public', username, site);
-      const gatsbyPath = join(__dirname, '../..', 'gutsbies', username, site);
-      const publicMediaPath = join(sitePath, 'img', file.originalname);
-      const gutsbyMediaPath = join(gatsbyPath, 'static', 'img', file.originalname);
+      const publicPath = join(__dirname, '../..', 'public', username, site);
+      const sitePath = join(__dirname, '../..', 'sites', username, site);
+      const publicMediaPath = join(publicPath, 'img', file.originalname);
+      const siteMediaPath = join(sitePath, 'static', 'img', file.originalname);
       writeFileSync(publicMediaPath, file.buffer);
-      writeFileSync(gutsbyMediaPath, file.buffer);
+      writeFileSync(siteMediaPath, file.buffer);
       return { success: true, utl: join(username, site, file.originalname) };
     } catch (e) {
       return { success: false, reason: e };
@@ -30,12 +30,12 @@ export class MediaService {
 
   removeMedia(username: string, site: string, mediaName: string) {
     try {
-      const sitePath = join(__dirname, '../..', 'public', username, site);
-      const gatsbyPath = join(__dirname, '../..', 'gutsbies', username, site);
-      const publicMediaPath = join(sitePath, 'img', mediaName);
-      const gutsbyMediaPath = join(gatsbyPath, 'static', 'img', mediaName);
+      const publicPath = join(__dirname, '../..', 'public', username, site);
+      const sitePath = join(__dirname, '../..', 'sites', username, site);
+      const publicMediaPath = join(publicPath, 'img', mediaName);
+      const siteMediaPath = join(sitePath, 'static', 'img', mediaName);
       unlinkSync(publicMediaPath);
-      unlinkSync(gutsbyMediaPath);
+      unlinkSync(siteMediaPath);
       return { success: true };
     } catch (e) {
       return { success: false, reason: e };
