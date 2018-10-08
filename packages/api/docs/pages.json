@@ -1,13 +1,14 @@
 [
   {
-    "id": "12345678",
+    "id": "at3B9E95H3",
     "template": "index",
-    "title": "Home page",
+    "title": "Home",
     "slug": "/",
+    "isIndex": true,
     "preview": "https://picsum.photos/50/60/?image=501",
     "components": [
       {
-        "id": "XJxJtP-Gc",
+        "id": "J6S5uVeL_0",
         "name": "banner",
         "title": "Banner",
         "icon": "view_day",
@@ -18,10 +19,11 @@
           "heading": "Some cool motto!",
           "description": "Some vague description for my gorgeous banner!",
           "btnTxt": "Join us!"
-        }
+        },
+        "dependencies": []
       },
       {
-        "id": "1CwlAvdXpK",
+        "id": "IOooDZVz0D",
         "name": "grid",
         "title": "Services",
         "description": "Lorem ipsum dolor sit amet",
@@ -29,7 +31,7 @@
         "icon": "view_module",
         "position": 2,
         "data": {
-          "heading": "We offer the best services1",
+          "heading": "We offer the best services",
           "description": "this is some description for my banner!"
         },
         "dependencies": [
@@ -63,65 +65,85 @@
     ]
   },
   {
-    "id": "23456789",
-    "template": "index",
-    "title": "Home page",
-    "slug": "/other/",
-    "preview": "https://picsum.photos/50/60/?image=501",
+    "id": "a2h45d7e9e",
+    "template": "generic",
+    "title": "Generic",
+    "slug": "/generic/",
+    "isIndex": false,
+    "preview": "https://picsum.photos/50/60/?image=511",
     "components": [
       {
-        "id": "YJxJtP-Gc",
+        "id": "at3B9E95H3",
+        "name": "editor",
+        "title": "Text Editor",
+        "description": "Lorem ipsum dolor sit amet",
+        "preview": "https://picsum.photos/150/50/?image=322",
+        "icon": "text_fields",
+        "position": 2,
+        "data": {
+          "heading": "We offer the best services",
+          "description": "Who are in extremely love with eco friendly system",
+          "html": "<p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks such as Party Gaming and PlayTech left the United States. </p><p><br></p><blockquote>Overnight, online casino players found themselves being chased by the Federal government. But, after a fortnight, the online casino industry came up with a solution and new online casinos started taking root. These began to operate under a different business umbrella, and by doing that, rendered the transfer of money to and from them legal. </blockquote><p><br></p><p>A major part of this was enlisting electronic banking systems that would accept this new clarification and start doing business with me. Listed in this article are the electronic banking systems that accept players from the United States that wish to play in online casinos.</p>"
+        },
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "id": "g5shhgl021",
+    "template": "blogIndex",
+    "title": "Blog index",
+    "slug": "/blog/",
+    "isIndex": true,
+    "preview": "https://picsum.photos/50/60/?image=611",
+    "components": [
+      {
+        "id": "dsfds45435",
         "name": "hero",
-        "title": "Banner",
+        "title": "Hero",
         "icon": "view_day",
         "description": "Lorem ipsum dolor sit amet",
-        "preview": "https://picsum.photos/150/50/?image=400",
+        "preview": "https://picsum.photos/150/50/?image=412",
         "position": 1,
         "data": {
-          "heading": "Some cool motto!",
-          "description": "Some vague description for my gorgeous banner!",
-          "btnTxt": "Join us!"
-        }
+          "heading": "Our blog",
+          "description": "This is our blog page. You can find the latest news here."
+        },
+        "dependencies": []
       },
       {
-        "id": "1CwlAvdXpK",
-        "name": "grid",
-        "title": "Services",
+        "id": "asd324df_D",
+        "name": "excerpts",
+        "title": "Excerpts",
         "description": "Lorem ipsum dolor sit amet",
         "preview": "https://picsum.photos/150/50/?image=302",
         "icon": "view_module",
+        "position": 2
+      }
+    ]
+  },
+  {
+    "id": "32d23we2e2",
+    "template": "blogPost",
+    "title": "Health effects of friendship",
+    "slug": "/blog/health-effects-of-friendship/",
+    "isIndex": false,
+    "preview": "https://picsum.photos/50/60/?image=951",
+    "components": [
+      {
+        "id": "at3B9E95H3",
+        "name": "editor",
+        "title": "Text Editor",
+        "description": "A text editor to write text",
+        "preview": "https://picsum.photos/150/50/?image=322",
+        "icon": "text_fields",
         "position": 2,
         "data": {
-          "heading": "We offer the best services1",
-          "description": "this is some description for my banner!"
+          "heading": "We offer the best services",
+          "description": "How does friendship play a role in your health?",
+          "html": "Conventional wisdom suggests that good friendships enhance an individual’s sense of happiness and overall well-being. Indeed, a number of studies have found that strong social supports improve a woman’s prospects for good health and longevity. Conversely, loneliness and a lack of social supports have been linked to an increased risk of heart disease, viral infections, and cancer, as well as higher mortality rates overall. Two researchers have even termed friendship networks a “behavioral vaccine” that boosts both physical and mental health. Man While there is an impressive body of research linking friendship and health, the precise reasons for the connection remain unclear. Most of the studies in this area are large prospective studies that follow people over a period of time, and while there may be a correlation between the two variables (friendship and health status), researchers still do not know if there is a cause and effect relationship, such as the notion that good friendships actually improve health. Thai A number of theories have attempted to explain this link. These theories have included that good friends encourage their friends to lead more healthy lifestyles; that good friends encourage their friends to seek help and access services when needed; that good friends enhance their friends’ coping skills in dealing with illness and other health problems; and that good friends actually affect physiological pathways that are protective of health."
         },
-        "dependencies": [
-          {
-            "name": "tile",
-            "data": [
-              {
-                "heading": "Unlimited Colors",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
-                "icon": "s1.png"
-              },
-              {
-                "heading": "Smart Security",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
-                "icon": "s2.png"
-              },
-              {
-                "heading": "Endless Support1",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
-                "icon": "s3.png"
-              },
-              {
-                "heading": "Same Day Delivery",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.",
-                "icon": "s4.png"
-              }
-            ]
-          }
-        ]
+        "dependencies": []
       }
     ]
   }

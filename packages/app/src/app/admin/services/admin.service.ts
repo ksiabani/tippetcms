@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Page } from "shared/model/page.interface";
+import { Page, PageTemplate } from "shared/model/page.interface";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
@@ -60,5 +60,11 @@ export class AdminService {
 
   removeMedia(username: string, site: string, mediaName: string): Observable<any> {
     return this.http.delete<any>(`${environment.api.admin}/media/${username}/${site}/${mediaName}`);
+  }
+
+  getPageTemplates(username: string, site: string): Observable<PageTemplate[]> {
+    return this.http.get<PageTemplate[]>(
+      `${environment.api.admin}/sites/${username}/${site}/templates`
+    );
   }
 }

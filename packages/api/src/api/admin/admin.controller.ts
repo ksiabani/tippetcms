@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { PagesService, TippetFile } from './pages.service';
 import { MediaService } from './media.service';
-import { Page } from 'shared/model/page.interface';
+import { Page, PageTemplate } from 'shared/model/page.interface';
 import { SitesService } from './sites.service';
 
 interface File {
@@ -132,21 +132,21 @@ export class AdminController {
   }
 
   // Get page templates
-  @Get('sites/:username/:site')
+  @Get('sites/:username/:site/templates')
   getPageTemplates(
     @Param('username') username: string,
     @Param('site') site: string,
-  ): { name: string }[] {
+  ): PageTemplate[] {
     return this.siteService.getPageTemplates(username, site);
   }
 
-  // Get section templates
-  @Get('sites/:username/:site/:templateId')
-  getSectionTemplates(
-    @Param('username') username: string,
-    @Param('site') site: string,
-    @Param('templateId') templateId: string,
-  ): { id: string; name: string }[] {
-    return this.siteService.getSectionTemplates(username, site, templateId);
-  }
+  // // Get sections per template
+  // @Get('sites/:username/:site/:template/sections')
+  // getSectionTemplates(
+  //   @Param('username') username: string,
+  //   @Param('site') site: string,
+  //   @Param('templateId') templateId: string,
+  // ): { id: string; name: string }[] {
+  //   return this.siteService.getSectionTemplates(username, site, templateId);
+  // }
 }

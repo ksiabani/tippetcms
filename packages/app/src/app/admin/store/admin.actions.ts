@@ -14,6 +14,14 @@ export class ChangePath {
   constructor(private path: string[]) {}
 }
 
+export class GetPageTemplates {
+  static readonly type = "[Admin] Get Page Templates";
+  constructor(
+    private username: string,
+    private site: string
+  ) {}
+}
+
 export class GetSinglePage {
   static readonly type = "[Admin] [Page] Get Single Page";
   constructor(

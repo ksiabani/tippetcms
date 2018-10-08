@@ -9,13 +9,11 @@ import { Observable } from "rxjs";
 import { User } from "../../../shared/model/user.interface";
 import { filter } from "rxjs/operators";
 import { AdminState } from "../../store/admin.state";
-import { PageTemplate } from "shared";
+import { PageTemplate, Section } from "shared";
 
-export interface NewPageData {
+export interface NewSectionData {
   title: string;
-  path: string;
   template: string;
-  currPath?: string[];
 }
 
 export interface Option {
@@ -24,26 +22,13 @@ export interface Option {
 }
 
 @Component({
-  selector: "app-add-page-dialog",
-  templateUrl: "./add-page-dialog.component.html",
-  styleUrls: ["./add-page-dialog.component.scss"]
+  selector: "app-add-section-dialog",
+  templateUrl: "./add-section-dialog.component.html",
+  styleUrls: ["./add-section-dialog.component.scss"]
 })
-export class AddPageDialogComponent implements OnInit {
-  addPageForm: FormGroup;
-  // TODO: Replace this with data from the server
-  // templates: {name: string, title: string}[];
-  //   Option[] = [
-  //   { value: "homePage", name: "Homepage" },
-  //   { value: "blogIndex", name: "Blog index" },
-  //   { value: "blogPost", name: "Blog post" },
-  //   { value: "generic", name: "Generic page" }
-  // ];
-  // TODO: Replace this with data from the server
-  folders: Option[] = [
-    { name: "/", value: "/" },
-    { name: "/blog", value: "/blog" },
-    { name: "/products", value: "/products" }
-  ];
+export class AddSectionDialogComponent implements OnInit {
+  addSectionForm: FormGroup;
+  sections: Section[];
 
   // selectors
   @Select(LoginState.user)
@@ -52,8 +37,8 @@ export class AddPageDialogComponent implements OnInit {
   templates: Observable<PageTemplate[]>;
 
   constructor(
-    public dialogRef: MatDialogRef<AddPageDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: NewPageData,
+    public dialogRef: MatDialogRef<AddSectionDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: NewSectionData,
     private fb: FormBuilder,
     private store: Store,
     private activatedRoute: ActivatedRoute
@@ -62,13 +47,13 @@ export class AddPageDialogComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.getPageTemplates();
+    // this.getSections();
   }
 
   createForm() {
     // TODO: Form validations
-    this.addPageForm = this.fb.group({
+    this.addSectionForm = this.fb.group({
       title: [this.data.title, Validators.required],
-      path: [this.data.path || ""],
       template: [this.data.template, Validators.required]
     });
   }
@@ -77,7 +62,7 @@ export class AddPageDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  createPage(user) {
+  createSection(user) {
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
     ];
@@ -86,9 +71,9 @@ export class AddPageDialogComponent implements OnInit {
       new CreatePage(
         user.githubUser.login,
         siteId,
-        this.addPageForm.value.title,
-        this.addPageForm.value.path,
-        this.addPageForm.value.template
+        this.addSectionForm.value.title,
+        this.addSectionForm.value.path,
+        this.addSectionForm.value.template
       )
     );
   }
@@ -103,4 +88,18 @@ export class AddPageDialogComponent implements OnInit {
         this.store.dispatch(new GetPageTemplates(user.githubUser.login, siteId))
       );
   }
+
+  // TODO: You were here
+  // getSections() {
+  //   const pageId: string = this.activatedRoute.root.snapshot.children[1].params[
+  //     "id"
+  //     ];
+  //   console.log(pageId);
+  //   this.templates.subscribe(templates => {
+  //       if(templates.length) {
+  //         templates.filter()
+  //       }
+  //     }
+  //   )
+  // }
 }

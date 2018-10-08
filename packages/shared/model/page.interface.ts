@@ -33,6 +33,6 @@ export interface PageTemplate {
   name: string;
   title: string;
   isIndex?: boolean;
-  preview: string;
+  preview?: string;
   components: Section[];
 }
