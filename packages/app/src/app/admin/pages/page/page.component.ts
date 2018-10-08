@@ -99,10 +99,6 @@ export class PageComponent implements OnInit, OnDestroy {
       title: [page.title, Validators.required],
       slug: [page.slug, Validators.required]
     });
-    // if (this.isArticle) {
-    //   const html = page.components[0].data.html;
-    //   this.pageMetaForm.addControl('html',new FormControl(html));
-    // }
   }
 
   private createArticleForm(article: any): void {

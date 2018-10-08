@@ -1,23 +1,25 @@
-import { State, Action, StateContext, Selector } from "@ngxs/store";
+import { State, Action, StateContext, Selector, Store } from "@ngxs/store";
 import { PagesState } from "./children/pages.state";
 import { SinglePageState } from "./children/single-page.state";
 import { AdminService } from "../services/admin.service";
 import * as actions from "./admin.actions";
 import { tap } from "rxjs/operators";
 import { MediaState } from "./children/media.state";
+import { GithubUser } from "shared";
 
 export interface AdminStateModel {
   building: boolean;
   initSave: boolean;
+  pageTemplates: { name: string; title: string }[];
 }
 
 @State<AdminStateModel>({
   name: "admin",
-  defaults: { building: false, initSave: false },
+  defaults: { building: false, initSave: false, pageTemplates: [] },
   children: [PagesState, SinglePageState, MediaState]
 })
 export class AdminState {
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, private store: Store) {}
 
   @Selector()
   static building(state: AdminStateModel): boolean {
@@ -29,8 +31,18 @@ export class AdminState {
     return state.initSave;
   }
 
+  @Selector()
+  static pageTemplates(
+    state: AdminStateModel
+  ): { name: string; title: string }[] {
+    return state.pageTemplates;
+  }
+
   @Action(actions.BuildSite)
-  buildSite(ctx: StateContext<AdminStateModel>, { username, site }: actions.BuildSite) {
+  buildSite(
+    ctx: StateContext<AdminStateModel>,
+    { username, site }: actions.BuildSite
+  ) {
     ctx.patchState({ building: true });
     return this.adminService
       .buildSite(username, site)
@@ -38,8 +50,24 @@ export class AdminState {
   }
 
   @Action(actions.InitSave)
-  initSave(ctx: StateContext<AdminStateModel>, { initSave }: actions.InitSave): void {
+  initSave(
+    ctx: StateContext<AdminStateModel>,
+    { initSave }: actions.InitSave
+  ): void {
     ctx.patchState({ initSave: initSave });
   }
 
+  @Action(actions.GetPageTemplates)
+  getPageTemplates(
+    ctx: StateContext<AdminStateModel>,
+    { username, site }: actions.GetPageTemplates
+  ) {
+    return this.adminService
+      .getPageTemplates(username, site)
+      .pipe(
+        tap((pageTemplates: { name: string; title: string }[]) =>
+          ctx.patchState({ pageTemplates: pageTemplates })
+        )
+      );
+  }
 }
