@@ -141,7 +141,7 @@ export class AdminController {
   }
 
   // Get sections per template
-  @Get('sites/:username/:site/:page/sections')
+  @Get('sites/:username/:site/:pageId/sections')
   getSectionTemplates(
     @Param('username') username: string,
     @Param('site') site: string,

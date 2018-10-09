@@ -87,10 +87,11 @@ export class PageComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
+    const pageId: string = this.activatedRoute.snapshot.params["pageId"];
     const dialogRef = this.dialog.open(AddSectionDialogComponent, {
       disableClose: true,
       panelClass: "add-section-dialog",
-      data: {}
+      data: {pageId}
     });
   }
 
