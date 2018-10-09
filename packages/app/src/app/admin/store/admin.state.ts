@@ -5,12 +5,12 @@ import { AdminService } from "../services/admin.service";
 import * as actions from "./admin.actions";
 import { tap } from "rxjs/operators";
 import { MediaState } from "./children/media.state";
-import { GithubUser } from "shared";
+import { PageTemplate } from "shared";
 
 export interface AdminStateModel {
   building: boolean;
   initSave: boolean;
-  pageTemplates: { name: string; title: string }[];
+  pageTemplates: PageTemplate[];
 }
 
 @State<AdminStateModel>({
@@ -34,7 +34,7 @@ export class AdminState {
   @Selector()
   static pageTemplates(
     state: AdminStateModel
-  ): { name: string; title: string }[] {
+  ): PageTemplate[] {
     return state.pageTemplates;
   }
 
@@ -65,7 +65,7 @@ export class AdminState {
     return this.adminService
       .getPageTemplates(username, site)
       .pipe(
-        tap((pageTemplates: { name: string; title: string }[]) =>
+        tap((pageTemplates: PageTemplate[]) =>
           ctx.patchState({ pageTemplates: pageTemplates })
         )
       );

@@ -2,7 +2,7 @@ import { Selector, State, Action, StateContext } from "@ngxs/store";
 import * as actions from ".././admin.actions";
 import { Page } from "shared/model/page.interface";
 import { AdminService } from "../../services/admin.service";
-import { take, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 
 export interface PagesStateModel {
   pages: Page[];
