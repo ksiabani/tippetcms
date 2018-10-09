@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Page, PageTemplate } from "shared/model/page.interface";
+import { Page, PageTemplate, Section } from "shared/model/page.interface";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
@@ -65,6 +65,12 @@ export class AdminService {
   getPageTemplates(username: string, site: string): Observable<PageTemplate[]> {
     return this.http.get<PageTemplate[]>(
       `${environment.api.admin}/sites/${username}/${site}/templates`
+    );
+  }
+
+  getSectionTemplates(username: string, site: string, pageId: string): Observable<Section[]> {
+    return this.http.get<Section[]>(
+      `${environment.api.admin}/sites/${username}/${site}/${pageId}/sections`
     );
   }
 }

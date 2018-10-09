@@ -36,3 +36,8 @@ export interface PageTemplate {
   preview?: string;
   components: Section[];
 }
+
+export interface Site {
+  title: string;
+  templates: PageTemplate[]
+}

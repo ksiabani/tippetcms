@@ -16,6 +16,9 @@ import { User } from "src/app/shared/model/user.interface";
 import { SinglePageState } from "../../store/children/single-page.state";
 import { AdminState } from "../../store/admin.state";
 import { Page, Section } from "shared";
+import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
+import { MatDialog } from "@angular/material";
+import { AddSectionDialogComponent } from "../../components/add-section-dialog/add-section-dialog.component";
 
 export interface Option {
   name: string;
@@ -48,7 +51,8 @@ export class PageComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private dragulaService: DragulaService,
     private store: Store,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -80,6 +84,14 @@ export class PageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sections$.unsubscribe();
     this.dragulaService.destroy("sections");
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddSectionDialogComponent, {
+      disableClose: true,
+      panelClass: "add-section-dialog",
+      data: {}
+    });
   }
 
   private getPage(user) {

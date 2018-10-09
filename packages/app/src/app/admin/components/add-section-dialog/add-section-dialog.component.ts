@@ -1,15 +1,16 @@
 import { Component, OnInit, Inject } from "@angular/core";
+import { MatDialog } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
-import { CreatePage, GetPageTemplates } from "../../store/admin.actions";
+import { CreatePage, GetSectionTemplates } from "../../store/admin.actions";
 import { LoginState } from "../../../login/store/login.state";
 import { Observable } from "rxjs";
 import { User } from "../../../shared/model/user.interface";
 import { filter } from "rxjs/operators";
-import { AdminState } from "../../store/admin.state";
-import { PageTemplate, Section } from "shared";
+import { Section } from "shared";
+import { SinglePageState } from "../../store/children/single-page.state";
 
 export interface NewSectionData {
   title: string;
@@ -33,8 +34,8 @@ export class AddSectionDialogComponent implements OnInit {
   // selectors
   @Select(LoginState.user)
   user: Observable<User>;
-  @Select(AdminState.pageTemplates)
-  templates: Observable<PageTemplate[]>;
+  @Select(SinglePageState.sectionTemplates)
+  templates: Observable<Section[]>;
 
   constructor(
     public dialogRef: MatDialogRef<AddSectionDialogComponent>,
@@ -46,8 +47,7 @@ export class AddSectionDialogComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.getPageTemplates();
-    // this.getSections();
+    this.getSectionTemplates();
   }
 
   createForm() {
@@ -62,6 +62,7 @@ export class AddSectionDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  // TODO
   createSection(user) {
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
@@ -78,28 +79,16 @@ export class AddSectionDialogComponent implements OnInit {
     );
   }
 
-  getPageTemplates() {
+  getSectionTemplates() {
+    const pageId = ""; //TODO
+    console.log(this.activatedRoute.root.snapshot.children[0].params["id"])
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
     ];
     this.user
       .pipe(filter(user => !!user && !!siteId))
       .subscribe(user =>
-        this.store.dispatch(new GetPageTemplates(user.githubUser.login, siteId))
+        this.store.dispatch(new GetSectionTemplates(user.githubUser.login, siteId, pageId))
       );
   }
-
-  // TODO: You were here
-  // getSections() {
-  //   const pageId: string = this.activatedRoute.root.snapshot.children[1].params[
-  //     "id"
-  //     ];
-  //   console.log(pageId);
-  //   this.templates.subscribe(templates => {
-  //       if(templates.length) {
-  //         templates.filter()
-  //       }
-  //     }
-  //   )
-  // }
 }

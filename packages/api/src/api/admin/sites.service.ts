@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { copySync, readFileSync } from 'fs-extra';
 import { join } from 'path';
 import * as execa from 'execa';
-import { PageTemplate } from 'shared';
+import { Page, PageTemplate, Section, Site } from 'shared';
 
 @Injectable()
 export class SitesService {
@@ -28,7 +28,7 @@ export class SitesService {
   getPageTemplates(username: string, site: string): PageTemplate[] {
     const sitePath = join(__dirname, '../..', 'sites', username, site);
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
-    const siteData: any = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
+    const siteData: Site = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
     return siteData.templates.map(t => ({
       name: t.name,
       title: t.title,
@@ -36,15 +36,17 @@ export class SitesService {
     }));
   }
 
-  // getSectionTemplates(
-  //   username: string,
-  //   site: string,
-  //   templateId: string,
-  // ): { id: string; name: string }[] {
-  //   const sitePath = join(__dirname, '../..', 'sites', username, site);
-  //   const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
-  //   const siteData: any = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
-  //   const template = siteData.templates.find(t => t.id === templateId);
-  //   return (template && template.components.map(t => ({ id: t.id, name: t.name }))) || [];
-  // }
+  getSectionTemplates(
+    username: string,
+    site: string,
+    pageId: string,
+  ): Section[] {
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
+    const siteData: Site = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
+    const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+    const template: string = pages.find(page => page.id === pageId).template;
+    return siteData.templates.find(t => t.name === template).components || [];
+  }
 }
