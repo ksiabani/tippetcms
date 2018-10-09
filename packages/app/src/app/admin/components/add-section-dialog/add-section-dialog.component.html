@@ -1,4 +1,4 @@
-<form [formGroup]="addPageForm" *ngIf="user | async as user">
+<form [formGroup]="addSectionForm" *ngIf="user | async as user">
   <div class="add-page-dialog d-flex flex-column">
     <div class="d-flex align-items-center">
       <h2 class="add-page-dialog__title">Add a page</h2>
@@ -9,27 +9,21 @@
     </div>
     <div mat-dialog-content class="add-page-dialog__content d-flex flex-column flex-fill">
       <mat-form-field class="add-page-dialog__input">
-        <input formControlName="title" name="title" matInput cdkFocusInitial placeholder='Title (or "Index" for an index page)' required>
+        <input formControlName="title" name="title" matInput cdkFocusInitial placeholder='Title' required>
       </mat-form-field>
       <mat-form-field class="add-page-dialog__input">
-        <input type="text" formControlName="path" name="path" matInput [matAutocomplete]="auto"
-               placeholder="Select a folder or enter a new folder name">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let folder of folders" [value]="folder.value">
-            {{folder.name}}
-          </mat-option>
-        </mat-autocomplete>
+        <input formControlName="description" name="description" matInput placeholder='Description' required>
       </mat-form-field>
       <mat-form-field class="add-page-dialog__input">
-        <mat-select formControlName="template" placeholder="Select a page template" required>
+        <mat-select formControlName="template" name="template" placeholder="Select a section template" required>
           <mat-option *ngFor="let template of templates | async" value="{{template.name}}">{{template.title}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div mat-dialog-actions class="align-self-end">
       <button mat-button (click)="close()">Cancel</button>
-      <button mat-button color="primary" [mat-dialog-close]="data" [disabled]="!addPageForm.valid"
-              (click)="createPage(user)">Create page
+      <button mat-button color="primary" [mat-dialog-close]="data" [disabled]="!addSectionForm.valid"
+              (click)="createSection(user)">Create page
       </button>
     </div>
   </div>

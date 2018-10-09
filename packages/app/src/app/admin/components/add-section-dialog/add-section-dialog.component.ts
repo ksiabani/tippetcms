@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from "@angular/core";
-import { MatDialog } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
@@ -12,11 +11,15 @@ import { filter } from "rxjs/operators";
 import { Section } from "shared";
 import { SinglePageState } from "../../store/children/single-page.state";
 
+// TODO: Get rid of this
 export interface NewSectionData {
   title: string;
+  description: string;
   template: string;
+  pageId?: string;
 }
 
+// TODO: Get rid of this
 export interface Option {
   value: string;
   name: string;
@@ -29,7 +32,7 @@ export interface Option {
 })
 export class AddSectionDialogComponent implements OnInit {
   addSectionForm: FormGroup;
-  sections: Section[];
+  // sections: Section[];
 
   // selectors
   @Select(LoginState.user)
@@ -54,6 +57,7 @@ export class AddSectionDialogComponent implements OnInit {
     // TODO: Form validations
     this.addSectionForm = this.fb.group({
       title: [this.data.title, Validators.required],
+      description: [this.data.description, Validators.required],
       template: [this.data.template, Validators.required]
     });
   }
@@ -80,13 +84,13 @@ export class AddSectionDialogComponent implements OnInit {
   }
 
   getSectionTemplates() {
-    const pageId = ""; //TODO
-    console.log(this.activatedRoute.root.snapshot.children[0].params["id"])
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
-    ];
+      ];
+    const pageId: string = this.data.pageId;
+    console.log(pageId)
     this.user
-      .pipe(filter(user => !!user && !!siteId))
+      .pipe(filter(user => !!user && !!siteId && !!pageId))
       .subscribe(user =>
         this.store.dispatch(new GetSectionTemplates(user.githubUser.login, siteId, pageId))
       );
