@@ -19,6 +19,11 @@ export class GetPageTemplates {
   constructor(private username: string, private site: string) {}
 }
 
+export class GetFolders {
+  static readonly type = "[Admin] Get Folders";
+  constructor(private username: string, private site: string) {}
+}
+
 export class GetSinglePage {
   static readonly type = "[Admin] [Page] Get Single Page";
   constructor(
@@ -59,7 +64,8 @@ export class CreatePage {
     private site: string,
     private title: string,
     private path: string,
-    private template: string
+    private template: string,
+    private isIndex: boolean
   ) {}
 }
 

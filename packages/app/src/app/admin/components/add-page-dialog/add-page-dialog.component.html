@@ -9,22 +9,25 @@
     </div>
     <div mat-dialog-content class="add-page-dialog__content d-flex flex-column flex-fill">
       <mat-form-field class="add-page-dialog__input">
-        <input formControlName="title" name="title" matInput cdkFocusInitial placeholder='Title (or "Index" for an index page)' required>
+        <input formControlName="title" name="title" matInput cdkFocusInitial
+               placeholder='Title' required>
       </mat-form-field>
-      <mat-form-field class="add-page-dialog__input">
+      <mat-form-field class="add-page-dialog__input" *ngIf="folders | async as folders">
         <input type="text" formControlName="path" name="path" matInput [matAutocomplete]="auto"
                placeholder="Select a folder or enter a new folder name">
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let folder of folders" [value]="folder.value">
-            {{folder.name}}
+          <mat-option *ngFor="let folder of folders" [value]="folder.title">
+            {{folder.title | titlecase}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field class="add-page-dialog__input">
-        <mat-select formControlName="template" placeholder="Select a page template" required>
-          <mat-option *ngFor="let template of templates | async" value="{{template.name}}">{{template.title}}</mat-option>
+      <mat-form-field class="add-page-dialog__input" *ngIf="templates | async as templates">
+        <mat-select formControlName="template" name="template" placeholder="Select a page template" required>
+          <mat-option *ngFor="let template of templates" value="{{template.name}}">{{template.title}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-checkbox class="add-page-dialog__checkbox" name="isIndex" formControlName="isIndex">This is an index page</mat-checkbox>
     </div>
     <div mat-dialog-actions class="align-self-end">
       <button mat-button (click)="close()">Cancel</button>

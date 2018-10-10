@@ -3,6 +3,7 @@ import { Page, PageTemplate, Section } from "shared/model/page.interface";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
+import { xFile } from "shared";
 
 @Injectable({
   providedIn: "root"
@@ -10,8 +11,8 @@ import { HttpClient } from "@angular/common/http";
 export class AdminService {
   constructor(private http: HttpClient) {}
 
-  getPages(username: string, site: string, path: string): Observable<Page[]> {
-    return this.http.get<Page[]>(
+  getPages(username: string, site: string, path: string): Observable<xFile[]> {
+    return this.http.get<xFile[]>(
       `${environment.api.admin}/pages/${username}/${site}/${path}`
     );
   }
@@ -46,11 +47,12 @@ export class AdminService {
     site: string,
     title: string,
     path: string,
-    template: string
+    template: string,
+    isIndex: boolean
   ): Observable<Page> {
     return this.http.post<any>(
       `${environment.api.admin}/page/${username}/${site}`,
-      { title, path, template }
+      { title, path, template, isIndex }
     );
   }
 
@@ -65,6 +67,12 @@ export class AdminService {
   getPageTemplates(username: string, site: string): Observable<PageTemplate[]> {
     return this.http.get<PageTemplate[]>(
       `${environment.api.admin}/sites/${username}/${site}/templates`
+    );
+  }
+
+  getFolders(username: string, site: string): Observable<xFile[]> {
+    return this.http.get<xFile[]>(
+      `${environment.api.admin}/sites/${username}/${site}/folders`
     );
   }
 

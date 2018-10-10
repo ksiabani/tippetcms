@@ -5,17 +5,18 @@ import { AdminService } from "../services/admin.service";
 import * as actions from "./admin.actions";
 import { tap } from "rxjs/operators";
 import { MediaState } from "./children/media.state";
-import { PageTemplate } from "shared";
+import { PageTemplate, xFile } from "shared";
 
 export interface AdminStateModel {
   building: boolean;
   initSave: boolean;
   pageTemplates: PageTemplate[];
+  folders: xFile[];
 }
 
 @State<AdminStateModel>({
   name: "admin",
-  defaults: { building: false, initSave: false, pageTemplates: [] },
+  defaults: { building: false, initSave: false, pageTemplates: [], folders: [] },
   children: [PagesState, SinglePageState, MediaState]
 })
 export class AdminState {
@@ -36,6 +37,13 @@ export class AdminState {
     state: AdminStateModel
   ): PageTemplate[] {
     return state.pageTemplates;
+  }
+
+  @Selector()
+  static folders(
+    state: AdminStateModel
+  ): xFile[] {
+    return state.folders;
   }
 
   @Action(actions.BuildSite)
@@ -67,6 +75,20 @@ export class AdminState {
       .pipe(
         tap((pageTemplates: PageTemplate[]) =>
           ctx.patchState({ pageTemplates: pageTemplates })
+        )
+      );
+  }
+
+  @Action(actions.GetPageTemplates)
+  getFolders(
+    ctx: StateContext<AdminStateModel>,
+    { username, site }: actions.GetFolders
+  ) {
+    return this.adminService
+      .getFolders(username, site)
+      .pipe(
+        tap((folders: xFile[]) =>
+          ctx.patchState({ folders: folders })
         )
       );
   }

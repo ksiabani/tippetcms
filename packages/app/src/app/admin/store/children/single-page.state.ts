@@ -1,11 +1,9 @@
 import { Selector, State, Action, StateContext, Store } from "@ngxs/store";
 import * as actions from ".././admin.actions";
 import { AdminService } from "../../services/admin.service";
-import { map, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { Page, Section, PageTemplate } from "shared";
 import { PagesState } from "./pages.state";
-import { AdminState } from "../admin.state";
-import { forkJoin, Observable } from "rxjs";
 
 export interface SinglePageStateModel {
   page: Page;
@@ -74,12 +72,12 @@ export class SinglePageState {
   @Action(actions.CreatePage)
   createPage(
     ctx: StateContext<SinglePageStateModel>,
-    { username, site, title, path, template }: actions.CreatePage
+    { username, site, title, path, template, isIndex }: actions.CreatePage
   ) {
     ctx.patchState({ saving: true });
     const currPath = this.store.selectSnapshot(PagesState.path);
     return this.adminService
-      .createPage(username, site, title, path, template)
+      .createPage(username, site, title, path, template, isIndex)
       .pipe(
         tap((page: Page) => {
           ctx.patchState({ page, saving: false });

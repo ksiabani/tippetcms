@@ -72,15 +72,15 @@ export class AddSectionDialogComponent implements OnInit {
       "id"
     ];
     //TODO: replace with ...this.addPageForm.value below;
-    this.store.dispatch(
-      new CreatePage(
-        user.githubUser.login,
-        siteId,
-        this.addSectionForm.value.title,
-        this.addSectionForm.value.path,
-        this.addSectionForm.value.template
-      )
-    );
+    // this.store.dispatch(
+    //   new CreatePage(
+    //     user.githubUser.login,
+    //     siteId,
+    //     this.addSectionForm.value.title,
+    //     this.addSectionForm.value.path,
+    //     this.addSectionForm.value.template
+    //   )
+    // );
   }
 
   getSectionTemplates() {
@@ -88,7 +88,6 @@ export class AddSectionDialogComponent implements OnInit {
       "id"
       ];
     const pageId: string = this.data.pageId;
-    console.log(pageId)
     this.user
       .pipe(filter(user => !!user && !!siteId && !!pageId))
       .subscribe(user =>
