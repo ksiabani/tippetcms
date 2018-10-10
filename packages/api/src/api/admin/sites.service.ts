@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { copySync, readFileSync } from 'fs-extra';
 import { join } from 'path';
 import * as execa from 'execa';
-import { Page, PageTemplate, Section, Site } from 'shared';
+import { Page, PageTemplate, Section, Site, xFile } from 'shared';
 
 @Injectable()
 export class SitesService {
@@ -36,17 +36,43 @@ export class SitesService {
     }));
   }
 
-  getSectionTemplates(
-    username: string,
-    site: string,
-    pageId: string,
-  ): Section[] {
+  getFolders(username: string, site: string): xFile[] {
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+    const folders = [];
+    pages.map(page => {
+      // Given -> /some/very/nice/slug/
+      // this will return -> /some/very/nice
+      const path =
+        '/' +
+        (page.isIndex
+          ? page.slug
+              .split('/')
+              .filter(el => el)
+              .join('/')
+          : page.slug
+              .split('/')
+              .filter(el => el)
+              .slice(0, -1)
+              .join('/'));
+      if (!folders.find(folder => folder.title === path) && path !== '/') {
+        folders.push({ title: path });
+      }
+    });
+    return folders;
+  }
+
+  getSectionTemplates(username: string, site: string, pageId: string): Section[] {
     const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     const siteData: Site = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
     const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
     const template: string = pages.find(page => page.id === pageId).template;
-    return siteData.templates.find(t => t.name === template).components || [];
+    // Return components with data
+    return (
+      siteData.templates.find(t => t.name === template).components.filter(com => com.data) || []
+    );
   }
 }
