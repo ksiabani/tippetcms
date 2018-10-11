@@ -56,6 +56,20 @@ export class AdminService {
     );
   }
 
+  createSection(
+    username: string,
+    site: string,
+    pageId: string,
+    title: string,
+    description: string,
+    template: string
+  ): Observable<Page> {
+    return this.http.post<any>(
+      `${environment.api.admin}/page/${username}/${site}/${pageId}/section`,
+      { title, description, template }
+    );
+  }
+
   getMedia(username: string, site: string): Observable<string[]> {
     return this.http.get<string[]>(`${environment.api.admin}/media/${username}/${site}`);
   }

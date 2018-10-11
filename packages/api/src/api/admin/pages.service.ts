@@ -37,8 +37,8 @@ export class PagesService {
     const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      const newPages = [...pages.filter(page => page.id !== id), body.page];
+      const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      const newPages: Page[] = [...pages.filter(page => page.id !== id), body.page];
       writeFileSync(pagesJsonPath, JSON.stringify(newPages), 'utf8');
       return body.page;
     } catch (e) {
@@ -85,16 +85,18 @@ export class PagesService {
     pages.forEach(page => {
       // Given -> /some/very/nice/slug/
       // this will return -> /some/very/nice
-      const path = "/" +  (page.isIndex
-        ? page.slug
-          .split('/')
-          .filter(el => el)
-          .join('/')
-        : page.slug
-          .split('/')
-          .filter(el => el)
-          .slice(0, -1)
-          .join('/'));
+      const path =
+        '/' +
+        (page.isIndex
+          ? page.slug
+              .split('/')
+              .filter(el => el)
+              .join('/')
+          : page.slug
+              .split('/')
+              .filter(el => el)
+              .slice(0, -1)
+              .join('/'));
       if (
         this.getDepth(path) >= requestedPathDepth &&
         this.getDepth(path) <= requestedPathDepth + 1 &&
@@ -112,7 +114,7 @@ export class PagesService {
           });
           return;
         }
-        const title =  page.slug
+        const title = page.slug
           .split('/')
           .filter(el => el)
           .splice(-1, 1)
@@ -121,9 +123,10 @@ export class PagesService {
         if (!folders.find(folder => folder.title === title) && page.isIndex) {
           // Given -> /some/very/nice/blog/
           // this will return -> blog
-          folders.push({ folder: true,
+          folders.push({
+            folder: true,
             title,
-            path
+            path,
           });
         }
       }
@@ -131,7 +134,6 @@ export class PagesService {
     return [...folders, ...files];
   }
 
-  // TODO: Slug name must be changed below
   // Create a page
   addPage(
     username: string,
@@ -139,7 +141,7 @@ export class PagesService {
     title: string,
     path: string,
     template: string,
-    isIndex: boolean
+    isIndex: boolean,
   ): Page | void {
     // Get pages.json and site.json files
     const sitePath = join(__dirname, '../..', 'sites', username, site);
@@ -149,12 +151,7 @@ export class PagesService {
       // Get existing pages
       const pages: Page[] =
         (existsSync(pagesJsonPath) && JSON.parse(readFileSync(pagesJsonPath, 'utf8'))) || [];
-      const fullPaths: string[] =
-        (pages &&
-          pages.map(
-            page => page.slug,
-          )) ||
-        [];
+      const fullPaths: string[] = (pages && pages.map(page => page.slug)) || [];
 
       // Get a page from template
       const pageFromTemplate: PageTemplate = JSON.parse(
@@ -167,14 +164,16 @@ export class PagesService {
       // and also change the default values
       // TODO: The structure of pages.json/site.json should change to something more flexible to also
       // accommodate this. This should only be a temp solution.
-      if (sections.length === 1 && sections[0].name === "editor") {
+      if (sections.length === 1 && sections[0].name === 'editor') {
         sections[0].data.heading = title;
-        sections[0].data.description = "Some description for your post";
-        sections[0].data.html = "";
+        sections[0].data.description = 'Some description for your post';
+        sections[0].data.html = '';
       }
 
       // Create a slug. For rules for slug generation, see https://trello.com/c/UuWkeTis
-      const slug: string = isIndex ? (path.length > 1 && `${path}/`) || '/' : `${path}/${getSlug(title)}`;
+      const slug: string = isIndex
+        ? (path.length > 1 && `${path}/`) || '/'
+        : `${path}/${getSlug(title)}`;
 
       // TODO: Validation
       if (fullPaths.includes(slug)) {
@@ -198,6 +197,57 @@ export class PagesService {
 
       // Return the newly created resource
       return page;
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+  }
+
+  // Create a page
+  addSection(
+    username: string,
+    site: string,
+    pageId: string,
+    title: string,
+    description: string,
+    template: string,
+  ): Page | void {
+    // Get pages.json and site.json files
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
+    const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
+    const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
+    try {
+      const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      const page: Page = pages.find(page => page.id === pageId);
+      // Get components from page template
+      const pageTemplate = JSON.parse(readFileSync(siteJsonPath, 'utf8')).templates.find(
+        pageTemplate => pageTemplate && pageTemplate.name === page.template,
+      );
+      const components = pageTemplate.components;
+      // Get section from template and add position
+      const section: Section = {
+        ...components.find(com => com && com.name === template),
+        id: shortid.generate(),
+        title,
+        description,
+        position: page.components.length + 1
+      };
+      // Prepare new page object
+      const newPageObj = {
+        ...page,
+        components: [
+          ...page.components,
+          {...section}
+        ],
+      };
+      // Prepare body object
+      const body = {
+        page: newPageObj,
+      };
+      // Save page
+      this.savePage(username, site, pageId, body);
+      // Return the newly created resource
+      return newPageObj;
     } catch (e) {
       console.log(e);
       return;
