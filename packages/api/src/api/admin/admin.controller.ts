@@ -78,6 +78,29 @@ export class AdminController {
     );
   }
 
+  // Create a section
+  @Post('page/:username/:site/:pageId/section')
+  addSection(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('pageId') pageId: string,
+    @Body()
+      body: {
+      title: string;
+      description: string;
+      template: string;
+    },
+  ): Page | void {
+    return this.pagesService.addSection(
+      username,
+      site,
+      pageId,
+      body.title,
+      body.description,
+      body.template
+    );
+  }
+
   // Get a sites media
   @Get('media/:username/:site')
   getMedia(@Param('username') username: string, @Param('site') site: string): any {

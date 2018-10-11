@@ -1,7 +1,7 @@
 <form [formGroup]="addSectionForm" *ngIf="user | async as user">
   <div class="add-page-dialog d-flex flex-column">
     <div class="d-flex align-items-center">
-      <h2 class="add-page-dialog__title">Add a page</h2>
+      <h2 class="add-page-dialog__title">Add a section</h2>
       <span class="spacer"></span>
       <button mat-icon-button (click)="close()">
         <mat-icon>close</mat-icon>
@@ -23,7 +23,7 @@
     <div mat-dialog-actions class="align-self-end">
       <button mat-button (click)="close()">Cancel</button>
       <button mat-button color="primary" [mat-dialog-close]="data" [disabled]="!addSectionForm.valid"
-              (click)="createSection(user)">Create page
+              (click)="createSection(user)">Add section
       </button>
     </div>
   </div>
