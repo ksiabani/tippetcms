@@ -3,21 +3,25 @@ import { ActivatedRoute } from "@angular/router";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
-import { CreatePage } from "../../store/admin.actions";
+import {
+  CreatePage,
+  GetFolders,
+  GetPageTemplates
+} from "../../store/admin.actions";
 import { LoginState } from "../../../login/store/login.state";
 import { Observable } from "rxjs";
 import { User } from "../../../shared/model/user.interface";
+import { filter, map } from "rxjs/operators";
+import { AdminState } from "../../store/admin.state";
+import { PageTemplate, xFile } from "shared";
+import { PagesState } from "../../store/children/pages.state";
 
 export interface NewPageData {
   title: string;
   path: string;
   template: string;
   currPath?: string[];
-}
-
-export interface Option {
-  value: string;
-  name: string;
+  isIndex: boolean;
 }
 
 @Component({
@@ -27,23 +31,17 @@ export interface Option {
 })
 export class AddPageDialogComponent implements OnInit {
   addPageForm: FormGroup;
-  // TODO: Replace this with data from the server
-  templates: Option[] = [
-    { value: "homePage", name: "Homepage" },
-    { value: "blogIndex", name: "Blog index" },
-    { value: "blogPost", name: "Blog post" },
-    { value: "generic", name: "Generic page" }
-  ];
-  // TODO: Replace this with data from the server
-  folders: Option[] = [
-    { name: "/", value: "/" },
-    { name: "/blog", value: "/blog" },
-    { name: "/products", value: "/products" }
-  ];
+  // folders: xFile[];
 
   // selectors
   @Select(LoginState.user)
   user: Observable<User>;
+  @Select(AdminState.pageTemplates)
+  templates: Observable<PageTemplate[]>;
+  // @Select(PagesState.pages)
+  // pages: Observable<xFile[]>;
+  @Select(AdminState.folders)
+  folders: Observable<xFile[]>;
 
   constructor(
     public dialogRef: MatDialogRef<AddPageDialogComponent>,
@@ -55,6 +53,8 @@ export class AddPageDialogComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.getPageTemplates();
+    this.getFolders();
   }
 
   createForm() {
@@ -62,7 +62,8 @@ export class AddPageDialogComponent implements OnInit {
     this.addPageForm = this.fb.group({
       title: [this.data.title, Validators.required],
       path: [this.data.path || ""],
-      template: [this.data.template, Validators.required]
+      template: [this.data.template, Validators.required],
+      isIndex: [this.data.isIndex]
     });
   }
 
@@ -74,15 +75,44 @@ export class AddPageDialogComponent implements OnInit {
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
     ];
+    const pathValue = this.addPageForm.value.path;
+    // Lowercase path and add leading slash if missing
+    const path =
+      pathValue.substring(0, 1) !== "/"
+        ? `/${pathValue.toLowerCase()}`
+        : pathValue.toLowerCase();
     //TODO: replace with ...this.addPageForm.value below;
     this.store.dispatch(
       new CreatePage(
         user.githubUser.login,
         siteId,
         this.addPageForm.value.title,
-        this.addPageForm.value.path,
-        this.addPageForm.value.template
+        path,
+        this.addPageForm.value.template,
+        this.addPageForm.value.isIndex || false
       )
     );
+  }
+
+  getPageTemplates() {
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
+      "id"
+    ];
+    this.user
+      .pipe(filter(user => !!user && !!siteId))
+      .subscribe(user =>
+        this.store.dispatch(new GetPageTemplates(user.githubUser.login, siteId))
+      );
+  }
+
+  getFolders() {
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
+      "id"
+    ];
+    this.user
+      .pipe(filter(user => !!user && !!siteId))
+      .subscribe(user =>
+        this.store.dispatch(new GetFolders(user.githubUser.login, siteId))
+      );
   }
 }

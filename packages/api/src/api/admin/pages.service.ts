@@ -3,25 +3,15 @@ import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import * as shortid from 'shortid';
 import * as getSlug from 'speakingurl';
-import { Page, PageTemplate, Section } from 'shared';
-
-// TODO: Replace this
-export interface TippetFile {
-  id?: number;
-  folder: boolean;
-  title: string;
-  path: string;
-  slug?: string;
-  preview?: string;
-}
+import { Page, PageTemplate, Section, xFile } from 'shared';
 
 @Injectable()
 export class PagesService {
-  getPages(username: string, site: string, path: string): TippetFile[] {
+  getPages(username: string, site: string, path: string): xFile[] {
     const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
       const normalizedPath: string = path !== '0' ? `${'/'}${path.split('-').join('/')}` : '/';
       const requestedPathDepth: number = this.getDepth(normalizedPath);
       return this.getFilesAndFolders(pages, normalizedPath, requestedPathDepth);
@@ -86,12 +76,12 @@ export class PagesService {
 
   //TODO: Revisit this logic, it should be rewritten since slug logic was changed
   private getFilesAndFolders(
-    pages: any[],
+    pages: Page[],
     normalizedPath: string,
     requestedPathDepth: number,
-  ): TippetFile[] {
-    let files: TippetFile[] = [];
-    let folders: TippetFile[] = [];
+  ): xFile[] {
+    let files: xFile[] = [];
+    let folders: xFile[] = [];
     pages.forEach(page => {
       // Given -> /some/very/nice/slug/
       // this will return -> /some/very/nice
@@ -116,22 +106,25 @@ export class PagesService {
             id: page.id,
             folder: false,
             title: page.title,
-            path: path,
+            // path: path,
             slug: page.slug,
             preview: page.preview,
           });
           return;
         }
+        const title =  page.slug
+          .split('/')
+          .filter(el => el)
+          .splice(-1, 1)
+          .join('');
         // Otherwise its a folder. Only push the folder if its is not already pushed
-        if (!folders.find(folder => folder.path === path) && page.isIndex) {
+        if (!folders.find(folder => folder.title === title) && page.isIndex) {
           // Given -> /some/very/nice/blog/
           // this will return -> blog
-          const title =  page.slug
-              .split('/')
-              .filter(el => el)
-              .splice(-1, 1)
-              .join('');
-          folders.push({ folder: true, title, path });
+          folders.push({ folder: true,
+            title,
+            path
+          });
         }
       }
     });
@@ -146,9 +139,8 @@ export class PagesService {
     title: string,
     path: string,
     template: string,
+    isIndex: boolean
   ): Page | void {
-    //TODO: Implement isIndex
-    const isIndex = true;
     // Get pages.json and site.json files
     const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
@@ -160,7 +152,6 @@ export class PagesService {
       const fullPaths: string[] =
         (pages &&
           pages.map(
-            // page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`)
             page => page.slug,
           )) ||
         [];
@@ -172,13 +163,24 @@ export class PagesService {
       const { preview, components } = pageFromTemplate;
       const sections: Section[] = components.map(com => ({ id: shortid.generate(), ...com }));
 
+      // If the page being created is an article, give the title to the article itself
+      // and also change the default values
+      // TODO: The structure of pages.json/site.json should change to something more flexible to also
+      // accommodate this. This should only be a temp solution.
+      if (sections.length === 1 && sections[0].name === "editor") {
+        sections[0].data.heading = title;
+        sections[0].data.description = "Some description for your post";
+        sections[0].data.html = "";
+      }
+
       // Create a slug. For rules for slug generation, see https://trello.com/c/UuWkeTis
-      const slug: string = isIndex ? (path.length > 1 && `${path}/`) || '/' : getSlug(title);
+      const slug: string = isIndex ? (path.length > 1 && `${path}/`) || '/' : `${path}/${getSlug(title)}`;
 
       // TODO: Validation
       if (fullPaths.includes(slug)) {
         throw new Error('Slug already exists');
       }
+      // TODO: Check also if an index page already exists
 
       // Create new page object
       const page: Page = {
@@ -187,6 +189,7 @@ export class PagesService {
         title,
         slug,
         preview,
+        isIndex,
         components: sections,
       };
 

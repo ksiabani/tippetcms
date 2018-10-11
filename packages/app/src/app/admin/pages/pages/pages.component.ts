@@ -26,7 +26,6 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ["title", "slug", "preview"];
   dataSource: Page[];
-
   onStateChange: Subscription; // Fired when user, path, or site id is changes
 
   constructor(

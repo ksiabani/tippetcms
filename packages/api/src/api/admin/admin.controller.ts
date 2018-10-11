@@ -10,19 +10,11 @@ import {
   Put,
   Body,
 } from '@nestjs/common';
-import { PagesService, TippetFile } from './pages.service';
+import { PagesService } from './pages.service';
 import { MediaService } from './media.service';
-import { Page } from 'shared/model/page.interface';
+import { Page, PageTemplate, Section } from 'shared/model/page.interface';
 import { SitesService } from './sites.service';
-
-interface File {
-  id?: number;
-  folder: boolean;
-  name: string;
-  path: string;
-  slug?: string;
-  preview?: string;
-}
+import { xFile } from "shared";
 
 @Controller('admin')
 export class AdminController {
@@ -38,7 +30,7 @@ export class AdminController {
     @Param('username') username: string,
     @Param('site') site: string,
     @Param('path') path: string,
-  ): TippetFile[] {
+  ): xFile[] {
     return this.pagesService.getPages(username, site, path);
   }
 
@@ -73,6 +65,7 @@ export class AdminController {
       title: string;
       path: string;
       template: string;
+      isIndex: boolean;
     },
   ): Page | void {
     return this.pagesService.addPage(
@@ -81,6 +74,7 @@ export class AdminController {
       body.title,
       body.path,
       body.template,
+      body.isIndex
     );
   }
 
@@ -132,21 +126,30 @@ export class AdminController {
   }
 
   // Get page templates
-  @Get('sites/:username/:site')
+  @Get('sites/:username/:site/templates')
   getPageTemplates(
     @Param('username') username: string,
     @Param('site') site: string,
-  ): { name: string }[] {
+  ): PageTemplate[] {
     return this.siteService.getPageTemplates(username, site);
   }
 
-  // Get section templates
-  @Get('sites/:username/:site/:templateId')
+  // Get folders
+  @Get('sites/:username/:site/folders')
+  getFolders(
+    @Param('username') username: string,
+    @Param('site') site: string,
+  ): xFile[] {
+    return this.siteService.getFolders(username, site);
+  }
+
+  // Get sections per template
+  @Get('sites/:username/:site/:pageId/sections')
   getSectionTemplates(
     @Param('username') username: string,
     @Param('site') site: string,
-    @Param('templateId') templateId: string,
-  ): { id: string; name: string }[] {
-    return this.siteService.getSectionTemplates(username, site, templateId);
+    @Param('pageId') pageId: string,
+  ): Section[] {
+    return this.siteService.getSectionTemplates(username, site, pageId);
   }
 }
