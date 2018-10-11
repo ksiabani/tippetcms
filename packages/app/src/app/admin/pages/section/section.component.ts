@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
@@ -10,6 +10,7 @@ import { GetSinglePage, SavePage } from "../../store/admin.actions";
 import { LoginState } from "../../../login/store/login.state";
 import { Section, Tile, Page } from "shared";
 import { AdminState } from "../../store/admin.state";
+import { untilComponentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 export interface TileForm {
   name: string;
@@ -21,7 +22,7 @@ export interface TileForm {
   templateUrl: "./section.component.html",
   styleUrls: ["./section.component.scss"]
 })
-export class SectionComponent implements OnInit {
+export class SectionComponent implements OnInit, OnDestroy {
   sectionDataForm: FormGroup;
   sectionDataProps: string[] = [];
   forms: TileForm[] = [];
@@ -45,26 +46,43 @@ export class SectionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user$.pipe(filter(user => !!user)).subscribe(user => {
-      this.user = user;
-      this.getPage(user);
-    });
-    this.page$.pipe(filter(page => !!page)).subscribe(page => {
-      const sectionId = this.activatedRoute.snapshot.params["sectionId"];
-      this.page = page;
-      this.section = page.components.find(section => section.id === sectionId);
-      this.tiles = this.section && this.section.dependencies;
-      if (this.section && this.section.data) {
-        this.createForm(this.section.data);
-      }
-      if (this.tiles) {
-        this.createSubForms(this.tiles);
-      }
-    });
+    this.user$
+      .pipe(
+        filter(user => !!user),
+        untilComponentDestroyed(this)
+      )
+      .subscribe(user => {
+        this.user = user;
+        this.getPage(user);
+      });
+    this.page$
+      .pipe(
+        filter(page => !!page),
+        untilComponentDestroyed(this)
+      )
+      .subscribe(page => {
+        const sectionId = this.activatedRoute.snapshot.params["sectionId"];
+        this.page = page;
+        this.section = page.components.find(
+          section => section.id === sectionId
+        );
+        this.tiles = this.section && this.section.dependencies;
+        if (this.section && this.section.data) {
+          this.createForm(this.section.data);
+        }
+        if (this.tiles) {
+          this.createSubForms(this.tiles);
+        }
+      });
     this.initSave
-      .pipe(filter(initSave => initSave && this.sectionDataForm.valid))
+      .pipe(
+        filter(initSave => initSave && this.sectionDataForm.valid),
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => this.save());
   }
+
+  ngOnDestroy() {}
 
   private createForm(section): void {
     this.sectionDataProps = [];
@@ -131,7 +149,7 @@ export class SectionComponent implements OnInit {
       });
       const components: Section[] = [
         ...this.page.components.filter(
-          section => section.id !== this.section.id
+          section => section && section.id !== this.section.id
         ),
         {
           ...this.section,

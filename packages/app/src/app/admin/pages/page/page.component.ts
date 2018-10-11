@@ -16,9 +16,9 @@ import { User } from "src/app/shared/model/user.interface";
 import { SinglePageState } from "../../store/children/single-page.state";
 import { AdminState } from "../../store/admin.state";
 import { Page, Section } from "shared";
-import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
 import { MatDialog } from "@angular/material";
 import { AddSectionDialogComponent } from "../../components/add-section-dialog/add-section-dialog.component";
+import { untilComponentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 export interface Option {
   name: string;
@@ -56,34 +56,48 @@ export class PageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.user$.pipe(filter(user => !!user)).subscribe(user => {
-      this.user = user;
-      this.getPage(user);
-    });
-    this.page$.pipe(filter(page => !!page)).subscribe(page => {
-      // Do not show components that have no data, e.g. Excerpts component
-      this.sections = page.components.filter(com => !!com.data);
-      this.page = page;
-      this.createForm(page);
-      this.isArticle =
-        this.sections.length === 1 && this.sections[0].name === "editor";
-      if (this.isArticle) {
-        this.createArticleForm(this.sections[0].data);
-      }
-    });
+    this.user$
+      .pipe(
+        filter(user => !!user),
+        untilComponentDestroyed(this)
+      )
+      .subscribe(user => {
+        this.user = user;
+        this.getPage(user);
+      });
+    this.page$
+      .pipe(
+        filter(page => !!page),
+        untilComponentDestroyed(this)
+      )
+      .subscribe(page => {
+        // Do not show components that have no data, e.g. Excerpts component
+        this.sections = page.components.filter(com => !!com.data);
+        this.page = page;
+        this.createForm(page);
+        this.isArticle =
+          this.sections.length === 1 && this.sections[0].name === "editor";
+        if (this.isArticle) {
+          this.createArticleForm(this.sections[0].data);
+        }
+      });
     this.sections$.add(
       this.dragulaService
         .dropModel("sections")
+        .pipe(untilComponentDestroyed(this))
         .subscribe(({ targetModel }) => this.orderSections(targetModel))
     );
     this.initSave
-      .pipe(filter(initSave => initSave && this.pageMetaForm.valid))
+      .pipe(
+        filter(initSave => initSave && this.pageMetaForm.valid),
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => this.save());
   }
 
   ngOnDestroy() {
-    this.sections$.unsubscribe();
-    this.dragulaService.destroy("sections");
+    // this.sections$.unsubscribe();
+    // this.dragulaService.destroy("sections");
   }
 
   openDialog(): void {
@@ -91,7 +105,7 @@ export class PageComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AddSectionDialogComponent, {
       disableClose: true,
       panelClass: "add-section-dialog",
-      data: {pageId}
+      data: { pageId }
     });
   }
 
@@ -129,7 +143,10 @@ export class PageComponent implements OnInit, OnDestroy {
         ? [
             {
               ...this.sections[0],
-              data: { ...this.sections[0].data, html: this.articleForm.value.html }
+              data: {
+                ...this.sections[0].data,
+                html: this.articleForm.value.html
+              }
             }
           ]
         : this.sections;
