@@ -1,24 +1,25 @@
 import { Selector, State, Action, StateContext } from "@ngxs/store";
 import * as actions from ".././admin.actions";
-import { Page } from "shared/model/page.interface";
 import { AdminService } from "../../services/admin.service";
-import { take, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
+import { xFile } from "shared";
 
 export interface PagesStateModel {
-  pages: Page[];
+  pages: xFile[];
   path: string[];
   loading: boolean;
 }
 
 @State<PagesStateModel>({
   name: "allPages",
-  defaults: { pages: [], path: [], loading: false }
+  defaults: {pages: [], path: [], loading: false}
 })
 export class PagesState {
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService) {
+  }
 
   @Selector()
-  static pages(state: PagesStateModel): Page[] {
+  static pages(state: PagesStateModel): xFile[] {
     return state.pages;
   }
 
@@ -33,15 +34,15 @@ export class PagesState {
   }
 
   @Action(actions.ChangePath)
-  changePath(ctx: StateContext<PagesStateModel>, { path }: actions.ChangePath): void {
-    ctx.patchState({ path });
+  changePath(ctx: StateContext<PagesStateModel>, {path}: actions.ChangePath): void {
+    ctx.patchState({path});
   }
 
   @Action(actions.GetPages)
-  getPages(ctx: StateContext<PagesStateModel>, { username, site, path }: actions.GetPages) {
-    ctx.patchState({ loading: true });
+  getPages(ctx: StateContext<PagesStateModel>, {username, site, path}: actions.GetPages) {
+    ctx.patchState({loading: true});
     return this.adminService
       .getPages(username, site, path)
-      .pipe(tap((pages: Page[]) => ctx.patchState({ pages, loading: false })));
+      .pipe(tap((pages: xFile[]) => ctx.patchState({pages, loading: false})));
   }
 }
