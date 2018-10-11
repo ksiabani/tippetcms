@@ -94,6 +94,10 @@ export class SectionComponent implements OnInit {
     });
   }
 
+  addTile(form): void {
+    form.subForms.push(form.subForms[0]);
+  }
+
   getFormProps(form) {
     let props = [];
     Object.keys(form.controls).forEach(key => {

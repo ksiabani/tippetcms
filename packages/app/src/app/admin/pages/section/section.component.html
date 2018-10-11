@@ -41,7 +41,7 @@
           </mat-card>
         </div>
         <div class="section__items__add-btn">
-          <button mat-raised-button>Add {{form.name}}</button>
+          <button mat-raised-button (click)="addTile(form)">Add {{form.name}}</button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
