@@ -75,13 +75,19 @@ export class AddPageDialogComponent implements OnInit {
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
     ];
+    const pathValue = this.addPageForm.value.path;
+    // Lowercase path and add leading slash if missing
+    const path =
+      pathValue.substring(0, 1) !== "/"
+        ? `/${pathValue.toLowerCase()}`
+        : pathValue.toLowerCase();
     //TODO: replace with ...this.addPageForm.value below;
     this.store.dispatch(
       new CreatePage(
         user.githubUser.login,
         siteId,
         this.addPageForm.value.title,
-        this.addPageForm.value.path,
+        path,
         this.addPageForm.value.template,
         this.addPageForm.value.isIndex || false
       )

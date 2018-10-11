@@ -152,7 +152,6 @@ export class PagesService {
       const fullPaths: string[] =
         (pages &&
           pages.map(
-            // page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`)
             page => page.slug,
           )) ||
         [];
@@ -164,6 +163,16 @@ export class PagesService {
       const { preview, components } = pageFromTemplate;
       const sections: Section[] = components.map(com => ({ id: shortid.generate(), ...com }));
 
+      // If the page being created is an article, give the title to the article itself
+      // and also change the default values
+      // TODO: The structure of pages.json/site.json should change to something more flexible to also
+      // accommodate this. This should only be a temp solution.
+      if (sections.length === 1 && sections[0].name === "editor") {
+        sections[0].data.heading = title;
+        sections[0].data.description = "Some description for your post";
+        sections[0].data.html = "";
+      }
+
       // Create a slug. For rules for slug generation, see https://trello.com/c/UuWkeTis
       const slug: string = isIndex ? (path.length > 1 && `${path}/`) || '/' : `${path}/${getSlug(title)}`;
 
@@ -171,6 +180,7 @@ export class PagesService {
       if (fullPaths.includes(slug)) {
         throw new Error('Slug already exists');
       }
+      // TODO: Check also if an index page already exists
 
       // Create new page object
       const page: Page = {
@@ -179,6 +189,7 @@ export class PagesService {
         title,
         slug,
         preview,
+        isIndex,
         components: sections,
       };
 
