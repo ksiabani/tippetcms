@@ -1,29 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { readdirSync, existsSync, unlinkSync, readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import * as shortid from 'shortid';
 import * as getSlug from 'speakingurl';
-import { Page, PageTemplate, Section } from 'shared';
-
-export interface TippetFile {
-  id?: number;
-  folder: boolean;
-  title: string;
-  path: string;
-  slug?: string;
-  preview?: string;
-}
+import { Page, PageTemplate, Section, xFile } from 'shared';
 
 @Injectable()
 export class PagesService {
-  getPages(username: string, site: string, path: string): TippetFile[] {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+  getPages(username: string, site: string, path: string): xFile[] {
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
-      const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
       const normalizedPath: string = path !== '0' ? `${'/'}${path.split('-').join('/')}` : '/';
       const requestedPathDepth: number = this.getDepth(normalizedPath);
-
       return this.getFilesAndFolders(pages, normalizedPath, requestedPathDepth);
     } catch (e) {
       console.log(e);
@@ -32,11 +22,10 @@ export class PagesService {
   }
 
   getSinglePage(username: string, site: string, id: string): any {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-
       return pages.find(page => page.id === id);
     } catch (e) {
       console.log(e);
@@ -45,7 +34,7 @@ export class PagesService {
   }
 
   savePage(username: string, site: string, id: string, body: { page: Page }) {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
@@ -59,7 +48,7 @@ export class PagesService {
   }
 
   getSection(username: string, site: string, pageId: string, id: string) {
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
       const pages: any[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
@@ -85,42 +74,64 @@ export class PagesService {
     );
   }
 
+  //TODO: Revisit this logic, it should be rewritten since slug logic was changed
   private getFilesAndFolders(
-    pages: any[],
+    pages: Page[],
     normalizedPath: string,
     requestedPathDepth: number,
-  ): TippetFile[] {
-    let files: TippetFile[] = [];
-    let folders: TippetFile[] = [];
-
+  ): xFile[] {
+    let files: xFile[] = [];
+    let folders: xFile[] = [];
     pages.forEach(page => {
+      // Given -> /some/very/nice/slug/
+      // this will return -> /some/very/nice
+      const path = "/" +  (page.isIndex
+        ? page.slug
+          .split('/')
+          .filter(el => el)
+          .join('/')
+        : page.slug
+          .split('/')
+          .filter(el => el)
+          .slice(0, -1)
+          .join('/'));
       if (
-        this.getDepth(page.path) >= requestedPathDepth &&
-        this.getDepth(page.path) <= requestedPathDepth + 1 &&
-        this.matchPathName(page.path, normalizedPath)
+        this.getDepth(path) >= requestedPathDepth &&
+        this.getDepth(path) <= requestedPathDepth + 1 &&
+        this.matchPathName(path, normalizedPath)
       ) {
         // If page path matches normalized path it is a page
-        if (page.path === normalizedPath) {
+        if (path === normalizedPath) {
           files.push({
             id: page.id,
             folder: false,
             title: page.title,
-            path: page.path,
+            // path: path,
             slug: page.slug,
             preview: page.preview,
           });
           return;
         }
-        // Otherwise its a folders. Only push the folder if its is not already pushed
-        if (!folders.find(folder => folder.path === page.path)) {
-          folders.push({ folder: true, title: page.path.split('/').pop(), path: page.path });
+        const title =  page.slug
+          .split('/')
+          .filter(el => el)
+          .splice(-1, 1)
+          .join('');
+        // Otherwise its a folder. Only push the folder if its is not already pushed
+        if (!folders.find(folder => folder.title === title) && page.isIndex) {
+          // Given -> /some/very/nice/blog/
+          // this will return -> blog
+          folders.push({ folder: true,
+            title,
+            path
+          });
         }
       }
     });
-
     return [...folders, ...files];
   }
 
+  // TODO: Slug name must be changed below
   // Create a page
   addPage(
     username: string,
@@ -128,17 +139,22 @@ export class PagesService {
     title: string,
     path: string,
     template: string,
+    isIndex: boolean
   ): Page | void {
     // Get pages.json and site.json files
-    const sitePath = join(__dirname, '../..', 'gutsbies', username, site);
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
     try {
       // Get existing pages
-      const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
-      const fullPaths: string[] = pages.map(
-        page => (page.path === '/' ? `/${page.slug}` : `${page.path}/${page.slug}`),
-      );
+      const pages: Page[] =
+        (existsSync(pagesJsonPath) && JSON.parse(readFileSync(pagesJsonPath, 'utf8'))) || [];
+      const fullPaths: string[] =
+        (pages &&
+          pages.map(
+            page => page.slug,
+          )) ||
+        [];
 
       // Get a page from template
       const pageFromTemplate: PageTemplate = JSON.parse(
@@ -147,21 +163,33 @@ export class PagesService {
       const { preview, components } = pageFromTemplate;
       const sections: Section[] = components.map(com => ({ id: shortid.generate(), ...com }));
 
+      // If the page being created is an article, give the title to the article itself
+      // and also change the default values
+      // TODO: The structure of pages.json/site.json should change to something more flexible to also
+      // accommodate this. This should only be a temp solution.
+      if (sections.length === 1 && sections[0].name === "editor") {
+        sections[0].data.heading = title;
+        sections[0].data.description = "Some description for your post";
+        sections[0].data.html = "";
+      }
+
       // Create a slug. For rules for slug generation, see https://trello.com/c/UuWkeTis
-      const slug: string = !fullPaths.includes(`${path}/`)
-        ? ''
-        : !fullPaths.includes(`${path}/${getSlug(title)}`)
-          ? getSlug(title)
-          : `${getSlug(title)}_${shortid.generate()}`;
+      const slug: string = isIndex ? (path.length > 1 && `${path}/`) || '/' : `${path}/${getSlug(title)}`;
+
+      // TODO: Validation
+      if (fullPaths.includes(slug)) {
+        throw new Error('Slug already exists');
+      }
+      // TODO: Check also if an index page already exists
 
       // Create new page object
       const page: Page = {
         id: shortid.generate(),
         template,
         title,
-        path: path || '/',
         slug,
         preview,
+        isIndex,
         components: sections,
       };
 

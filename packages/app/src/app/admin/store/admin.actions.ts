@@ -14,12 +14,31 @@ export class ChangePath {
   constructor(private path: string[]) {}
 }
 
+export class GetPageTemplates {
+  static readonly type = "[Admin] Get Page Templates";
+  constructor(private username: string, private site: string) {}
+}
+
+export class GetFolders {
+  static readonly type = "[Admin] Get Folders";
+  constructor(private username: string, private site: string) {}
+}
+
 export class GetSinglePage {
   static readonly type = "[Admin] [Page] Get Single Page";
   constructor(
     private username: string,
     private site: string,
     private id: string
+  ) {}
+}
+
+export class GetSectionTemplates {
+  static readonly type = "[Admin] [Page ] Get Section Templates";
+  constructor(
+    private username: string,
+    private site: string,
+    private pageId: string
   ) {}
 }
 
@@ -43,10 +62,10 @@ export class CreatePage {
   constructor(
     private username: string,
     private site: string,
-    private currPath: string[],
     private title: string,
     private path: string,
-    private template: string
+    private template: string,
+    private isIndex: boolean
   ) {}
 }
 
@@ -62,5 +81,9 @@ export class GetMedia {
 
 export class RemoveMedia {
   static readonly type = "[Admin] [Media] Remove Media";
-  constructor(private username: string, private site: string, private mediaName: string) {}
+  constructor(
+    private username: string,
+    private site: string,
+    private mediaName: string
+  ) {}
 }

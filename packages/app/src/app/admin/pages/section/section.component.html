@@ -1,5 +1,3 @@
-<!--Now go edit a <a routerLink="/admin/id/page/id/section/id/tile/id">tile</a> of this section-->
-
 <div class="section container" *ngIf="page$ | async as page">
   <div class="section__title">
     <span [routerLink]="['../../../../page', page.id]" class="section__title--isLink">{{page.title | titlecase}}</span>
@@ -21,8 +19,8 @@
     </mat-card-content>
   </mat-card>
   <div class="section__items">
-    <mat-accordion *ngFor="let form of forms; let first = first">
-      <mat-expansion-panel class="section__items__panel" [expanded]="first">
+    <mat-accordion *ngFor="let form of forms">
+      <mat-expansion-panel class="section__items__panel">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3>{{form.name + 's' | titlecase}}</h3>
@@ -49,5 +47,3 @@
     </mat-accordion>
   </div>
 </div>
-<!--<router-outlet></router-outlet>-->
-

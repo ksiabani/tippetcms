@@ -1,5 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from "@angular/forms";
 import { Subscription, Observable } from "rxjs";
 import { DragulaService } from "ng2-dragula";
 import { Store, Select } from "@ngxs/store";
@@ -11,6 +16,9 @@ import { User } from "src/app/shared/model/user.interface";
 import { SinglePageState } from "../../store/children/single-page.state";
 import { AdminState } from "../../store/admin.state";
 import { Page, Section } from "shared";
+import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
+import { MatDialog } from "@angular/material";
+import { AddSectionDialogComponent } from "../../components/add-section-dialog/add-section-dialog.component";
 
 export interface Option {
   name: string;
@@ -18,21 +26,18 @@ export interface Option {
 }
 
 @Component({
-  selector: "app-details",
-  templateUrl: "./details.component.html",
-  styleUrls: ["./details.component.scss"]
+  selector: "app-page",
+  templateUrl: "./page.component.html",
+  styleUrls: ["./page.component.scss"]
 })
-export class DetailsComponent implements OnInit, OnDestroy {
+export class PageComponent implements OnInit, OnDestroy {
   pageMetaForm: FormGroup;
-  paths: Option[] = [
-    { name: "/", value: "/" },
-    { name: "/blog", value: "/blog" },
-    { name: "/products", value: "/products" }
-  ];
+  articleForm: FormGroup;
   sections$ = new Subscription();
   sections: Section[];
   page: Page;
   user: User;
+  isArticle: boolean = false;
 
   // selectors
   @Select(LoginState.user)
@@ -46,7 +51,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private dragulaService: DragulaService,
     private store: Store,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -55,9 +61,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.getPage(user);
     });
     this.page$.pipe(filter(page => !!page)).subscribe(page => {
-      this.sections = page.components;
+      // Do not show components that have no data, e.g. Excerpts component
+      this.sections = page.components.filter(com => !!com.data);
       this.page = page;
       this.createForm(page);
+      this.isArticle =
+        this.sections.length === 1 && this.sections[0].name === "editor";
+      if (this.isArticle) {
+        this.createArticleForm(this.sections[0].data);
+      }
     });
     this.sections$.add(
       this.dragulaService
@@ -74,6 +86,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.dragulaService.destroy("sections");
   }
 
+  openDialog(): void {
+    const pageId: string = this.activatedRoute.snapshot.params["pageId"];
+    const dialogRef = this.dialog.open(AddSectionDialogComponent, {
+      disableClose: true,
+      panelClass: "add-section-dialog",
+      data: {pageId}
+    });
+  }
+
   private getPage(user) {
     const pageId: string = this.activatedRoute.snapshot.params["pageId"];
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
@@ -88,9 +109,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   private createForm(page: any): void {
     this.pageMetaForm = this.fb.group({
-      name: [page.name, Validators.required],
-      path: [page.path, Validators.required],
-      slug: [page.slug]
+      title: [page.title, Validators.required],
+      slug: [page.slug, Validators.required]
+    });
+  }
+
+  private createArticleForm(article: any): void {
+    this.articleForm = this.fb.group({
+      html: [article.html]
     });
   }
 
@@ -99,7 +125,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
       const siteId: string = this.activatedRoute.root.snapshot.children[0]
         .params["id"];
       const login = this.user.githubUser.login;
-      const components = this.sections;
+      const components = this.isArticle
+        ? [
+            {
+              ...this.sections[0],
+              data: { ...this.sections[0].data, html: this.articleForm.value.html }
+            }
+          ]
+        : this.sections;
       const newPageData: Page = {
         ...this.page,
         ...this.pageMetaForm.value,

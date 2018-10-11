@@ -1,0 +1,57 @@
+<div class="details container" *ngIf="page$ | async as page">
+  <h2 class="details__title">{{page.title}}</h2>
+  <!--<h4 class="details__sections__title">Properties</h4>-->
+  <mat-card class="details__meta" [ngClass]="{'isFull':isArticle}">
+    <mat-card-content>
+      <form [formGroup]="pageMetaForm" class="d-flex flex-wrap">
+        <mat-form-field class="details__meta__input">
+          <input type="text" formControlName="title" name="title" matInput cdkFocusInitial placeholder="Title">
+        </mat-form-field>
+        <mat-form-field class="details__meta__input">
+          <input type="text" formControlName="slug" name="slug" matInput placeholder="Slug">
+        </mat-form-field>
+      </form>
+      <form [formGroup]="articleForm" *ngIf="isArticle" class="d-flex flex-wrap">
+        <quill-editor class="details__meta__editor" [formControl]="articleForm.get('html')">
+          <div quill-editor-toolbar>
+            <span class="ql-formats">
+              <button class="ql-bold" [title]="'Bold'"></button>
+              <button class="ql-italic" [title]="'Italic'"></button>
+              <button class="ql-clean" [title]="'Remove format'"></button>
+              <button class="ql-link" [title]="'Link'"></button>
+              <button class="ql-blockquote" [title]="'blockquote'"></button>
+              <button class="ql-list" [title]="'list'" value="ordered"></button>
+              <button class="ql-list" [title]="'list'" value="bullet"></button>
+              <button class="ql-image" [title]="'image'"></button>
+            </span>
+          </div>
+        </quill-editor>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <div *ngIf="!isArticle" class="details__sections">
+    <h4 class="details__sections__title">Sections</h4>
+    <div dragula="sections" [(dragulaModel)]="sections">
+      <div *ngFor="let section of sections | sort: 'position'" class="details__section">
+        <mat-icon mat-card-avatar class="details__section__drag ng-handle">drag_handle</mat-icon>
+        <mat-card class="details__section__card" routerLink="section/{{section.id}}">
+          <mat-card-header class="details__section__header">
+            <mat-icon mat-card-avatar class="details__section__icon">{{section.icon}}</mat-icon>
+            <mat-card-title class="details__section__title">
+              <h3>{{section.title | titlecase}}</h3>
+            </mat-card-title>
+            <mat-card-subtitle class="details__section__card__subtitle">
+              <h4>{{section.description}}</h4>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <span class="details__section__card__preview">
+            <img [src]="section.preview">
+          </span>
+        </mat-card>
+      </div>
+    </div>
+    <div class="details__sections__add-btn" (click)="openDialog()">
+      <button mat-raised-button>Add section</button>
+    </div>
+  </div>
+</div>

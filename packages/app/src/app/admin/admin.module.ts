@@ -25,15 +25,21 @@ import {
   MatInputModule,
   MatMenuModule,
   MatAutocompleteModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatCheckboxModule
 } from "@angular/material";
 import { DragulaModule } from "ng2-dragula";
-import { DetailsComponent } from "./pages/details/details.component";
+import { PageComponent } from "./pages/page/page.component";
 import { SectionComponent } from "./pages/section/section.component";
-import { TileComponent } from "./pages/tile/tile.component";
-import { DropzoneModule, DropzoneConfigInterface, DROPZONE_CONFIG } from "ngx-dropzone-wrapper";
-import { environment } from "../../environments/environment.prod";
-import { MediaLibraryComponent } from './components/media-library/media-library.component';
+import {
+  DropzoneModule,
+  DropzoneConfigInterface,
+  DROPZONE_CONFIG
+} from "ngx-dropzone-wrapper";
+import { MediaLibraryComponent } from "./components/media-library/media-library.component";
+import { SortPipe } from "../shared/pipes/sort/sort.pipe";
+import { QuillModule } from "ngx-quill";
+import { AddSectionDialogComponent } from "./components/add-section-dialog/add-section-dialog.component";
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   maxFilesize: 1,
@@ -61,10 +67,13 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     MatMenuModule,
     MatAutocompleteModule,
     MatExpansionModule,
+    MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
-    DragulaModule.forRoot()
+    DragulaModule.forRoot(),
+    QuillModule
   ],
+  exports: [SortPipe],
   declarations: [
     OverviewComponent,
     ElementsComponent,
@@ -73,12 +82,13 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SettingsComponent,
     AdminComponent,
     AddPageDialogComponent,
-    DetailsComponent,
+    AddSectionDialogComponent,
+    PageComponent,
     SectionComponent,
-    TileComponent,
-    MediaLibraryComponent
+    MediaLibraryComponent,
+    SortPipe
   ],
-  entryComponents: [AddPageDialogComponent],
+  entryComponents: [AddPageDialogComponent, AddSectionDialogComponent],
   providers: [
     {
       provide: DROPZONE_CONFIG,
