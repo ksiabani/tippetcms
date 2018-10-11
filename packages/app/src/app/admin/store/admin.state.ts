@@ -79,7 +79,7 @@ export class AdminState {
       );
   }
 
-  @Action(actions.GetPageTemplates)
+  @Action(actions.GetFolders)
   getFolders(
     ctx: StateContext<AdminStateModel>,
     { username, site }: actions.GetFolders
