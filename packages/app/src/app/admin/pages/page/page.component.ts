@@ -96,8 +96,6 @@ export class PageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.sections$.unsubscribe();
-    // this.dragulaService.destroy("sections");
   }
 
   openDialog(): void {
@@ -130,6 +128,8 @@ export class PageComponent implements OnInit, OnDestroy {
 
   private createArticleForm(article: any): void {
     this.articleForm = this.fb.group({
+      heading: [article.heading],
+      description: [article.description],
       html: [article.html]
     });
   }
@@ -145,6 +145,8 @@ export class PageComponent implements OnInit, OnDestroy {
               ...this.sections[0],
               data: {
                 ...this.sections[0].data,
+                heading: this.articleForm.value.heading,
+                description: this.articleForm.value.description,
                 html: this.articleForm.value.html
               }
             }
