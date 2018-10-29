@@ -13,7 +13,7 @@ import { DropzoneConfigInterface } from "ngx-dropzone-wrapper";
 @Component({
   selector: "app-media-library",
   templateUrl: "./media-library.component.html",
-  styleUrls: ["./media-library.component.css"]
+  styleUrls: ["./media-library.component.scss"]
 })
 export class MediaLibraryComponent implements OnInit {
   @Input()
@@ -37,7 +37,7 @@ export class MediaLibraryComponent implements OnInit {
       this.login = githubUser.login;
       this.store.dispatch(new GetMedia(githubUser.login, this.siteId));
       const url = `${environment.api.admin}/media/${githubUser.login}/${this.siteId}`;
-      this.dropzoneConfig = { url };
+      this.dropzoneConfig = { url, previewsContainer: false };
     });
   }
 

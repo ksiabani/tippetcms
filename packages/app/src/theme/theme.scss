@@ -98,6 +98,14 @@ body *:not(mat-icon) {
   background: #fafafa !important;
 }
 
+// Dropzone
+
+dropzone {
+  .dz-message {
+    min-height: 200px !important;
+  }
+}
+
 // Project specific
 
 .spacer {

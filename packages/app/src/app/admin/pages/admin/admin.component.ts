@@ -22,7 +22,11 @@ import { Page } from "shared";
 export class AdminComponent implements OnInit {
   isHome: boolean;
   isMobile: Observable<boolean> = this.breakpointObserver
-    .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+    .observe([
+      Breakpoints.Handset,
+      Breakpoints.TabletPortrait,
+      Breakpoints.WebPortrait
+    ])
     .pipe(map(result => result.matches));
 
   // selectors
@@ -70,11 +74,14 @@ export class AdminComponent implements OnInit {
   preview() {
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
-      ];
+    ];
     this.user
       .pipe(filter(user => !!user && !!siteId))
       .subscribe(user =>
-        window.open(`${environment.api.root}/${user.githubUser.login}/${siteId}`, "_blank")
+        window.open(
+          `${environment.api.root}/${user.githubUser.login}/${siteId}`,
+          "_blank"
+        )
       );
   }
 }
