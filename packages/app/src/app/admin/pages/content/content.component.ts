@@ -13,10 +13,10 @@ import { Page } from "shared/model/page.interface";
 
 @Component({
   selector: "app-pages",
-  templateUrl: "./pages.component.html",
-  styleUrls: ["./pages.component.scss"]
+  templateUrl: "./content.component.html",
+  styleUrls: ["./content.component.scss"]
 })
-export class PagesComponent implements OnInit, OnDestroy {
+export class ContentComponent implements OnInit, OnDestroy {
   @Select(PagesState.pages)
   pages: Observable<Page[]>;
   @Select(PagesState.path)
