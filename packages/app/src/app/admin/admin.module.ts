@@ -40,6 +40,7 @@ import { MediaLibraryComponent } from "./components/media-library/media-library.
 import { SortPipe } from "../shared/pipes/sort/sort.pipe";
 import { QuillModule } from "ngx-quill";
 import { AddSectionDialogComponent } from "./components/add-section-dialog/add-section-dialog.component";
+import { AddMediaDialogComponent } from "./components/add-media-dialog/add-media-dialog.component";
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   maxFilesize: 1,
@@ -86,9 +87,14 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     PageComponent,
     SectionComponent,
     MediaLibraryComponent,
-    SortPipe
+    SortPipe,
+    AddMediaDialogComponent
   ],
-  entryComponents: [AddPageDialogComponent, AddSectionDialogComponent],
+  entryComponents: [
+    AddPageDialogComponent,
+    AddSectionDialogComponent,
+    AddMediaDialogComponent
+  ],
   providers: [
     {
       provide: DROPZONE_CONFIG,

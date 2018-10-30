@@ -19,6 +19,8 @@ import { Page, Section } from "shared";
 import { MatDialog } from "@angular/material";
 import { AddSectionDialogComponent } from "../../components/add-section-dialog/add-section-dialog.component";
 import { untilComponentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { AddMediaDialogComponent } from "../../components/add-media-dialog/add-media-dialog.component";
+import { environment } from "../../../../environments/environment";
 
 export interface Option {
   name: string;
@@ -38,6 +40,7 @@ export class PageComponent implements OnInit, OnDestroy {
   page: Page;
   user: User;
   isArticle: boolean = false;
+  quillEditor: any;
 
   // selectors
   @Select(LoginState.user)
@@ -95,7 +98,14 @@ export class PageComponent implements OnInit, OnDestroy {
       .subscribe(() => this.save());
   }
 
-  ngOnDestroy() {
+  ngOnDestroy() {}
+
+  editorInit(quill) {
+    quill
+      .getModule("toolbar")
+      .addHandler("image", this.openAddMediaDialog.bind(this));
+    quill.focus();
+    this.quillEditor = quill;
   }
 
   openDialog(): void {
@@ -104,6 +114,24 @@ export class PageComponent implements OnInit, OnDestroy {
       disableClose: true,
       panelClass: "add-section-dialog",
       data: { pageId }
+    });
+  }
+
+  openAddMediaDialog(): void {
+    const dialogRef = this.dialog.open(AddMediaDialogComponent, {
+      disableClose: true,
+      panelClass: "add-media-dialog"
+    });
+    dialogRef.afterClosed().subscribe(image => {
+      if (this.user && image) {
+        const siteId: string = this.activatedRoute.root.snapshot.children[0]
+          .params["id"];
+        const imageUrl = `${environment.api.root}/${
+          this.user.githubUser.login
+        }/${siteId}/images/${image}`;
+        const range = this.quillEditor.getSelection();
+        this.quillEditor.insertEmbed(range.index, "image", imageUrl || image);
+      }
     });
   }
 
