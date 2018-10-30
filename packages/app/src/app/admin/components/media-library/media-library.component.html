@@ -1,5 +1,4 @@
-<div class="media container">
-  <h2 class="media__title">Media Library</h2>
+<div class="media">
   <mat-card class="media__dropzone">
     <dropzone *ngIf="!hideUploader && dropzoneConfig?.url"
               [config]="dropzoneConfig"
@@ -8,15 +7,23 @@
     </dropzone>
   </mat-card>
   <div class="media__images">
-    <mat-card *ngFor="let img of (media | async)" class="media__image">
-      <div class="media__image__remove">
-        <button mat-icon-button (click)="removeMedia(login, siteId, img)">
-          <mat-icon>delete_outline</mat-icon>
+    <mat-card *ngFor="let image of (media | async)" class="media__image">
+      <div class="media__image__menu">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="removeMedia(login, siteId, image)">
+            <mat-icon>delete</mat-icon>
+            <span>Remove</span>
+          </button>
+        </mat-menu>
       </div>
-      <img src="{{api}}/{{login}}/{{siteId}}/images/{{img}}">
+      <img src="{{api}}/{{login}}/{{siteId}}/images/{{image}}"
+           (click)="selectMedia(image)"
+           [ngClass]="{'is-modal': inModal}">
       <div class="media__image__caption">
-        <div class="media__image__text">{{img}}</div>
+        <div class="media__image__text">{{image}}</div>
       </div>
     </mat-card>
   </div>

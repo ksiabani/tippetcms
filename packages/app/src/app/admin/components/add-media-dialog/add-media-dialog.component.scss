@@ -1,0 +1,15 @@
+.add-media-dialog {
+  height: 100%;
+  &__title {
+    margin-bottom: 0;
+  }
+  &__content {
+    padding: 24px;
+  }
+  &__input {
+    width: 90%;
+  }
+  &__checkbox {
+    padding-top: 24px;
+  }
+}

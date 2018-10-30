@@ -1,11 +1,6 @@
 @import '../../../../theme/theme-variables';
 
 .media {
-  max-width: $container-max-width;
-  &__title {
-    padding-top: 24px;
-    padding-bottom: 12px;
-  }
   &__dropzone {
     padding: 16px;
     margin-bottom: 16px;
@@ -26,14 +21,17 @@
     padding: 0;
     img {
       max-height: 150px;
+      &.is-modal {
+        cursor: pointer;
+      }
     }
     &:hover {
-      .media__image__remove {
+      .media__image__menu {
         opacity: 1;
         visibility: visible;
       }
     }
-    &__remove {
+    &__menu {
       visibility: hidden;
       opacity: 0;
       position: absolute;
