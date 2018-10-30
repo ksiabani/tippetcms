@@ -19,7 +19,7 @@ export class GithubService {
   }
 
   getUserInfo(id: string): Promise<GithubUser> {
-    // Primisify because needs to be awaited
+    // Promisify because needs to be awaited
     return this.http.get<GithubUser>(`https://api.github.com/user/${id}`).toPromise();
   }
 }
