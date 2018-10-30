@@ -4,7 +4,7 @@ import { AdminRouting } from "./admin.routing";
 import { OverviewComponent } from "./pages/overview/overview.component";
 import { ElementsComponent } from "./pages/elements/elements.component";
 import { MediaComponent } from "./pages/media/media.component";
-import { PagesComponent } from "./pages/pages/pages.component";
+import { ContentComponent } from "./pages/content/content.component";
 import { SettingsComponent } from "./pages/settings/settings.component";
 import { AdminComponent } from "./pages/admin/admin.component";
 import { AddPageDialogComponent } from "./components/add-page-dialog/add-page-dialog.component";
@@ -79,7 +79,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     OverviewComponent,
     ElementsComponent,
     MediaComponent,
-    PagesComponent,
+    ContentComponent,
     SettingsComponent,
     AdminComponent,
     AddPageDialogComponent,
