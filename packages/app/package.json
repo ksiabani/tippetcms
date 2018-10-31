@@ -25,6 +25,7 @@
     "@angular/router": "^6.1.6",
     "@ngxs/devtools-plugin": "^3.2.0",
     "@ngxs/logger-plugin": "^3.2.0",
+    "@ngxs/storage-plugin": "3.2.0",
     "@ngxs/store": "^3.2.0",
     "@octokit/rest": "^15.11.0",
     "@w11k/ngx-componentdestroyed": "4.0.1",

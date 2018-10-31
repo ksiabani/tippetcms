@@ -11,15 +11,22 @@ export class GithubService {
   constructor(public afAuth: AngularFireAuth, private http: HttpClient) {}
 
   login() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GithubAuthProvider());
+    return this.afAuth.auth.signInWithPopup(
+      new firebase.auth.GithubAuthProvider()
+    );
   }
 
   logout() {
-    this.afAuth.auth.signOut();
+    return this.afAuth.auth.signOut();
   }
 
   getUserInfo(id: string): Promise<GithubUser> {
-    // Promisify because needs to be awaited
-    return this.http.get<GithubUser>(`https://api.github.com/user/${id}`).toPromise();
+    return this.http
+      .get<GithubUser>(`https://api.github.com/user/${id}`)
+      .toPromise();
+  }
+
+  getRepos(): Promise<any> {
+    return this.http.get<any>(`https://api.github.com/user/repos`).toPromise();
   }
 }
