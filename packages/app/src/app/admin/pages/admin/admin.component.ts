@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
@@ -13,6 +13,7 @@ import { AdminState } from "../../store/admin.state";
 import { User } from "src/app/shared/model/user.interface";
 import { SinglePageState } from "../../store/children/single-page.state";
 import { Page } from "shared";
+import { MatSidenav } from "@angular/material";
 
 @Component({
   selector: "app-admin",
@@ -38,6 +39,10 @@ export class AdminComponent implements OnInit {
   page: Observable<Page>;
   @Select(SinglePageState.saving)
   isSaving: Observable<boolean>;
+
+  // Get a sidenav instance to use later
+  @ViewChild("sidenav")
+  sidenav: MatSidenav;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -83,5 +88,12 @@ export class AdminComponent implements OnInit {
           "_blank"
         )
       );
+  }
+
+  // Get a sidenav instance to use later
+  closeSidenav() {
+    if (this.breakpointObserver.isMatched('(max-width: 959px)')) {
+      this.sidenav.close();
+    }
   }
 }
