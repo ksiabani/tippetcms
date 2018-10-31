@@ -35,7 +35,10 @@ export class LobbyState {
   }
 
   @Action(actions.AddSite)
-  addSite(ctx: StateContext<LobbyStateModel>, { newProjectData }: actions.AddSite) {
+  addSite(
+    ctx: StateContext<LobbyStateModel>,
+    { newProjectData }: actions.AddSite
+  ) {
     ctx.patchState({ loading: true });
     return this.lobbyService.addSite(newProjectData).pipe(
       tap(res => {

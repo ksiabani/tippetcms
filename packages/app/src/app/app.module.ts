@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { NgxsModule } from "@ngxs/store";
 import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
+import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -39,6 +40,9 @@ import { MediaState } from "./admin/store/children/media.state";
       SinglePageState,
       MediaState
     ]),
+    NgxsStoragePluginModule.forRoot({
+      key: "login.token"
+    }),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
