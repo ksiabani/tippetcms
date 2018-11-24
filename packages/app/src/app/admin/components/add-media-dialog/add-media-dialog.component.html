@@ -1,0 +1,12 @@
+<div class="add-media-dialog d-flex flex-column">
+  <div class="d-flex align-items-center">
+    <h2 class="add-media-dialog__title">Select an image</h2>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content class="add-media-dialog__content d-flex flex-column flex-fill">
+    <app-media-library [inModal]="true" (image)="selectMedia($event)"></app-media-library>
+  </div>
+</div>

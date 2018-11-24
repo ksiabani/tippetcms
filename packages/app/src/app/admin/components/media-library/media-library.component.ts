@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Store, Select } from "@ngxs/store";
 import { GetMedia, RemoveMedia } from "../../store/admin.actions";
 import { ActivatedRoute } from "@angular/router";
@@ -13,11 +13,15 @@ import { DropzoneConfigInterface } from "ngx-dropzone-wrapper";
 @Component({
   selector: "app-media-library",
   templateUrl: "./media-library.component.html",
-  styleUrls: ["./media-library.component.css"]
+  styleUrls: ["./media-library.component.scss"]
 })
 export class MediaLibraryComponent implements OnInit {
   @Input()
   hideUploader: boolean;
+  @Input()
+  inModal: boolean;
+  @Output()
+  image = new EventEmitter<string>();
   @Select(LoginState.user)
   user: Observable<User>;
   login: string;
@@ -37,12 +41,18 @@ export class MediaLibraryComponent implements OnInit {
       this.login = githubUser.login;
       this.store.dispatch(new GetMedia(githubUser.login, this.siteId));
       const url = `${environment.api.admin}/media/${githubUser.login}/${this.siteId}`;
-      this.dropzoneConfig = { url };
+      this.dropzoneConfig = { url, previewsContainer: false };
     });
   }
 
   removeMedia(user, siteId, mediaName) {
     this.store.dispatch(new RemoveMedia(user, siteId, mediaName));
+  }
+
+  selectMedia(image) {
+    if (this.inModal) {
+      this.image.emit(image);
+    }
   }
 
   onUploadError(e) {

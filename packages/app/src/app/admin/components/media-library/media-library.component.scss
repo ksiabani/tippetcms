@@ -1,0 +1,66 @@
+@import '../../../../theme/theme-variables';
+
+.media {
+  &__dropzone {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  &__images {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 150px;
+    min-height: 150px;
+    margin: 8px;
+    padding: 0;
+    img {
+      max-height: 150px;
+      &.is-modal {
+        cursor: pointer;
+      }
+    }
+    &:hover {
+      .media__image__menu {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    &__menu {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      transition: opacity 0.3s linear;
+      button {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+    &__caption {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &__text {
+      color: white;
+      font-size: 1.1rem;
+      text-align: center;
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding: 0 8px;
+    }
+  }
+}

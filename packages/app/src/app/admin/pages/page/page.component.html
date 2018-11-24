@@ -12,7 +12,16 @@
         </mat-form-field>
       </form>
       <form [formGroup]="articleForm" *ngIf="isArticle" class="d-flex flex-wrap">
-        <quill-editor class="details__meta__editor" [formControl]="articleForm.get('html')">
+        <mat-form-field class="details__meta__input">
+          <input type="text" formControlName="heading" name="heading" matInput cdkFocusInitial placeholder="Heading">
+        </mat-form-field>
+        <mat-form-field class="details__meta__input">
+          <input type="text" formControlName="description" name="description" matInput placeholder="Description">
+        </mat-form-field>
+        <quill-editor
+            class="details__meta__editor"
+            [formControl]="articleForm.get('html')"
+            (onEditorCreated)="editorInit($event)">
           <div quill-editor-toolbar>
             <span class="ql-formats">
               <button class="ql-bold" [title]="'Bold'"></button>

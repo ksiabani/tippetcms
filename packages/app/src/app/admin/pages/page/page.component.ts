@@ -16,9 +16,11 @@ import { User } from "src/app/shared/model/user.interface";
 import { SinglePageState } from "../../store/children/single-page.state";
 import { AdminState } from "../../store/admin.state";
 import { Page, Section } from "shared";
-import { AddPageDialogComponent } from "../../components/add-page-dialog/add-page-dialog.component";
 import { MatDialog } from "@angular/material";
 import { AddSectionDialogComponent } from "../../components/add-section-dialog/add-section-dialog.component";
+import { untilComponentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { AddMediaDialogComponent } from "../../components/add-media-dialog/add-media-dialog.component";
+import { environment } from "../../../../environments/environment";
 
 export interface Option {
   name: string;
@@ -38,6 +40,7 @@ export class PageComponent implements OnInit, OnDestroy {
   page: Page;
   user: User;
   isArticle: boolean = false;
+  quillEditor: any;
 
   // selectors
   @Select(LoginState.user)
@@ -56,34 +59,53 @@ export class PageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.user$.pipe(filter(user => !!user)).subscribe(user => {
-      this.user = user;
-      this.getPage(user);
-    });
-    this.page$.pipe(filter(page => !!page)).subscribe(page => {
-      // Do not show components that have no data, e.g. Excerpts component
-      this.sections = page.components.filter(com => !!com.data);
-      this.page = page;
-      this.createForm(page);
-      this.isArticle =
-        this.sections.length === 1 && this.sections[0].name === "editor";
-      if (this.isArticle) {
-        this.createArticleForm(this.sections[0].data);
-      }
-    });
+    this.user$
+      .pipe(
+        filter(user => !!user),
+        untilComponentDestroyed(this)
+      )
+      .subscribe(user => {
+        this.user = user;
+        this.getPage(user);
+      });
+    this.page$
+      .pipe(
+        filter(page => !!page),
+        untilComponentDestroyed(this)
+      )
+      .subscribe(page => {
+        // Do not show components that have no data, e.g. Excerpts component
+        this.sections = page.components.filter(com => !!com.data);
+        this.page = page;
+        this.createForm(page);
+        this.isArticle =
+          this.sections.length === 1 && this.sections[0].name === "editor";
+        if (this.isArticle) {
+          this.createArticleForm(this.sections[0].data);
+        }
+      });
     this.sections$.add(
       this.dragulaService
         .dropModel("sections")
+        .pipe(untilComponentDestroyed(this))
         .subscribe(({ targetModel }) => this.orderSections(targetModel))
     );
     this.initSave
-      .pipe(filter(initSave => initSave && this.pageMetaForm.valid))
+      .pipe(
+        filter(initSave => initSave && this.pageMetaForm.valid),
+        untilComponentDestroyed(this)
+      )
       .subscribe(() => this.save());
   }
 
-  ngOnDestroy() {
-    this.sections$.unsubscribe();
-    this.dragulaService.destroy("sections");
+  ngOnDestroy() {}
+
+  editorInit(quill) {
+    quill
+      .getModule("toolbar")
+      .addHandler("image", this.openAddMediaDialog.bind(this));
+    quill.focus();
+    this.quillEditor = quill;
   }
 
   openDialog(): void {
@@ -91,7 +113,25 @@ export class PageComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AddSectionDialogComponent, {
       disableClose: true,
       panelClass: "add-section-dialog",
-      data: {pageId}
+      data: { pageId }
+    });
+  }
+
+  openAddMediaDialog(): void {
+    const dialogRef = this.dialog.open(AddMediaDialogComponent, {
+      disableClose: true,
+      panelClass: "add-media-dialog"
+    });
+    dialogRef.afterClosed().subscribe(image => {
+      if (this.user && image) {
+        const siteId: string = this.activatedRoute.root.snapshot.children[0]
+          .params["id"];
+        const imageUrl = `${environment.api.root}/${
+          this.user.githubUser.login
+        }/${siteId}/images/${image}`;
+        const range = this.quillEditor.getSelection();
+        this.quillEditor.insertEmbed(range.index, "image", imageUrl || image);
+      }
     });
   }
 
@@ -116,6 +156,8 @@ export class PageComponent implements OnInit, OnDestroy {
 
   private createArticleForm(article: any): void {
     this.articleForm = this.fb.group({
+      heading: [article.heading],
+      description: [article.description],
       html: [article.html]
     });
   }
@@ -129,7 +171,12 @@ export class PageComponent implements OnInit, OnDestroy {
         ? [
             {
               ...this.sections[0],
-              data: { ...this.sections[0].data, html: this.articleForm.value.html }
+              data: {
+                ...this.sections[0].data,
+                heading: this.articleForm.value.heading,
+                description: this.articleForm.value.description,
+                html: this.articleForm.value.html
+              }
             }
           ]
         : this.sections;

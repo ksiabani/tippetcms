@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
-import { CreatePage, GetSectionTemplates } from "../../store/admin.actions";
+import { CreateSection, GetSectionTemplates } from "../../store/admin.actions";
 import { LoginState } from "../../../login/store/login.state";
 import { Observable } from "rxjs";
 import { User } from "../../../shared/model/user.interface";
@@ -66,21 +66,22 @@ export class AddSectionDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  // TODO
   createSection(user) {
     const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
       "id"
     ];
+    const pageId: string = this.data.pageId;
     //TODO: replace with ...this.addPageForm.value below;
-    // this.store.dispatch(
-    //   new CreatePage(
-    //     user.githubUser.login,
-    //     siteId,
-    //     this.addSectionForm.value.title,
-    //     this.addSectionForm.value.path,
-    //     this.addSectionForm.value.template
-    //   )
-    // );
+    this.store.dispatch(
+      new CreateSection(
+        user.githubUser.login,
+        siteId,
+        pageId,
+        this.addSectionForm.value.title,
+        this.addSectionForm.value.description,
+        this.addSectionForm.value.template
+      )
+    );
   }
 
   getSectionTemplates() {

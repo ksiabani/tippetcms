@@ -4,7 +4,7 @@ import { AdminRouting } from "./admin.routing";
 import { OverviewComponent } from "./pages/overview/overview.component";
 import { ElementsComponent } from "./pages/elements/elements.component";
 import { MediaComponent } from "./pages/media/media.component";
-import { PagesComponent } from "./pages/pages/pages.component";
+import { ContentComponent } from "./pages/content/content.component";
 import { SettingsComponent } from "./pages/settings/settings.component";
 import { AdminComponent } from "./pages/admin/admin.component";
 import { AddPageDialogComponent } from "./components/add-page-dialog/add-page-dialog.component";
@@ -40,6 +40,7 @@ import { MediaLibraryComponent } from "./components/media-library/media-library.
 import { SortPipe } from "../shared/pipes/sort/sort.pipe";
 import { QuillModule } from "ngx-quill";
 import { AddSectionDialogComponent } from "./components/add-section-dialog/add-section-dialog.component";
+import { AddMediaDialogComponent } from "./components/add-media-dialog/add-media-dialog.component";
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   maxFilesize: 1,
@@ -78,7 +79,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     OverviewComponent,
     ElementsComponent,
     MediaComponent,
-    PagesComponent,
+    ContentComponent,
     SettingsComponent,
     AdminComponent,
     AddPageDialogComponent,
@@ -86,9 +87,14 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     PageComponent,
     SectionComponent,
     MediaLibraryComponent,
-    SortPipe
+    SortPipe,
+    AddMediaDialogComponent
   ],
-  entryComponents: [AddPageDialogComponent, AddSectionDialogComponent],
+  entryComponents: [
+    AddPageDialogComponent,
+    AddSectionDialogComponent,
+    AddMediaDialogComponent
+  ],
   providers: [
     {
       provide: DROPZONE_CONFIG,

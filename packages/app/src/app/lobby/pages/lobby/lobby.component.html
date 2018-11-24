@@ -1,5 +1,3 @@
-<!--<a routerLink="/admin/someRandomId">admin</a>-->
-
 <div class="lobby d-flex flex-column">
   <mat-toolbar color="primary" class="lobby__header">
     <mat-icon class="lobby__header__icon">bubble_chart</mat-icon>
@@ -16,28 +14,30 @@
   <div class="lobby__hero">
     <div class="container">
       <div class="lobby__hero__title">Welcome to TippetCMS!</div>
-      <div class="lobby__hero__text">Create and host your websites with GitHub Pages. Start now creating a new site or manage your existing sites below
+      <div class="lobby__hero__text">Create and host your websites with GitHub Pages. Start now creating a new site or
+        manage your existing sites below
       </div>
-      <div class="lobby__hero__text" *ngIf="loading | async">Tippet is doing some stuff. Go grab a coffee and get back in 5 mins
+      <div class="lobby__hero__text" *ngIf="loading | async">Tippet is doing some stuff. Go grab a coffee and get back
+        in 5 mins
       </div>
     </div>
   </div>
   <div class="lobby__projects flex-fill">
-    <div class="lobby__projects__container container d-flex">
+    <div class="lobby__projects__container container">
       <mat-card class="lobby__projects__project" (click)="openDialog()">
         <mat-card-content class="lobby__projects__add">
           <mat-icon class="lobby__projects__add__icon">add</mat-icon>
           <span>Add site</span>
         </mat-card-content>
       </mat-card>
-      <span *ngFor="let site of (sites | async)">
-        <mat-card routerLink="../admin/{{site}}" class="lobby__projects__project">
-          <mat-card-content class="lobby__projects__user">
-            <h2>{{site}}</h2>
-            Last updated: yesterday
-          </mat-card-content>
-        </mat-card>
-      </span>
+      <mat-card *ngFor="let site of (sites | async)"
+                routerLink="../admin/{{site}}"
+                class="lobby__projects__project">
+        <mat-card-content class="lobby__projects__user">
+          <h2>{{site}}</h2>
+          Last updated: yesterday
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 </div>

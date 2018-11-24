@@ -16,7 +16,12 @@ export interface AdminStateModel {
 
 @State<AdminStateModel>({
   name: "admin",
-  defaults: { building: false, initSave: false, pageTemplates: [], folders: [] },
+  defaults: {
+    building: false,
+    initSave: false,
+    pageTemplates: [],
+    folders: []
+  },
   children: [PagesState, SinglePageState, MediaState]
 })
 export class AdminState {
@@ -33,16 +38,12 @@ export class AdminState {
   }
 
   @Selector()
-  static pageTemplates(
-    state: AdminStateModel
-  ): PageTemplate[] {
+  static pageTemplates(state: AdminStateModel): PageTemplate[] {
     return state.pageTemplates;
   }
 
   @Selector()
-  static folders(
-    state: AdminStateModel
-  ): xFile[] {
+  static folders(state: AdminStateModel): xFile[] {
     return state.folders;
   }
 
@@ -86,10 +87,6 @@ export class AdminState {
   ) {
     return this.adminService
       .getFolders(username, site)
-      .pipe(
-        tap((folders: xFile[]) =>
-          ctx.patchState({ folders: folders })
-        )
-      );
+      .pipe(tap((folders: xFile[]) => ctx.patchState({ folders: folders })));
   }
 }

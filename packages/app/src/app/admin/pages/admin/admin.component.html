@@ -1,6 +1,10 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isMobile | async) ? 'dialog' : 'navigation'"
-               [mode]="(isMobile | async) ? 'over' : 'side'" [opened]="!(isMobile | async)">
+  <mat-sidenav #sidenav class="sidenav"
+               fixedInViewport="true"
+               [attr.role]="(isMobile | async) ? 'dialog' : 'navigation'"
+               [mode]="(isMobile | async) ? 'over' : 'side'"
+               [opened]="!(isMobile | async)"
+               (click)="closeSidenav()">
     <mat-toolbar class="sidenav__header" routerLink="/admin">
       <mat-icon class="sidenav__header__icon">bubble_chart</mat-icon>
       <span>TippetCMS</span>
@@ -8,11 +12,11 @@
     <mat-nav-list class="sidenav__list">
       <a mat-list-item routerLink="." routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
         <mat-icon class="sidenav__list__icon">dashboard</mat-icon>
-        <span>Overview</span>
+        Overview
       </a>
-      <a mat-list-item routerLink="pages" routerLinkActive="active" class="sidenav__list__item">
+      <a mat-list-item routerLink="content" routerLinkActive="active" class="sidenav__list__item">
         <mat-icon class="sidenav__list__icon">settings_system_daydream</mat-icon>
-        Pages
+        Content
       </a>
       <a mat-list-item routerLink="media" routerLinkActive="active">
         <mat-icon class="sidenav__list__icon">wallpaper</mat-icon>
@@ -32,7 +36,7 @@
   </mat-sidenav>
   <mat-sidenav-content class="content">
     <mat-toolbar class="content__header" [ngClass]="{'content__header--transparent': isHome, 'content__header--isMobile': isMobile | async}">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isMobile | async">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" *ngIf="isMobile | async">
         <mat-icon class="content__header__icon" aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class="spacer"></span>

@@ -2,7 +2,7 @@ import { Selector, State, Action, StateContext, Store } from "@ngxs/store";
 import * as actions from ".././admin.actions";
 import { AdminService } from "../../services/admin.service";
 import { tap } from "rxjs/operators";
-import { Page, Section, PageTemplate } from "shared";
+import { Page, Section } from "shared";
 import { PagesState } from "./pages.state";
 
 export interface SinglePageStateModel {
@@ -82,6 +82,22 @@ export class SinglePageState {
         tap((page: Page) => {
           ctx.patchState({ page, saving: false });
           ctx.dispatch(new actions.GetPages(username, site, currPath.length ? currPath.join("-") : "0"));
+        })
+      );
+  }
+
+  @Action(actions.CreateSection)
+  createSection(
+    ctx: StateContext<SinglePageStateModel>,
+    { username, site, pageId, title, description, template }: actions.CreateSection
+  ) {
+    ctx.patchState({ saving: true });
+    return this.adminService
+      .createSection(username, site, pageId, title, description, template)
+      .pipe(
+        tap((page: Page) => {
+          ctx.patchState({ page, saving: false });
+          ctx.dispatch(new actions.GetSinglePage(username, site, page.id));
         })
       );
   }

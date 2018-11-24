@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PagesComponent } from './pages.component';
+import { AddMediaDialogComponent } from './add-media-dialog.component';
 
-describe('PagesComponent', () => {
-  let component: PagesComponent;
-  let fixture: ComponentFixture<PagesComponent>;
+describe('AddMediaDialogComponent', () => {
+  let component: AddMediaDialogComponent;
+  let fixture: ComponentFixture<AddMediaDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PagesComponent ]
+      declarations: [ AddMediaDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PagesComponent);
+    fixture = TestBed.createComponent(AddMediaDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

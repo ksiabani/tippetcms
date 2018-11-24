@@ -98,6 +98,14 @@ body *:not(mat-icon) {
   background: #fafafa !important;
 }
 
+// Dropzone
+
+dropzone {
+  .dz-message {
+    min-height: 200px !important;
+  }
+}
+
 // Project specific
 
 .spacer {
@@ -114,9 +122,19 @@ body *:not(mat-icon) {
   .mat-dialog-container {
     height: 100%;
     width: 500px;
-    border-radius: 10px;
+    border-radius: 5px;
     padding-top: 18px;
     padding-bottom: 32px;
+  }
+}
+
+.add-media-dialog {
+  .mat-dialog-container {
+    height: 60vw;
+    width: 70vw;
+    border-radius: 5px;
+    max-height: 700px;
+    max-width: 800px;
   }
 }
 
