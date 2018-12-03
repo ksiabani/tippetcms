@@ -71,11 +71,19 @@ export class AdminService {
   }
 
   getMedia(username: string, site: string): Observable<string[]> {
-    return this.http.get<string[]>(`${environment.api.admin}/media/${username}/${site}`);
+    return this.http.get<string[]>(
+      `${environment.api.admin}/media/${username}/${site}`
+    );
   }
 
-  removeMedia(username: string, site: string, mediaName: string): Observable<any> {
-    return this.http.delete<any>(`${environment.api.admin}/media/${username}/${site}/${mediaName}`);
+  removeMedia(
+    username: string,
+    site: string,
+    mediaName: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      `${environment.api.admin}/media/${username}/${site}/${mediaName}`
+    );
   }
 
   getPageTemplates(username: string, site: string): Observable<PageTemplate[]> {
@@ -90,9 +98,29 @@ export class AdminService {
     );
   }
 
-  getSectionTemplates(username: string, site: string, pageId: string): Observable<Section[]> {
+  getSectionTemplates(
+    username: string,
+    site: string,
+    pageId: string
+  ): Observable<Section[]> {
     return this.http.get<Section[]>(
       `${environment.api.admin}/sites/${username}/${site}/${pageId}/sections`
+    );
+  }
+
+  publishSite(username: string, site: string, remote: string): Observable<any> {
+    return this.http.put<any>(
+      `${environment.api.admin}/repos/${username}/${site}`,
+      { remote }
+    );
+  }
+
+  getRemoteRepo(
+    username: string,
+    site: string
+  ): Observable<{ remote: string }> {
+    return this.http.get<{ remote: string }>(
+      `${environment.api.admin}/sites/${username}/${site}/remote`
     );
   }
 }

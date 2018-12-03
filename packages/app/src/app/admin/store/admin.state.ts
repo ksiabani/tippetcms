@@ -6,9 +6,12 @@ import * as actions from "./admin.actions";
 import { tap } from "rxjs/operators";
 import { MediaState } from "./children/media.state";
 import { PageTemplate, xFile } from "shared";
+import { GithubService } from "../../login/services/github.service";
+import * as shortid from "shortid";
 
 export interface AdminStateModel {
   building: boolean;
+  publishing: boolean;
   initSave: boolean;
   pageTemplates: PageTemplate[];
   folders: xFile[];
@@ -18,6 +21,7 @@ export interface AdminStateModel {
   name: "admin",
   defaults: {
     building: false,
+    publishing: false,
     initSave: false,
     pageTemplates: [],
     folders: []
@@ -25,7 +29,11 @@ export interface AdminStateModel {
   children: [PagesState, SinglePageState, MediaState]
 })
 export class AdminState {
-  constructor(private adminService: AdminService, private store: Store) {}
+  constructor(
+    private adminService: AdminService,
+    private githubService: GithubService,
+    private store: Store
+  ) {}
 
   @Selector()
   static building(state: AdminStateModel): boolean {
@@ -56,6 +64,49 @@ export class AdminState {
     return this.adminService
       .buildSite(username, site)
       .pipe(tap(() => ctx.patchState({ building: false })));
+  }
+
+  @Action(actions.PublishSite)
+  publishSite(
+    ctx: StateContext<AdminStateModel>,
+    { username, site }: actions.PublishSite
+  ) {
+    ctx.patchState({ publishing: true });
+    // Does this site has a remote repo already
+    return this.adminService
+      .getRemoteRepo(username, site)
+      .subscribe(async data => {
+        try {
+          let repo;
+          const remote = data.remote;
+          // If no remote repo exists we will create one
+          if (!remote) {
+            // Get user's repos
+            const repos = await this.githubService.getRepos();
+            // Check if repo with the site name exists
+            const repoExists = repos.find(repo => repo.name === site);
+            // No repo with the same name exists, we will create one
+            if (!repoExists) {
+              await this.githubService.createRepo(username, site);
+              repo = site;
+            }
+            // Name exists, we will add a short id
+            else {
+              const repoName = `${site}-${shortid.generate()}`;
+              await this.githubService.createRepo(username, repoName);
+              repo = repoName;
+            }
+          }
+          // Publish site to existing or newly created repo
+          this.adminService
+            .publishSite(username, site, remote || repo)
+            // TODO: return something here, maybe success?
+            .subscribe(() => ctx.patchState({ publishing: false }));
+        } catch (error) {
+          // TODO: Rollback if needed
+          console.log(error);
+        }
+      });
   }
 
   @Action(actions.InitSave)

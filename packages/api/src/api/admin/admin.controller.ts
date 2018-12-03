@@ -14,7 +14,7 @@ import { PagesService } from './pages.service';
 import { MediaService } from './media.service';
 import { Page, PageTemplate, Section } from 'shared/model/page.interface';
 import { SitesService } from './sites.service';
-import { xFile } from "shared";
+import { xFile } from 'shared';
 
 @Controller('admin')
 export class AdminController {
@@ -74,7 +74,7 @@ export class AdminController {
       body.title,
       body.path,
       body.template,
-      body.isIndex
+      body.isIndex,
     );
   }
 
@@ -85,7 +85,7 @@ export class AdminController {
     @Param('site') site: string,
     @Param('pageId') pageId: string,
     @Body()
-      body: {
+    body: {
       title: string;
       description: string;
       template: string;
@@ -97,7 +97,7 @@ export class AdminController {
       pageId,
       body.title,
       body.description,
-      body.template
+      body.template,
     );
   }
 
@@ -159,10 +159,7 @@ export class AdminController {
 
   // Get folders
   @Get('sites/:username/:site/folders')
-  getFolders(
-    @Param('username') username: string,
-    @Param('site') site: string,
-  ): xFile[] {
+  getFolders(@Param('username') username: string, @Param('site') site: string): xFile[] {
     return this.siteService.getFolders(username, site);
   }
 
@@ -174,5 +171,24 @@ export class AdminController {
     @Param('pageId') pageId: string,
   ): Section[] {
     return this.siteService.getSectionTemplates(username, site, pageId);
+  }
+
+  // Publish a site
+  @Put('repos/:username/:site')
+  async publishSite(
+    @Param('username') username: string,
+    @Param('site') site: string,
+    @Param('remote') remote: string,
+  ): Promise<{ success: boolean; reason?: any }> {
+    return this.siteService.publishSite(username, site, remote);
+  }
+
+  // Get a remote repo
+  @Get('sites/:username/:site/remote')
+  getRemoteRepo(
+    @Param('username') username: string,
+    @Param('site') site: string,
+  ): { remote: string } {
+    return this.siteService.getRemoteRepo(username, site);
   }
 }

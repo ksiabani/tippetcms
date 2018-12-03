@@ -49,6 +49,9 @@
       <button mat-icon-button (click)="preview()">
         <mat-icon class="content__header__icon">launch</mat-icon>
       </button>
+      <button mat-icon-button (click)="publish()">
+        <mat-icon class="content__header__icon">publish</mat-icon>
+      </button>
       <img matListAvatar src="{{(user | async)?.photoURL}}" alt="" [matMenuTriggerFor]="menu">
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="logout()">

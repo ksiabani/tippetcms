@@ -75,4 +75,35 @@ export class SitesService {
       siteData.templates.find(t => t.name === template).components.filter(com => com.data) || []
     );
   }
+
+  getRemoteRepo(username: string, site: string): { remote: string } {
+    const sitePath = join(__dirname, '../..', 'sites', username, site);
+    const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
+    const siteData: Site = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
+    const remote = siteData.remote || null;
+    return { remote };
+  }
+
+  async publishSite(
+    username: string,
+    site: string,
+    remote: string,
+  ): Promise<{ success: boolean; reason?: any }> {
+    try {
+      const basePath = [__dirname, '../..'];
+      const publicDirForSite = join(...basePath, 'public', username, site);
+      // Get site data from site.json
+      const sitePath = join(__dirname, '../..', 'sites', username, site);
+      const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
+      const siteData: Site = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
+      console.log(`(Re)initialize git for user ${username} and site ${site}`);
+      await execa('git', ['init'], {
+        cwd: publicDirForSite
+      });
+      // TODO: If everything ends fine, write repo to site.json
+      return { success: true };
+    } catch (e) {
+      return { success: false, reason: e };
+    }
+  }
 }
