@@ -39,6 +39,8 @@ export class AdminComponent implements OnInit {
   page: Observable<Page>;
   @Select(SinglePageState.saving)
   isSaving: Observable<boolean>;
+  @Select(AdminState.publishing)
+  isPublishing: Observable<boolean>;
 
   // Get a sidenav instance to use later
   @ViewChild("sidenav")

@@ -55,6 +55,11 @@ export class AdminState {
     return state.folders;
   }
 
+  @Selector()
+  static publishing(state: AdminStateModel): boolean {
+    return state.publishing;
+  }
+
   @Action(actions.BuildSite)
   buildSite(
     ctx: StateContext<AdminStateModel>,
@@ -101,7 +106,10 @@ export class AdminState {
           this.adminService
             .publishSite(username, site, remote || repo)
             // TODO: return something here, maybe success?
-            .subscribe(() => ctx.patchState({ publishing: false }));
+            .subscribe(res => {
+              console.log(res);
+              ctx.patchState({ publishing: false })
+            });
         } catch (error) {
           // TODO: Rollback if needed
           console.log(error);

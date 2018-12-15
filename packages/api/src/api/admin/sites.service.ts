@@ -3,6 +3,7 @@ import { copySync, readFileSync } from 'fs-extra';
 import { join } from 'path';
 import * as execa from 'execa';
 import { Page, PageTemplate, Section, Site, xFile } from 'shared';
+import { writeFileSync } from 'fs';
 
 @Injectable()
 export class SitesService {
@@ -96,13 +97,48 @@ export class SitesService {
       const sitePath = join(__dirname, '../..', 'sites', username, site);
       const siteJsonPath = join(sitePath, 'src', 'data', 'site.json');
       const siteData: Site = JSON.parse(readFileSync(siteJsonPath, 'utf8'));
-      console.log(`(Re)initialize git for user ${username} and site ${site}`);
+      console.log(`(Re)initialize git for user ${username} and site ${site}.`);
       await execa('git', ['init'], {
-        cwd: publicDirForSite
+        cwd: publicDirForSite,
       });
-      // TODO: If everything ends fine, write repo to site.json
+      console.log(`Add version.txt`);
+      const timeNow = Date.now().toString();
+      writeFileSync(join(publicDirForSite, 'version.txt'), timeNow, 'utf8');
+      console.log(`Add file contents to the index.`);
+      await execa('git', ['add', '.'], {
+        cwd: publicDirForSite,
+      });
+      console.log(`Commit changes`);
+      await execa('git', ['commit', '-am', timeNow], {
+        cwd: publicDirForSite,
+      });
+      console.log(`Switch to local branch gh-pages`);
+      await execa('git', ['checkout', '-B', 'gh-pages'], {
+        cwd: publicDirForSite,
+      });
+      // Add remote branch if no already exists
+      if (!siteData.remote) {
+        console.log(`Add remote branch`);
+        await execa(
+          'git',
+          ['remote', 'add', 'origin', `https://github.com/${username}/${remote}.git`],
+          {
+            cwd: publicDirForSite,
+          },
+        );
+      }
+      console.log(`Set upstream branch and push`);
+      await execa('git', ['push', '--set-upstream', 'origin', 'gh-pages'], {
+        cwd: publicDirForSite,
+      });
+      if (!siteData.remote) {
+        // Write repo to site.json
+        writeFileSync(siteJsonPath, JSON.stringify({ ...siteData, remote }), 'utf8');
+      }
       return { success: true };
     } catch (e) {
+      // TODO: Rollback
+      console.log(e);
       return { success: false, reason: e };
     }
   }
