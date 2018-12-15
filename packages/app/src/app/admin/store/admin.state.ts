@@ -107,7 +107,6 @@ export class AdminState {
             .publishSite(username, site, remote || repo)
             // TODO: return something here, maybe success?
             .subscribe(res => {
-              console.log(res);
               ctx.patchState({ publishing: false })
             });
         } catch (error) {

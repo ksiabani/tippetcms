@@ -7,15 +7,16 @@ import { writeFileSync } from 'fs';
 
 @Injectable()
 export class SitesService {
-  async buildSite(username: string, site: string): Promise<{ success: boolean; reason?: any }> {
+  async buildSite(username: string, site: string, forPages: boolean): Promise<{ success: boolean; reason?: any }> {
     const basePath = [__dirname, '../..'];
     const publicDirForSite = join(...basePath, 'public', username, site);
     const sitesDirForSite = join(...basePath, 'sites', username, site);
+    const pathPrefix = forPages ? `/${site}` : `/${username}/${site}`;
     try {
       console.log(`Start gatsby build for user ${username} and site ${site}`);
       await execa('gatsby', ['build', '--prefix-paths'], {
         cwd: sitesDirForSite,
-        env: { PATH_PREFIX: `/${username}/${site}` },
+        env: { PATH_PREFIX: pathPrefix },
       });
       console.log('Gatsby build done, start copy');
       copySync(`${sitesDirForSite}/public`, publicDirForSite);
@@ -91,6 +92,11 @@ export class SitesService {
     remote: string,
   ): Promise<{ success: boolean; reason?: any }> {
     try {
+      const buildSiteResponse = await this.buildSite(username, site, true);
+      if (!buildSiteResponse.success) {
+        throw new Error(buildSiteResponse.reason);
+      }
+      console.log(buildSiteResponse);
       const basePath = [__dirname, '../..'];
       const publicDirForSite = join(...basePath, 'public', username, site);
       // Get site data from site.json

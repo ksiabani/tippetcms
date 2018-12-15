@@ -42,7 +42,7 @@ export class GithubService {
   createRepo(user, repo): Promise<any> {
     const body = {
       name: repo,
-      description: "Made with <3 by TippetCMS",
+      description: "Made with <3 with TippetCMS",
       homepage: `https://${user}.github.io/${repo}`,
       private: false,
       has_issues: true,
