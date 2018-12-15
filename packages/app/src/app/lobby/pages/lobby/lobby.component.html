@@ -17,9 +17,6 @@
       <div class="lobby__hero__text">Create and host your websites with GitHub Pages. Start now creating a new site or
         manage your existing sites below
       </div>
-      <div class="lobby__hero__text" *ngIf="loading | async">Tippet is doing some stuff. Go grab a coffee and get back
-        in 5 mins
-      </div>
     </div>
   </div>
   <div class="lobby__projects flex-fill">
@@ -31,13 +28,28 @@
         </mat-card-content>
       </mat-card>
       <mat-card *ngFor="let site of (sites | async)"
-                routerLink="../admin/{{site}}"
                 class="lobby__projects__project">
-        <mat-card-content class="lobby__projects__user">
+        <mat-card-header>
+          <div class="spacer"></div>
+          <button mat-icon-button class="lobby__projects__remove" (click)="removeSite(site)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </mat-card-header>
+        <mat-card-content class="lobby__projects__user" routerLink="../admin/{{site}}">
           <h2>{{site}}</h2>
           Last updated: yesterday
         </mat-card-content>
       </mat-card>
     </div>
   </div>
+</div>
+<div class="loader" *ngIf="loading | async">
+  <mat-card class="loader__card">
+    <mat-card-header class="loader__text">
+      Please wait while TippetCMS is preparing your site...
+    </mat-card-header>
+    <mat-card-content class="loader__spinner">
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </mat-card>
 </div>

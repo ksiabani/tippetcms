@@ -1,7 +1,7 @@
-import { Controller, Get, HttpCode, Param, Post, Body } from '@nestjs/common';
-import { readdirSync, existsSync, unlinkSync } from 'fs';
+import { Controller, Get, Param, Post, Body, Delete } from '@nestjs/common';
+import { readdirSync, existsSync } from 'fs';
 import { join } from 'path';
-import { mkdirpSync, copy, readFileSync } from 'fs-extra';
+import { mkdirpSync, copy } from 'fs-extra';
 import * as execa from 'execa';
 import { GetSitesResponse } from 'shared';
 
@@ -60,6 +60,24 @@ export class LobbyController {
       console.log('Something went wrong, rolling back');
       await execa.shell(`rm -rf ${sitesDirForSite}`);
       await execa.shell(`rm -rf ${publicDirForSite}`);
+      return { success: false, reason: e };
+    }
+  }
+
+  @Delete(':user/:site')
+  async removeSite(
+    @Param('user') user: string,
+    @Param('site') site: string
+  ): Promise<{ success: boolean; reason?: any }> {
+    const basePath = [__dirname, '../..'];
+    const publicDirForSite = join(...basePath, 'public', user, site);
+    const sitesDirForSite = join(...basePath, 'sites', user, site);
+    try {
+      console.log(`Removing site from sites and public folder`);
+      await execa.shell(`rm -rf ${sitesDirForSite}`);
+      await execa.shell(`rm -rf ${publicDirForSite}`);
+      return { success: true };
+    } catch (e) {
       return { success: false, reason: e };
     }
   }

@@ -15,7 +15,11 @@ export class LobbyService {
     return this.http.get<GetSitesResponse>(`${environment.api.lobby}/${username}`);
   }
 
-  addSite(newProjectData: NewProjectData): Observable<{ sucess: boolean }> {
-    return this.http.post<{ sucess: boolean }>(environment.api.lobby, newProjectData);
+  addSite(newProjectData: NewProjectData): Observable<{ success: boolean }> {
+    return this.http.post<{ success: boolean }>(environment.api.lobby, newProjectData);
+  }
+
+  removeSite(user, site): Observable<{ success: boolean }> {
+    return this.http.delete<{ success: boolean }>(`${environment.api.lobby}/${user}/${site}`);
   }
 }

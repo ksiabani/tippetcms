@@ -28,9 +28,13 @@ export class LobbyState {
 
   @Action(actions.GetSites)
   setUser(ctx: StateContext<LobbyStateModel>, { username }: actions.GetSites) {
+    ctx.patchState({ loading: true });
     return this.lobbyService.getSites(username).pipe(
       filter(({ sites }: GetSitesResponse) => !!sites),
-      tap(({ sites }: GetSitesResponse) => ctx.patchState({ sites }))
+      tap(({ sites }: GetSitesResponse) => {
+        ctx.patchState({ sites });
+        ctx.patchState({ loading: false });
+      })
     );
   }
 
@@ -43,6 +47,20 @@ export class LobbyState {
     return this.lobbyService.addSite(newProjectData).pipe(
       tap(res => {
         this.store.dispatch(new actions.GetSites(newProjectData.username));
+        ctx.patchState({ loading: false });
+      })
+    );
+  }
+
+  @Action(actions.RemoveSite)
+  removeSite(
+    ctx: StateContext<LobbyStateModel>,
+    { user, site }: actions.RemoveSite
+  ) {
+    ctx.patchState({ loading: true });
+    return this.lobbyService.removeSite(user, site).pipe(
+      tap(res => {
+        this.store.dispatch(new actions.GetSites(user));
         ctx.patchState({ loading: false });
       })
     );

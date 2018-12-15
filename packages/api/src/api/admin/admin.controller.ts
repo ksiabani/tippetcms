@@ -145,7 +145,7 @@ export class AdminController {
     @Param('username') username: string,
     @Param('site') site: string,
   ): Promise<{ success: boolean; reason?: any }> {
-    return this.siteService.buildSite(username, site);
+    return this.siteService.buildSite(username, site, false);
   }
 
   // Get page templates

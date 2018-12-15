@@ -1,5 +1,36 @@
 @import '../../../../theme/theme-variables';
 
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__card {
+    border-radius: $card-border-radius;
+    max-width: 50vw;
+  }
+  &__text {
+    text-align: center;
+    font-size: 1.3rem;
+    color: #039be5;
+    padding: 0 24px 24px 24px;
+    width: 80%;
+    margin: 0 auto;
+  }
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+  }
+}
+
 .lobby {
   height: 100%;
   &__header {
@@ -47,9 +78,13 @@
     &__project {
       width: 250px;
       margin: 0 12px 24px;
+      padding: 8px 12px 12px 24px;
       height: 200px;
       border-radius: $card-border-radius;
       cursor: pointer;
+    }
+    &__remove {
+      color: #039be5;
     }
     &__add {
       display: flex;
@@ -66,6 +101,8 @@
       }
     }
     &__user {
+      cursor: pointer;
+      height: calc(100% - 40px);
       h2 {
         color: black;
         font-weight: 400;
