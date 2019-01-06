@@ -8,7 +8,7 @@ import { environment } from "../../../../environments/environment";
 import { LoginState } from "../../../login/store/login.state";
 import { Logout } from "../../../login/store/login.actions";
 import { Router, ActivatedRoute } from "@angular/router";
-import { BuildSite, InitSave } from "../../store/admin.actions";
+import { BuildSite, InitSave, PublishSite } from "../../store/admin.actions";
 import { AdminState } from "../../store/admin.state";
 import { User } from "src/app/shared/model/user.interface";
 import { SinglePageState } from "../../store/children/single-page.state";
@@ -39,6 +39,8 @@ export class AdminComponent implements OnInit {
   page: Observable<Page>;
   @Select(SinglePageState.saving)
   isSaving: Observable<boolean>;
+  @Select(AdminState.publishing)
+  isPublishing: Observable<boolean>;
 
   // Get a sidenav instance to use later
   @ViewChild("sidenav")
@@ -87,6 +89,17 @@ export class AdminComponent implements OnInit {
           `${environment.api.root}/${user.githubUser.login}/${siteId}`,
           "_blank"
         )
+      );
+  }
+
+  publish() {
+    const siteId: string = this.activatedRoute.root.snapshot.children[0].params[
+      "id"
+      ];
+    this.user
+      .pipe(filter(user => !!user && !!siteId))
+      .subscribe(user =>
+        this.store.dispatch(new PublishSite(user.githubUser.login, siteId))
       );
   }
 

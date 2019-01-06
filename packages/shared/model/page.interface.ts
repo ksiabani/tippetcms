@@ -39,5 +39,6 @@ export interface PageTemplate {
 
 export interface Site {
   title: string;
+  remote: string;
   templates: PageTemplate[]
 }

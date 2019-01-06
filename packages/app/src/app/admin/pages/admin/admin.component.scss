@@ -22,8 +22,11 @@
       border-radius: 50%;
       margin: 0 32px 0 16px;
     }
-    &__icon {
+    &__button {
       color: #fafafa;
+      span {
+        margin-left: 4px;
+      }
     }
   }
   &__inner {

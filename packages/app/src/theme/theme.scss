@@ -141,3 +141,7 @@ dropzone {
 mat-toolbar {
   height: $toolbar-height !important;
 }
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #039be5 !important;
+}

@@ -40,14 +40,21 @@
         <mat-icon class="content__header__icon" aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class="spacer"></span>
-      <button mat-icon-button (click)="save()" [disabled]="isSaving | async">
-        <mat-icon class="content__header__icon disabled" [ngClass]="{disabled: isSaving | async}">save</mat-icon>
+      <button mat-button class="content__header__button" (click)="save()" [disabled]="isSaving | async">
+        <mat-icon [ngClass]="{disabled: isSaving | async}">save</mat-icon>
+        <span>Save</span>
       </button>
-      <button mat-icon-button (click)="build()" [disabled]="isBuilding | async">
-        <mat-icon class="content__header__icon disabled" [ngClass]="{disabled: isBuilding | async}">build</mat-icon>
+      <button mat-button class="content__header__button" (click)="build()" [disabled]="isBuilding | async">
+        <mat-icon [ngClass]="{disabled: isBuilding | async}">build</mat-icon>
+        <span>Build</span>
       </button>
-      <button mat-icon-button (click)="preview()">
-        <mat-icon class="content__header__icon">launch</mat-icon>
+      <button mat-button class="content__header__button" (click)="preview()">
+        <mat-icon>launch</mat-icon>
+        <span>Preview</span>
+      </button>
+      <button mat-button class="content__header__button" (click)="publish()" [disabled]="isPublishing | async">
+        <mat-icon [ngClass]="{disabled: isPublishing | async}">publish</mat-icon>
+        <span>Publish</span>
       </button>
       <img matListAvatar src="{{(user | async)?.photoURL}}" alt="" [matMenuTriggerFor]="menu">
       <mat-menu #menu="matMenu">

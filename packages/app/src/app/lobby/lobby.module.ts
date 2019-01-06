@@ -12,7 +12,8 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatProgressSpinnerModule
 } from "@angular/material";
 import { AddProjectDialogComponent } from "./components/add-project-dialog/add-project-dialog.component";
 
@@ -30,7 +31,8 @@ import { AddProjectDialogComponent } from "./components/add-project-dialog/add-p
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   declarations: [LobbyComponent, AddProjectDialogComponent],
   entryComponents: [AddProjectDialogComponent]

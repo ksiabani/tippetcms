@@ -47,6 +47,11 @@ export class BuildSite {
   constructor(private username: string, private site: string) {}
 }
 
+export class PublishSite {
+  static readonly type = "[Admin] Publish Site";
+  constructor(private username: string, private site: string) {}
+}
+
 export class SavePage {
   static readonly type = "[Admin] [Page] Save Page";
   constructor(

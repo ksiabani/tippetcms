@@ -43,8 +43,6 @@ export class LoginState implements NgxsOnInit {
         const githubUser: GithubUser = await this.githubService.getUserInfo(
           uid
         );
-        const repos = await this.githubService.getRepos();
-        console.log(repos);
         this.store.dispatch(new actions.SetUser({ ...user, githubUser }));
         if (this.activatedRoute.firstChild.routeConfig.path === "") {
           this.router.navigateByUrl("lobby");
