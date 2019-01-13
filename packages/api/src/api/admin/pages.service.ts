@@ -33,13 +33,20 @@ export class PagesService {
     }
   }
 
+  // Update a page
   savePage(username: string, site: string, id: string, body: { page: Page }) {
+    // Get this site's directory
     const sitePath = join(__dirname, '../..', 'sites', username, site);
+    // Get directory for this sites's pages.json file
     const pagesJsonPath = join(sitePath, 'src', 'data', 'pages.json');
     try {
+      // Read the contents of current pages.json file
       const pages: Page[] = JSON.parse(readFileSync(pagesJsonPath, 'utf8'));
+      // Add updated page to existing pages, old page will be overwritten
       const newPages: Page[] = [...pages.filter(page => page.id !== id), body.page];
+      // Write updated content back to pages.json file
       writeFileSync(pagesJsonPath, JSON.stringify(newPages), 'utf8');
+      // Return the updated object to browser
       return body.page;
     } catch (e) {
       console.log(e);

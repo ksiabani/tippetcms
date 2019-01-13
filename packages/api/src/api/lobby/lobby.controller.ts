@@ -33,7 +33,7 @@ export class LobbyController {
     const basePath = [__dirname, '../..'];
     const variablePath = [body.username, body.siteName];
     //TODO: should change according to startup chosen by user
-    const templateUrl = 'https://github.com/thesquaredev/startup-gatsbyjs-template.git';
+    const templateUrl = 'https://github.com/ksiabani/startup-gatsbyjs-template.git';
     const publicDirForSite = join(...basePath, 'public', ...variablePath);
     const sitesDirForSite = join(...basePath, 'sites', ...variablePath);
     try {
