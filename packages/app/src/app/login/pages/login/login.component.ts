@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
-  login(username: string, password: string) {
+  login() {
     this.store.dispatch(Login);
   }
 

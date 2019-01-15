@@ -51,7 +51,7 @@ export class AddProjectDialogComponent implements OnInit {
       !sites.includes(c.value) ? null : { validateSiteName: { valid: false } };
   }
 
-  createSite(user) {
+  createSite() {
     this.store.dispatch(new AddSite(this.newSiteForm.value));
   }
 
