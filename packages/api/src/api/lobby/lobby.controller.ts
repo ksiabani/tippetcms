@@ -39,8 +39,8 @@ export class LobbyController {
     try {
       console.log(`Start cloning ${templateUrl} template from GitHub`);
       await execa.shell(`git clone ${templateUrl} ${sitesDirForSite}`);
-      console.log('Clone done, installing dependencies');
-      await execa('npm', ['-g', 'install'], { cwd: sitesDirForSite });
+      // console.log('Clone done, installing dependencies');
+      // await execa('npm', ['install'], { cwd: sitesDirForSite });
       console.log(
         `Installing dependencies done, start gatsby build for user ${body.username} and site ${
           body.siteName
