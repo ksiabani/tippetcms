@@ -2,14 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as express from 'express';
 import * as path from 'path';
-import * as timeout from 'connect-timeout';
 
 const PORT = 3000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
-  app.use(timeout('5m'));
   app.use(express.static(path.join(__dirname, 'public')));
   app.enableCors();
   await app.listen(PORT);
