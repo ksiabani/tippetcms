@@ -19,7 +19,7 @@
           </button>
         </mat-menu>
       </div>
-      <img src="{{api}}/{{login}}/{{siteId}}/images/{{image}}"
+      <img src="{{api.substring(0, api.length - 4)}}/{{login}}/{{siteId}}/images/{{image}}"
            (click)="selectMedia(image)"
            [ngClass]="{'is-modal': inModal}">
       <div class="media__image__caption">
