@@ -1,4 +1,4 @@
-const api = "http://104.248.243.188:3000";
+const api = "http://104.248.243.188/api";
 
 export const environment = {
   production: true,
