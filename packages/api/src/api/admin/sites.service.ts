@@ -7,7 +7,11 @@ import { writeFileSync } from 'fs';
 
 @Injectable()
 export class SitesService {
-  async buildSite(username: string, site: string, forPages: boolean): Promise<{ success: boolean; reason?: any }> {
+  async buildSite(
+    username: string,
+    site: string,
+    forPages: boolean,
+  ): Promise<{ success: boolean; reason?: any }> {
     const basePath = [__dirname, '../..'];
     const publicDirForSite = join(...basePath, 'public', username, site);
     const sitesDirForSite = join(...basePath, 'sites', username, site);
@@ -90,6 +94,7 @@ export class SitesService {
     username: string,
     site: string,
     remote: string,
+    token: string,
   ): Promise<{ success: boolean; reason?: any }> {
     try {
       const buildSiteResponse = await this.buildSite(username, site, true);
@@ -127,7 +132,12 @@ export class SitesService {
         console.log(`Add remote branch`);
         await execa(
           'git',
-          ['remote', 'add', 'origin', `https://github.com/${username}/${remote}.git`],
+          [
+            'remote',
+            'add',
+            'origin',
+            `https://${username}:${token}@github.com/${username}/${remote}.git`,
+          ],
           {
             cwd: publicDirForSite,
           },

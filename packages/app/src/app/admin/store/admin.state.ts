@@ -8,6 +8,7 @@ import { MediaState } from "./children/media.state";
 import { PageTemplate, xFile } from "shared";
 import { GithubService } from "../../login/services/github.service";
 import * as shortid from "shortid";
+import { LoginState } from "../../login/store/login.state";
 
 export interface AdminStateModel {
   building: boolean;
@@ -84,6 +85,7 @@ export class AdminState {
         try {
           let repo;
           const remote = data.remote;
+          const token = this.store.selectSnapshot(LoginState.token);
           // If no remote repo exists we will create one
           if (!remote) {
             // Get user's repos
@@ -104,7 +106,7 @@ export class AdminState {
           }
           // Publish site to existing or newly created repo
           this.adminService
-            .publishSite(username, site, remote || repo)
+            .publishSite(username, site, remote || repo, token)
             // TODO: return something here, maybe success?
             .subscribe(res => {
               ctx.patchState({ publishing: false })

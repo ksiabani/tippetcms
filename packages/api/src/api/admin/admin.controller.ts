@@ -178,9 +178,9 @@ export class AdminController {
   async publishSite(
     @Param('username') username: string,
     @Param('site') site: string,
-    @Body() body: { remote: string },
+    @Body() body: { remote: string; token: string },
   ): Promise<{ success: boolean; reason?: any }> {
-    return this.siteService.publishSite(username, site, body.remote);
+    return this.siteService.publishSite(username, site, body.remote, body.token);
   }
 
   // Get a remote repo

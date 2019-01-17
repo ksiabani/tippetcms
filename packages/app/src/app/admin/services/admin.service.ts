@@ -108,10 +108,15 @@ export class AdminService {
     );
   }
 
-  publishSite(username: string, site: string, remote: string): Observable<any> {
+  publishSite(
+    username: string,
+    site: string,
+    remote: string,
+    token: string
+  ): Observable<any> {
     return this.http.put<any>(
       `${environment.api.admin}/repos/${username}/${site}`,
-      { remote }
+      { remote, token }
     );
   }
 
