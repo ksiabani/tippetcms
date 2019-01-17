@@ -143,6 +143,19 @@ export class SitesService {
           },
         );
       }
+      console.log(`Set url origin for GitHub`);
+      await execa(
+        'git',
+        [
+          'remote',
+          'set-url',
+          'origin',
+          `https://${username}:${token}@github.com/${username}/${remote}.git`,
+        ],
+        {
+          cwd: publicDirForSite,
+        },
+      );
       console.log(`Set upstream branch and push`);
       await execa('git', ['push', '--set-upstream', 'origin', 'gh-pages'], {
         cwd: publicDirForSite,
