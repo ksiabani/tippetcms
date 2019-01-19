@@ -14,7 +14,6 @@ import { User } from "../../../shared/model/user.interface";
 import { filter, map } from "rxjs/operators";
 import { AdminState } from "../../store/admin.state";
 import { PageTemplate, xFile } from "shared";
-import { PagesState } from "../../store/children/pages.state";
 
 export interface NewPageData {
   title: string;

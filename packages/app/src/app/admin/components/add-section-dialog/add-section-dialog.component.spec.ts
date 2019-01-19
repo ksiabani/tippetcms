@@ -1,16 +1,72 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AddSectionDialogComponent } from './add-section-dialog.component';
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatAutocompleteModule, MatDialogModule } from "@angular/material";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { NgxsModule } from "@ngxs/store";
+import { LoginState } from "../../../login/store/login.state";
+import { GithubService } from "../../../login/services/github.service";
+import { AngularFireAuth } from "angularfire2/auth";
+import { GithubUser } from "shared";
+import { of } from "rxjs";
+import { RouterTestingModule } from "@angular/router/testing";
+import { HttpClientModule } from "@angular/common/http";
+import { ActivatedRoute } from "@angular/router";
+import { githubUserMock } from "../../../shared/mocks/githubUser.mock";
 
-import { AddSectionDialogComponent } from './add-page-dialog.component';
-
-describe('AddProjectDialogComponent', () => {
+describe('AddSectionDialogComponent', () => {
   let component: AddSectionDialogComponent;
   let fixture: ComponentFixture<AddSectionDialogComponent>;
 
+  // Mock user
+  const authState: GithubUser = githubUserMock();
+
+  // Mock auth service
+  const mockAngularFireAuth: any = {
+    auth: jasmine.createSpyObj("auth", {
+      signInAnonymously: Promise.reject({
+        code: "auth/operation-not-allowed"
+      })
+      // 'signInWithPopup': Promise.reject(),
+      // 'signOut': Promise.reject()
+    }),
+    authState: of(authState)
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddSectionDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [AddSectionDialogComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} },
+        { provide: AngularFireAuth, useValue: mockAngularFireAuth },
+        { provide: GithubService, useClass: GithubService },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            root: {
+              snapshot: {
+                children: [
+                  {
+                    params: [{ id: 1 }]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      imports: [
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatDialogModule,
+        NgxsModule.forRoot([LoginState]),
+        HttpClientModule,
+        RouterTestingModule
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
