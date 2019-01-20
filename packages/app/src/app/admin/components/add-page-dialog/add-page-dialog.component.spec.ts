@@ -6,7 +6,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { NgxsModule } from "@ngxs/store";
 import { LoginState } from "../../../login/store/login.state";
-import { GithubService } from "../../../login/services/github.service";
 import { AngularFireAuth } from "angularfire2/auth";
 import { GithubUser } from "shared";
 import { of } from "rxjs";
@@ -33,6 +32,19 @@ describe("AddPageDialogComponent", () => {
     authState: of(authState)
   };
 
+  // Mock activated route
+  const mockActivatedRoute: any = {
+    root: {
+      snapshot: {
+        children: [
+          {
+            params: [{ id: 1 }]
+          }
+        ]
+      }
+    }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddPageDialogComponent],
@@ -41,20 +53,9 @@ describe("AddPageDialogComponent", () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
         { provide: AngularFireAuth, useValue: mockAngularFireAuth },
-        { provide: GithubService, useClass: GithubService },
         {
           provide: ActivatedRoute,
-          useValue: {
-            root: {
-              snapshot: {
-                children: [
-                  {
-                    params: [{ id: 1 }]
-                  }
-                ]
-              }
-            }
-          }
+          useValue: mockActivatedRoute
         }
       ],
       imports: [

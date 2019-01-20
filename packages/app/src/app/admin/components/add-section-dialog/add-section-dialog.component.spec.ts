@@ -1,12 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddSectionDialogComponent } from './add-section-dialog.component';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { AddSectionDialogComponent } from "./add-section-dialog.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule, MatDialogModule } from "@angular/material";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { NgxsModule } from "@ngxs/store";
 import { LoginState } from "../../../login/store/login.state";
-import { GithubService } from "../../../login/services/github.service";
 import { AngularFireAuth } from "angularfire2/auth";
 import { GithubUser } from "shared";
 import { of } from "rxjs";
@@ -15,7 +14,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { ActivatedRoute } from "@angular/router";
 import { githubUserMock } from "../../../shared/mocks/githubUser.mock";
 
-describe('AddSectionDialogComponent', () => {
+describe("AddSectionDialogComponent", () => {
   let component: AddSectionDialogComponent;
   let fixture: ComponentFixture<AddSectionDialogComponent>;
 
@@ -34,6 +33,19 @@ describe('AddSectionDialogComponent', () => {
     authState: of(authState)
   };
 
+  // Mock activated route
+  const mockActivatedRoute: any = {
+    root: {
+      snapshot: {
+        children: [
+          {
+            params: [{ id: 1 }]
+          }
+        ]
+      }
+    }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddSectionDialogComponent],
@@ -42,20 +54,9 @@ describe('AddSectionDialogComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
         { provide: AngularFireAuth, useValue: mockAngularFireAuth },
-        { provide: GithubService, useClass: GithubService },
         {
           provide: ActivatedRoute,
-          useValue: {
-            root: {
-              snapshot: {
-                children: [
-                  {
-                    params: [{ id: 1 }]
-                  }
-                ]
-              }
-            }
-          }
+          useValue: mockActivatedRoute
         }
       ],
       imports: [
@@ -75,7 +76,7 @@ describe('AddSectionDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,15 +1,16 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
+import { LobbyService } from "./lobby.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
-import { LobbyService } from './lobby.service';
-
-describe('LobbyService', () => {
+describe("LobbyService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LobbyService]
+      providers: [LobbyService],
+      imports: [HttpClientTestingModule]
     });
   });
 
-  it('should be created', inject([LobbyService], (service: LobbyService) => {
+  it("should be created", inject([LobbyService], (service: LobbyService) => {
     expect(service).toBeTruthy();
   }));
 });

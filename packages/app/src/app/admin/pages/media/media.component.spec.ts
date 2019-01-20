@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { MediaComponent } from "./media.component";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 
-import { MediaComponent } from './media.component';
-
-describe('MediaComponent', () => {
+describe("MediaComponent", () => {
   let component: MediaComponent;
   let fixture: ComponentFixture<MediaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MediaComponent ]
-    })
-    .compileComponents();
+      declarations: [MediaComponent],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('MediaComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

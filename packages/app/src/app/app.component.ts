@@ -11,4 +11,5 @@ import { Observable } from "rxjs";
 export class AppComponent {
   @Select(LoginState.user)
   user: Observable<firebase.User>;
+  title = 'TippetCMS';
 }

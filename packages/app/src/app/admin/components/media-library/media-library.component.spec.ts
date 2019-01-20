@@ -31,6 +31,19 @@ describe("MediaLibraryComponent", () => {
     authState: of(authState)
   };
 
+  // Mock activated route
+  const mockActivatedRoute: any = {
+    root: {
+      snapshot: {
+        children: [
+          {
+            params: [{ id: 1 }]
+          }
+        ]
+      }
+    }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MediaLibraryComponent],
@@ -45,17 +58,7 @@ describe("MediaLibraryComponent", () => {
         { provide: AngularFireAuth, useValue: mockAngularFireAuth },
         {
           provide: ActivatedRoute,
-          useValue: {
-            root: {
-              snapshot: {
-                children: [
-                  {
-                    params: [{ id: 1 }]
-                  }
-                ]
-              }
-            }
-          }
+          useValue: mockActivatedRoute
         }
       ]
     }).compileComponents();
