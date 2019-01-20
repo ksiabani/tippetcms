@@ -81,7 +81,7 @@ describe("Login state when called", () => {
   }));
 
   it("should login user with GitHub account", async(() => {
-    store.dispatch(new Login());
+    store.dispatch(Login);
     store.selectOnce(state => state.login.user).subscribe(user => {
       expect(user.githubUser).toBe(mockGitHubUser);
     });
@@ -92,7 +92,7 @@ describe("Login state when called", () => {
     const spy = router.navigateByUrl as jasmine.Spy;
     const navArgs = spy.calls.first().args[0];
 
-    store.dispatch(new Login());
+    store.dispatch(Login);
     store.selectOnce(state => state.login.user).subscribe(() => {
       expect(navArgs).toBe("lobby");
     });

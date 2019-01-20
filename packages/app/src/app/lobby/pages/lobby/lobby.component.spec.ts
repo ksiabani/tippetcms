@@ -1,7 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { LobbyComponent } from "./lobby.component";
-import { GithubUser } from "../../../../../../shared";
-import { githubUserMock } from "../../../shared/mocks/githubUser.mock";
 import { of } from "rxjs";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NgxsModule } from "@ngxs/store";
@@ -15,19 +13,11 @@ describe("LobbyComponent", () => {
   let component: LobbyComponent;
   let fixture: ComponentFixture<LobbyComponent>;
 
-  // Mock user
-  const authState: GithubUser = githubUserMock();
-
   // Mock auth service
   const mockAngularFireAuth: any = {
-    auth: jasmine.createSpyObj("auth", {
-      signInAnonymously: Promise.reject({
-        code: "auth/operation-not-allowed"
-      })
-      // 'signInWithPopup': Promise.reject(),
-      // 'signOut': Promise.reject()
-    }),
-    authState: of(authState)
+    user: of({
+      providerData: [{ uid: "12345", displayName: "Michael Burnham" }]
+    })
   };
 
   beforeEach(async(() => {
@@ -48,10 +38,19 @@ describe("LobbyComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LobbyComponent);
     component = fixture.componentInstance;
+    Object.defineProperty(component, "sites", { writable: true });
+    component.sites = of(["Leicester", "London"]);
     fixture.detectChanges();
   });
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("should list all my sites", () => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelectorAll(".lobby__projects__project").length).toBe(
+      3
+    );
   });
 });
