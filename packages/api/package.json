@@ -23,6 +23,7 @@
     "@nestjs/testing": "^5.0.0",
     "@nestjs/websockets": "^5.0.0",
     "@ngxs/store": "^3.1.4",
+    "compression": "1.7.3",
     "fastify-formbody": "^2.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.0.0",
