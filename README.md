@@ -1,24 +1,42 @@
-# Angular Nest Simple Starter
+# TippetCMS - A static CMS over GatsbyJS
 
 Simple starter for quickly getting started with Angular - Nest projects. Api and app are not depended on each other for easier scalability and flexibility. For app state management NGXS is used. Also uses lerna for scafolding and versioning. Aims to be as simple as possible so you can configure most stuff the way you want to.
 
-## Getting Started
+## Before you start
+- You need [Node.js](https://nodejs.org/) installed on your machine to setup and run this project.
+- This project is setup with [Lerna](https://lernajs.io/). Each folder under `packages` folder is a separate project
+- There are three packages in total, `app` the frontend, `api` the backend and `shared` for shared models
 
-You need lerna installed on your machine for this project to run.
+## Setup and run
+- Instal Lerna globally
 
 ```
 npm i -g lerna
 ```
 
-Assuming you already have node installed you can clone the project.
+- Clone the project
 
 ```
-git clone https://github.com/momegas/angular-nest-simple-starter
+git clone https://github.com/ksiabani/tippetcms.git
 ```
 
-## Running the tests
+- Cd to each package separately and install dependencies
 
-You can run the tests on each project seperately the tradicional way (`cd in package` and `npm test`) or you can do what i did with `npm start`and set up the tests to run for all projects (have a look at the root package.json)
+```
+npm install
+```
+
+- From the root of the project run
+
+```
+npm start
+```
+
+- Have fun!
+
+## Run the tests
+
+Cd to each project separately and run `npm start`
 
 ## Built With
 
@@ -27,10 +45,9 @@ You can run the tests on each project seperately the tradicional way (`cd in pac
 - [NGXS](https://ngxs.gitbook.io/ngxs/) - State managment alternative to NGRX. Less boilerplate
 - [Lerna](https://lernajs.io/) - Scafolding and versioning tool
 
-## Versioning
-
-Have a look at lerna docs to see how versioning can be handled
+## Something not right?
+Please open an issue [here](https://github.com/ksiabani/tippetcms/issues)
 
 ## Authors
 
-- **Megaklis Vasilakis** - [momegas.com](http://momegas.com)
+- **Kostas Siabanis**
